@@ -1,5 +1,5 @@
 # Rules:
-1. Pull Before Push - It's simple. Don't push or work on a not updated version of the project.
+1. Pull Before Push - It's simple. Don't push or work on an outdated version of the project.
 2. Don't Change the configuration.
 3. If you have another folder you want to add - contact Harel the manager of the configuration Team. 
 4. Remember to pull every few days to stay updated.
