@@ -1,0 +1,28 @@
+{
+  "topic": "TeachMe",
+  "type": 2,
+  "start_time": "2020-10-10T18:20:00Z",
+  "duration": "20",
+  "schedule_for": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6Im5UQVgxS0xPVGtDY3AxWVB1NEJNbWciLCJleHAiOjE2MDMyNzgzOTAsImlhdCI6MTYwMzE5MTk5MX0.plAxLCwBqetj2l9J5WiqENC7KBkLdvvqFv6WtKOfovo",
+  "timezone": "Asia/Jerusalem",
+  "password": "hz158200",
+  "agenda": "blabla",
+  "settings": {
+    "host_video": true,
+    "participant_video": true,
+    "cn_meeting": false,
+    "in_meeting": false,
+    "join_before_host": true,
+    "mute_upon_entry": true,
+    "watermark": false,
+    "use_pmi": false,
+    "approval_type": 2,
+    "registration_type": 1,
+    "audio": "both",
+    "auto_recording": "string",
+    "enforce_login": false,
+    "alternative_hosts": "string",
+    "registrants_email_notification": false,
+    "meeting_authentication": false
+  }
+}
