@@ -90,7 +90,12 @@ def logginPage():
 
 @route("/lessonsList")
 def lessonsListPage():
-    return template("html/lessons_list.html")
+    items = {
+        "id": request.get_cookie("id")
+    }
+    index = getUserIndexById(int(items["id"]))
+    print(users[index])
+    return template("html/lessons_list.html", lessons=users[index].lessons)
 
 # Functional Things
 
@@ -158,6 +163,8 @@ def determineClass():
         "hour": request.forms["hour"],
         "subject": request.forms["subject"]
     }
+    print(items)
+    print(teacherlessLessons)
     learnerId = teacherlessLessons[int(items["lessonId"])].learnerId
     learnerIndex = getUserIndexById(int(learnerId))
     teacherId = items["id"]
@@ -176,6 +183,8 @@ def determineClass():
 
     print(users[learnerIndex].lessons, "\n",
           users[teacherIndex].lessons, "\n", teacherlessLessons)
+    for i in teacherlessLessons:
+        i.lessonId = teacherlessLessons.index(i)
 
 
 run(debug=True, reloader=True, host="localhost")
