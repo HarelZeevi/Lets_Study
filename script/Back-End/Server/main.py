@@ -5,13 +5,14 @@ import time
 
 
 class User:
-    def __init__(self, email, username, password, type, id):
+    def __init__(self, email, username, password, type, id, info={}):
         self.email = email
         self.username = username
         self.password = password
         self.type = type
         self.id = id
         self.lessons = []
+        self.info = info
 
     def __repr__(self):
         return f"<User:username:{self.username}, password:{self.password}, type:{self.type}, id:{self.id}>"
@@ -108,6 +109,22 @@ def createNewUser():
         "password": request.forms["password"],
         "tOrL": request.forms["tOrL"]
     }
+    try:
+        info = {
+            "grade": request.forms["grade"],
+            "age": request.forms["age"],
+            "gender": request.forms["gender"],
+            # gender of his mate (the one who tech him or he teach)
+            "mateG": request.forms["mateG"],
+            "IDnumber": request.forms["IDnumber"],
+            "city": request.forms["city"],
+            "phoneNumber": request.forms["phoneNumber"],
+            "isAccelerated": request.forms["isAccelerated"],
+            "isSpacelEducation": request.forms["isAccelerated"]
+        }
+        print(info)
+    except:
+        info = {}
     if not("@" in items["email"]):
         return "Failed1"
     if len(items["username"]) < 2:
@@ -118,7 +135,7 @@ def createNewUser():
         if i.email == items["email"] or i.password == items["password"]:
             return "Failed4"
     NewUser = User(items["email"], items["username"],
-                   items["password"], items["tOrL"], len(users))
+                   items["password"], items["tOrL"], len(users), info=info)
     users.append(NewUser)
     print(NewUser)
     return "everything is ok"
