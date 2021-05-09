@@ -1,94 +1,108 @@
-CREATE TABLE Cities(id TINYINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-					   cityName VARCHAR(255)
+ CREATE TABLE cities
+  (
+     id       TINYINT auto_increment NOT NULL PRIMARY KEY,
+     cityname VARCHAR(255)
+  );
 
-);
+CREATE TABLE students
+  (
+     id            VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
+     firstname     VARCHAR(255) NOT NULL,
+     lastname      VARCHAR(255) NOT NULL,
+     age           TINYINT NOT NULL,
+     school        VARCHAR(255) NOT NULL,
+     gender        CHAR(1) NOT NULL,
+     partnergender CHAR(1) NOT NULL,
+     grade         TINYINT NOT NULL,
+     cityid        TINYINT NOT NULL,
+     phone         VARCHAR(15),
+     email         VARCHAR(255) NOT NULL,
+     pswd          VARCHAR(255) NOT NULL,
+     isaccelerated BOOL,
+     isspecialedu  BOOL,
+     classnum      TINYINT,
+     FOREIGN KEY (cityid) REFERENCES cities(id)
+  );
 
-CREATE TABLE Students(id VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY, 
-					  firstName	VARCHAR(255) NOT NULL,
-					  lastName	VARCHAR(255) NOT NULL,
-					  age TINYINT NOT NULL,
-					  school VARCHAR(255) NOT NULL, 
-					  gender CHAR(1) NOT NULL,
-					  tutorGender CHAR(1) NOT NULL, 
-					  grade	TINYINT NOT NULL,
-                      cityId TINYINT NOT NULL,
-					  phone	VARCHAR(15),
-					  email	VARCHAR(255) NOT NULL,
-					  pswd	VARCHAR(255) NOT NULL, 
-					  isAccelerated	BOOL,
-					  isSpecialEdu 	BOOL,
-					  classNum	TINYINT,
-					  FOREIGN KEY (cityId) REFERENCES cities(id)
-);
+CREATE TABLE tutors
+  (
+     id           VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
+     isapproved   BOOL NOT NULL,
+     rate         TINYINT,
+     hobby        TEXT,
+     teachsubject TINYINT NOT NULL,
+     pupilgender  CHAR(1) NOT NULL,
+     isseq        BOOL NOT NULL
+  );
 
-CREATE TABLE Tutors(id VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY, 
-					isApproved	BOOL NOT NULL,
-					rate TINYINT,        
-					hobby TEXT,
-					TeachSubject TINYINT NOT NULL,
-					pupilGender	CHAR(1) NOT NULL,
-					isSEQ BOOL NOT NULL
-);
+CREATE TABLE workers
+  (
+     id         VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
+     isapproved BOOL NOT NULL,
+     firstname  VARCHAR(255) NOT NULL,
+     lastname   VARCHAR(255) NOT NULL,
+     school     VARCHAR(255) NOT NULL,
+     job        VARCHAR(255) NOT NULL
+  );
 
-CREATE TABLE Workers(id	VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
-					 isApproved	BOOL NOT NULL,
-					 firstName VARCHAR(255) NOT NULL,
-					 lastName VARCHAR(255) NOT NULL,
-					 school	VARCHAR(255) NOT NULL,
-					 job VARCHAR(255) NOT NULL
-);
+CREATE TABLE languages
+  (
+     PRIMARY KEY(studentid, langname),
+          studentid VARCHAR(255) NOT NULL,
+          FOREIGN KEY (studentid) REFERENCES students(id),
+     langname  VARCHAR(255) NOT NULL
+  );
 
-CREATE TABLE Languages(PRIMARY KEY(studentId, langName),
-					   studentId VARCHAR(255) NOT NULL,
-					   FOREIGN KEY (studentId) REFERENCES Students(id),
-					   langName	VARCHAR(255) NOT NULL
-                       
-);
+CREATE TABLE schools
+  (
+     id         CHAR(6) NOT NULL UNIQUE PRIMARY KEY,
+     schoolname VARCHAR(255) NOT NULL,
+     cityid     TINYINT NOT NULL,
+     FOREIGN KEY (cityid) REFERENCES cities(id)
+  );
 
-CREATE TABLE Schools(id CHAR(6) NOT NULL UNIQUE PRIMARY KEY,
-					 SchoolName	VARCHAR(255) NOT NULL,
-                     cityId TINYINT NOT NULL,
-					 FOREIGN KEY (cityId) REFERENCES cities(id)
-);
+CREATE TABLE subjects
+  (
+     id          TINYINT auto_increment NOT NULL PRIMARY KEY,
+     subjectname VARCHAR(255) NOT NULL,
+     points      INT,
+     grade       INT NOT NULL
+  );
 
-CREATE TABLE Subjects(id TINYINT AUTO_INCREMENT NOT NULL PRIMARY KEY, 
-					  subjectName VARCHAR(255) NOT NULL,
-					  points INT,
-					  grade INT NOT NULL
-);
+CREATE TABLE calendar
+  (
+     id            INT auto_increment NOT NULL PRIMARY KEY,
+     studentid     VARCHAR(255) NOT NULL,
+          FOREIGN KEY (studentid) REFERENCES students(id),
+          availabledate DATE NOT NULL,
+          availabletime TIME NOT NULL,
+          subjectid     TINYINT NOT NULL,
+     FOREIGN KEY (subjectid) REFERENCES subjects(id)
+  );
 
-CREATE TABLE Calendar(id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-					  studentId VARCHAR(255) NOT NULL,
-                      FOREIGN KEY (studentId) REFERENCES Students(id),  
-				      availableDate	DATE NOT NULL,
-					  availableTime	TIME NOT NULL,
-                      subjectId TINYINT NOT NULL, 
-					  FOREIGN KEY (subjectId) REFERENCES Subjects(id)
-);
+CREATE TABLE lessons
+  (
+     id         INT auto_increment NOT NULL PRIMARY KEY,
+     pupilid    VARCHAR(255) NOT NULL,
+     tutorid    VARCHAR(255) NOT NULL,
+     pupilcalid INT NOT NULL,
+     tutorcalid INT NOT NULL,
+     subjectid  TINYINT NOT NULL,
+          FOREIGN KEY (pupilid) REFERENCES students(id),
+          FOREIGN KEY (tutorid) REFERENCES students(id),
+          FOREIGN KEY (pupilcalid) REFERENCES calendar(id),
+          FOREIGN KEY (tutorcalid) REFERENCES calendar(id),
+          FOREIGN KEY (subjectid) REFERENCES subjects(id),
+     tookplace  BOOL NOT NULL
+  );
 
-CREATE TABLE Lessons(id INT AUTO_INCREMENT NOT NULL PRIMARY KEY, 
-					 pupilId VARCHAR(255) NOT NULL,
-                     tutorId VARCHAR(255) NOT NULL,
-                     pupilCalId INT NOT NULL,
-                     tutorCalId INT NOT NULL,
-                     subjectId TINYINT NOT NULL,
-					 FOREIGN KEY (pupilId) REFERENCES Students(id),
-					 FOREIGN KEY (tutorId) REFERENCES Students(id), 
-					 FOREIGN KEY (pupilCalId) REFERENCES Calendar(id),
-					 FOREIGN KEY (tutorCalId) REFERENCES Calendar(id),
-                     FOREIGN KEY (subjectId) REFERENCES Subjects(id),
-					 tookPlace BOOL NOT NULL
-);
-
-CREATE TABLE Rates(lessonId INT NOT NULL PRIMARY KEY,
-				   FOREIGN KEY (lessonId) REFERENCES Lessons(id),
-				   rate INT NOT NULL,
-                   studentId VARCHAR(255) NOT NULL,
-                   workerId VARCHAR(255) NOT NULL,
-				   FOREIGN KEY (studentId) REFERENCES Students(id), 
-				   FOREIGN KEY (workerId) REFERENCES Workers(id)
-);		
-
-
-
-
+CREATE TABLE rates
+  (
+     lessonid  INT NOT NULL PRIMARY KEY,
+          FOREIGN KEY (lessonid) REFERENCES lessons(id),
+          rate      INT NOT NULL,
+          studentid VARCHAR(255) NOT NULL,
+          workerid  VARCHAR(255) NOT NULL,
+     FOREIGN KEY (studentid) REFERENCES students(id),
+     FOREIGN KEY (workerid) REFERENCES workers(id)
+  );  
