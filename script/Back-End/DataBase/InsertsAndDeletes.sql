@@ -76,3 +76,6 @@ INSERT INTO tutors
                         false
             );
    
+  
+DELETE FROM cities
+WHERE  cityname = "ramat gan";
