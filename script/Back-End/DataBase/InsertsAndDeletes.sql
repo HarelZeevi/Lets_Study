@@ -79,3 +79,22 @@ INSERT INTO tutors
   
 DELETE FROM cities
 WHERE  cityname = "ramat gan";
+DELETE FROM students
+WHERE  firstname = "ilay"; 
+DELETE FROM tutors
+WHERE  isapproved = true; 
+DELETE FROM workers
+WHERE  isapproved = true; 
+DELETE FROM languages
+WHERE  studentid = 278917655
+       AND langname = "english"; 
+DELETE FROM schools
+WHERE  schoolname = "amit bar ilan"; 
+DELETE FROM subjects
+WHERE  subjectname = "math"; 
+DELETE FROM calendar
+WHERE  studentid = 328456722; 
+DELETE FROM lessons
+WHERE  tookplace = true; 
+DELETE FROM rates
+WHERE  studentid = 328456722; 
