@@ -26,7 +26,8 @@ CREATE TABLE students
 
 CREATE TABLE tutors
   (
-     id           VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
+     studentid VARCHAR(255) NOT NULL,
+     FOREIGN KEY (studentid) REFERENCES students(id),
      isapproved   BOOL NOT NULL,
      rate         TINYINT,
      hobby        TEXT,
@@ -55,7 +56,7 @@ CREATE TABLE languages
 
 CREATE TABLE schools
   (
-     id         CHAR(6) NOT NULL UNIQUE PRIMARY KEY,
+     schoolid         CHAR(6) NOT NULL UNIQUE PRIMARY KEY,
      schoolname VARCHAR(255) NOT NULL,
      cityid     TINYINT NOT NULL,
      FOREIGN KEY (cityid) REFERENCES cities(id)
