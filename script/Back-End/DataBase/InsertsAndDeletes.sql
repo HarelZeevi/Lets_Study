@@ -1,27 +1,4 @@
-INSERT INTO Cities 
-(cityName)
-VALUES
-("Ramat Gan");
-
-INSERT INTO workers
-            (
-                        id ,
-                        isapproved,
-                        firstname,
-                        lastname,
-                        school,
-                        job
-            )
-            VALUES
-            (
-                        "342665978",
-                        true,
-                        "Avi",
-                        "Yaakovi",
-                        "Amit Bar Ilan",
-                        "Teacher"
-            );
-           
+INSERT INTO cities(cityname ) VALUES("Ramat Gan");
            
 INSERT INTO students
             (
@@ -31,7 +8,7 @@ INSERT INTO students
                         age,
                         school,
                         gender,
-                        tutorgender,
+                        partnergender,
                         grade,
                         cityid,
                         phone,
@@ -57,13 +34,13 @@ INSERT INTO students
                         
 INSERT INTO tutors
             (
-                        ,
+                        id,
                         isapproved,
                         rate,
                         hobby,
                         teachsubject,
                         pupilgender,
-                        isSEQ
+                        isseq
             )
             VALUES
             (
@@ -76,7 +53,28 @@ INSERT INTO tutors
                         false
             );
    
-  
+   
+INSERT INTO workers
+            (
+                        id ,
+                        isapproved,
+                        firstname,
+                        lastname,
+                        school,
+                        job
+            )
+            VALUES
+            (
+                        "342665978",
+                        true,
+                        "Avi",
+                        "Yaakovi",
+                        "Amit Bar Ilan",
+                        "Teacher"
+            );
+
+INSERT INTO languages(studentid, langname) VALUES("123456789", "English");
+
 DELETE FROM cities
 WHERE  cityname = "ramat gan";
 DELETE FROM students
