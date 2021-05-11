@@ -1,9 +1,16 @@
-INSERT INTO cities(cityname ) VALUES("Ramat Gan");
-           
+ INSERT INTO cities
+            (
+                        cityname
+            )
+            VALUES
+            (
+                        "ramat gan"
+            );
+
 INSERT INTO students
             (
                         id,
-                        firstname,  
+                        firstname,
                         lastname,
                         age,
                         school,
@@ -30,8 +37,13 @@ INSERT INTO students
                         10,
                         1,
                         "0542316577",
-                        "John@gmail.com", "1234", True, False, 2);
-                        
+                        "John@gmail.com",
+                        "1234",
+                        true,
+                        false,
+                        2
+            );
+
 INSERT INTO tutors
             (
                         id,
@@ -47,13 +59,12 @@ INSERT INTO tutors
                         "123456789",
                         true,
                         4,
-                        "Basketball",
-                        "English",
-                        "F",
+                        "basketball",
+                        "english",
+                        "f",
                         false
             );
-   
-   
+
 INSERT INTO workers
             (
                         id ,
@@ -67,32 +78,137 @@ INSERT INTO workers
             (
                         "342665978",
                         true,
-                        "Avi",
-                        "Yaakovi",
-                        "Amit Bar Ilan",
-                        "Teacher"
+                        "avi",
+                        "yaakovi",
+                        "amit bar ilan",
+                        "teacher"
             );
 
-INSERT INTO languages(studentid, langname) VALUES("123456789", "English");
+INSERT INTO languages
+            (
+                        studentid,
+                        langname
+            )
+            VALUES
+            (
+                        "123456789",
+                        "english"
+            );
 
-DELETE FROM cities
+INSERT INTO schools
+            (
+                        schoolid,
+                        schoolname,
+                        cityid
+            )
+            VALUES
+            (
+                        "571109",
+                        "amit bar ilan",
+                        1
+            );
+
+INSERT INTO subjects
+            (
+                        subjectname ,
+                        points,
+                        grade
+            )
+            VALUES
+            (
+                        "math",
+                        5,
+                        7
+            );
+
+INSERT INTO calendar
+            (
+                        studentid ,
+                        availabledate ,
+                        starttime ,
+                        endtime,
+                        subjectid
+            )
+            VALUES
+            (
+                        "123456789",
+                        "11-05-2021",
+                        "12:00:00",
+                        "15:00:00",
+                        1
+            );
+
+INSERT INTO lessons
+            (
+                        pupilid,
+                        tutorid ,
+                        pupilcalid ,
+                        tutorcalid ,
+                        subjectid ,
+                        tookplace
+            )
+            VALUES
+            (
+                        "987654321",
+                        "123456789",
+                        1,
+                        2,
+                        1,
+                        false
+            );
+
+INSERT INTO rates
+            (
+                        lessonid,
+                        rate,
+                        studentid,
+                        workerid
+            )
+            VALUES
+            (
+                        1,
+                        5,
+                        "987654321",
+                        "123456789"
+            );
+
+DELETE
+FROM   cities
 WHERE  cityname = "ramat gan";
-DELETE FROM students
-WHERE  firstname = "ilay"; 
-DELETE FROM tutors
-WHERE  isapproved = true; 
-DELETE FROM workers
-WHERE  isapproved = true; 
-DELETE FROM languages
+
+DELETE
+FROM   students
+WHERE  firstname = "ilay";
+
+DELETE
+FROM   tutors
+WHERE  isapproved = true;
+
+DELETE
+FROM   workers
+WHERE  isapproved = true;
+
+DELETE
+FROM   languages
 WHERE  studentid = 278917655
-       AND langname = "english"; 
-DELETE FROM schools
-WHERE  schoolname = "amit bar ilan"; 
-DELETE FROM subjects
-WHERE  subjectname = "math"; 
-DELETE FROM calendar
-WHERE  studentid = 328456722; 
-DELETE FROM lessons
-WHERE  tookplace = true; 
-DELETE FROM rates
+AND    langname = "english";
+
+DELETE
+FROM   schools
+WHERE  schoolname = "amit bar ilan";
+
+DELETE
+FROM   subjects
+WHERE  subjectname = "math";
+
+DELETE
+FROM   calendaar
+WHERE  studentid = 328456722;
+
+DELETE
+FROM   lessons
+WHERE  tookplace = true;
+
+DELETE
+FROM   rates
 WHERE  studentid = 328456722; 
