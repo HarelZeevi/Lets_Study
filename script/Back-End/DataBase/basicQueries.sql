@@ -1,3 +1,4 @@
+ /* Inserts */
  INSERT INTO cities
             (
                         cityname
@@ -171,7 +172,50 @@ INSERT INTO rates
                         "987654321",
                         "123456789"
             );
+            
+/* Selects */
+SELECT *
+FROM   cities
+WHERE  cityname = "ramat gan";
 
+SELECT *
+FROM   students
+WHERE  firstname = "ilay";
+
+SELECT *
+FROM   tutors
+WHERE  isapproved = true;
+
+SELECT *
+FROM   workers
+WHERE  isapproved = true;
+
+SELECT *
+FROM   languages
+WHERE  studentid = "278917655"
+AND    langname = "english";
+
+SELECT *
+FROM   schools
+WHERE  schoolname = "amit bar ilan";
+
+SELECT *
+FROM   subjects
+WHERE  subjectname = "math";
+
+SELECT *
+FROM   calendaar
+WHERE  studentid = "328456722";
+
+SELECT *
+FROM   lessons
+WHERE  tookplace = true;
+
+SELECT *
+FROM   rates
+WHERE  studentid = "328456722"; 
+
+/* Deletes */
 DELETE
 FROM   cities
 WHERE  cityname = "ramat gan";
@@ -190,7 +234,7 @@ WHERE  isapproved = true;
 
 DELETE
 FROM   languages
-WHERE  studentid = 278917655
+WHERE  studentid = "278917655"
 AND    langname = "english";
 
 DELETE
@@ -203,7 +247,7 @@ WHERE  subjectname = "math";
 
 DELETE
 FROM   calendaar
-WHERE  studentid = 328456722;
+WHERE  studentid = "328456722";
 
 DELETE
 FROM   lessons
@@ -211,4 +255,4 @@ WHERE  tookplace = true;
 
 DELETE
 FROM   rates
-WHERE  studentid = 328456722; 
+WHERE  studentid = "328456722"; 
