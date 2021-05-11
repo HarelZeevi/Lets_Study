@@ -76,7 +76,8 @@ CREATE TABLE calendar
      studentid     VARCHAR(255) NOT NULL,
           FOREIGN KEY (studentid) REFERENCES students(id),
           availabledate DATE NOT NULL,
-          availabletime TIME NOT NULL,
+          starttime TIME NOT NULL,
+          endtime TIME NOT NULL,
           subjectid     TINYINT NOT NULL,
      FOREIGN KEY (subjectid) REFERENCES subjects(id)
   );
