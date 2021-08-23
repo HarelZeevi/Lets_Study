@@ -1,0 +1,89 @@
+.signup {
+    width: 600px;
+    height: 300px;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    box-shadow: 0 0 55px rgb(47, 47, 47);
+    border-radius: 25px;
+    margin: auto;
+    top: 150px;
+}
+/* Disables the arrows in the type number input */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+.signup_form {
+    position: relative;
+    top: 50px;
+}
+.signup_inputs {
+    width: 250px;
+    height: 30px;
+    position: relative;
+    display: grid;
+    right: 171px;
+    border-radius: 10px;
+    border: solid 2px rgb(82, 82, 82);
+    outline: none;
+}
+.signup_inputs:hover {
+    border: solid 2px #000;
+}
+::placeholder {
+    font-weight: 700;
+    font-size: 15px;
+}
+.signup_submit {
+    position: absolute;
+    width: 350px;
+    height: 40px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    color: #fff;
+    overflow: hidden;
+    z-index: 1;
+    right: 125px;
+    background-color:rgb(86, 89, 235);
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+.signup_submit::before,
+.signup_submit::after {
+    background: #4323fa;
+
+    content: "";
+    position: absolute;
+    z-index: -1;
+}
+.signup_submit::after {
+    height: 100%;
+    left: -35%;
+    top: 0;
+    transform: skew(50deg);
+    transition-duration: 0.4s;
+    transform-origin: top left;
+    width: 0;
+}
+.signup_submit:hover:after {
+    height: 100%;
+    width: 135%;
+}
+.signup_submit p {
+    font-size: 25px;
+    margin-top: 2px;
+}
+.form_redError {
+    font-size: 13px;
+    color: rgb(197, 0, 0);
+    position: absolute;
+    right: 175px;
+    text-align: right;
+    display: grid;
+    width: 270px;
+}

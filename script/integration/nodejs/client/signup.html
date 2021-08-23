@@ -1,0 +1,54 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <title>LetsStudy | הרשמה</title>
+        <link rel="stylesheet" href="signup.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Secular:wght@500&display=swap">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body id="body">
+        <div id="signup_page">
+            <svg height="100%" width="100%" id="signup_waves" viewBox="0 0 1440 700" xmlns="http://www.w3.org/2000/svg" class="transition duration-300 ease-in-out delay-150"><path d="M 0,700 C 0,700 0,350 0,350 C 108.39999999999998,274.26666666666665 216.79999999999995,198.53333333333336 393,230 C 569.2,261.46666666666664 813.2,400.1333333333333 999,438 C 1184.8,475.8666666666667 1312.4,412.93333333333334 1440,350 C 1440,350 1440,700 1440,700 Z" stroke="none" stroke-width="0" fill="#1b1b1bff" class="transition-all duration-300 ease-in-out delay-150" transform="rotate(-180 720 350)"></path></svg>
+            <div id="navbg">
+                <i id="mobilebars" class="fa fa-bars fa-3x" aria-hidden="true" onclick="mobilenav();"></i>
+                <ul id="navlist" dir="rtl">
+                    <li><a href="#"><img id="navlogo" src="Images/logo.png"></a></li>
+                    <li style="margin-right: 175px;"><a href class="navlinks">שיעורים</a></li>
+                    <li><a href class="navlinks">עזרה</a></li>
+                </ul>
+                <a href="signup.html"><button id="signupbtn"><h3>הרשמה</h3></button></a>
+                <a href="login.html"><button id="loginbtn"><h3>התחברות</h3></button></a>
+            </div>
+            <div id="signup_box">
+                <form class="container" dir="rtl" onsubmit="onSubmit()">
+                    <br>
+                    <i class="fa fa-user icon fa-2x"></i>
+                    <input class="input-field" id="fullname" autocomplete="off" type="text" placeholder="שם מלא" name="fullname" required><br>
+                    <i class="fa fa-user icon fa-2x"></i>
+                    <input class="input-field" id="studentId" autocomplete="off" type="text" placeholder="תעודת זהות" name="studentId" required><br>
+                    <i class="fa fa-user icon fa-2x"></i>
+                    <input class="input-field" id="username" autocomplete="off" type="text" placeholder="שם משתמש" name="username" required><br>
+                    <i class="fa fa-user icon fa-2x"></i>
+                    <input class="input-field" id="email" autocomplete="off" type="email" placeholder="כתובת מייל" name="email" required><br>
+                    <i class="fa fa-user icon fa-2x"></i>
+                    <input class="input-field" id="phone" autocomplete="off" type="tel" placeholder="מספר טלפון" name="phone" required><br>
+                    <i class="fa fa-user icon fa-2x"></i>
+                    <select id="gender" required class="input-field" name="gender" dir="rtl">
+                        <option class="selectoptions" value="" hidden selected>בחרו נושא...</option>
+                        <option class="selectoptions" value="M">זכר</option>
+                        <option class="selectoptions" value="F">נקבה</option>
+                        <option class="selectoptions" value="Other">אחר..</option>
+                    </select><br>
+                    <i class="fa fa-lock icon fa-2x"></i>
+                    <input id="pswd" class="input-field" type="password" placeholder="סיסמה" name="psw" required><br>
+                    <i class="fa fa-lock icon fa-2x"></i>
+                    <input id="studentCode" class="input-field" autocomplete="off" type="text" placeholder="קוד תלמיד" name="studentCode" required><br><br>
+                    <button class="signup_submit"><p>הרשמה</p></button>
+                </form>
+            </div>
+        </div>
+    </body>
+    <script src="integrating.js"></script>
+</html>

@@ -14,18 +14,18 @@ database = "users_ls"
 )
 cursor = users_ls.cursor()
 
-#cursor.execute("ALTER TABLE Links ADD COLUMN Learner VARCHAR(50)")
+#cursor.execute("ALTER TABLE Users MODIFY Math_points smallint UNSIGNED")
 '''
 cursor.execute("CREATE TABLE Links (Subject VARCHAR(50),             \
                                     Lesson_date VARCHAR(50),         \
                                     Lesson_hour VARCHAR(50),         \
+                                    Teacher_name VARCHAR(50),        \
                                     Teacher_grade smallint UNSIGNED, \
                                     Teacher_gender VARCHAR(50),      \
-                                    Teacher VARCHAR(50),             \
-                                    Scheduled VARCHAR(50))")
+                                    Scheduled VARCHAR(50))")      
 '''
-
-#cursor.execute("ALTER TABLE Links ADD COLUMN Teacher_id int")
+cursor.execute("ALTER TABLE Links ADD COLUMN Learner_id smallint UNSIGNED")
+#cursor.execute("ALTER TABLE Links RENAME COLUMN user_id TO User_id")
 headers = {
     'content-type': "application/json",
     'authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6Im5UQVgxS0xPVGtDY3AxWVB1NEJNbWciLCJleHAiOjE2MDg4MDY4MzcsImlhdCI6MTYwODIwMjAzN30.6Y8XehT_ML6phq36uwYv7olYwUiZb-edAMyjf012P5U"
@@ -62,10 +62,8 @@ SCREEN = '''
 
 
 
-def name_check(name, Users, purpose):
-    pass
-
-
+# checks - not for now.
+'''
 def age_check(age):
     if  19 >= age >= 6:
         return True
@@ -73,25 +71,13 @@ def age_check(age):
         print(f"Age is not between 6 to 19")
         return False
 
-    
-def email_check(email, users, purpose):
-    return True if validate_email(email) and not(Users.find_one({email})) else False    
-
-
-def subject_check(grade):
-    pass
 
 
 def password_check(password):
-    # passwords = password_crack(i) for i in passwords_data_base
     password_len = False
     is_one_capital = False
     is_one_special = False
     is_one_number = False
-    """
-    if password in passwords:
-        return False
-    """
     if len(password) >= 8:
         password_len = True
     for i in password:
@@ -139,6 +125,7 @@ def subject_check(grade, subject):
         return "Too Old"
     pass
 
+'''
 
 def sign_up():
     global cursor
@@ -148,30 +135,46 @@ def sign_up():
     email = input("Enter Email address: ")
     age = int(input("Enter your Age: "))
     grade = int(input("Enter the grade you are in: "))
+    user_id = input("Enter Your ID number: ")
+    phone_number = input("Enter Your phone number: ")
+    city = input("Enterthe city you are living in: ")
+    langs = input("Enter Languages you are speaking: ")
+    school = input("Enter your school name: ")
     if grade >= 9:
-        user_type = "Teacher"        
+        user_type = "Teacher"
+        bagruts = input("Enter bagruts that you have finished (If you haven't - Enter None): ")
+        degrees = input("Enter degrees that you have finished (If you haven't - Enter None): ")
+        math_pts = int(input("Enter how many Math points(1-5): "))
+        english_pts = int(input("Enter how many English points: (1-5)"))
+        physics_pts = int(input("Enter how many Physics points(1-5): "))
     else:
         user_type = "Learner"
-    values = (name, password, email, grade, gender, age, user_type)
+        bagruts = None
+        degrees = None
+        english_pts = None
+        math_pts = None
+        physics_pts = None
+    values = (name, password, email, grade, gender, age, user_type, user_id, phone_number, city, langs, bagruts, degrees, school, math_pts, english_pts, physics_pts)
     print(user_type)
     print("[User Successfully Created]...")
-    cursor.execute("INSERT INTO Users (Name, Password, Email,  Grade, Gender,  Age, Type) VALUES (%s, %s, %s, %s, %s, %s, %s)", values)
+    cursor.execute("INSERT INTO Users (Name, Password, Email,  Grade, Gender,  Age, Type, User_id, Phone_number, City, Languages, Bagrut_finished, Degree_finished, School, Math_points, English_points, Physics_points) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", values)
     users_ls.commit()
     return values  
     
 
 def sign_in():
     global cursor
-    name = input("Enter Full name: ")
+    name = input("Enter your name: ")
+    user_id = input("Enter your id number: ")
     password = getpass.getpass("Password: ")
     print(password)
-    cursor.execute("SELECT * FROM Users WHERE Name = %s AND Password = %s", (name, password))
+    cursor.execute("SELECT * FROM Users WHERE Name = %s AND Password = %s And User_id = %s", (name, password, user_id))
     result = cursor.fetchall()
     if result:
         print ("[signed in DONE]...")
         for x in result:
             print(x)    
-        return result
+        return x
     else:
         print("[Name or Password DOESN'T EXIST]...")
         return False
@@ -193,15 +196,12 @@ def Schedule_meeting(teacher_details):
     subject = input("Which subject would you like to TEACH? ")
     cursor.execute("SELECT * FROM Links WHERE Subject = %s", (subject,))
     possible_lessons = cursor.fetchall()
-    print(possible_lessons)
+    #print(possible_lessons)
     possible_lessons_filtered = []
     if not(possible_lessons):
         print("Sorry, no matches found.")
     else:
         for res in possible_lessons:
-            print((teacher_details[3] == res[3]))
-            print (res[4] == teacher_details[4])
-            print (res[6] == '0')
             if (teacher_details[3] == res[3]) and (res[4] == teacher_details[4]) and (res[6] == '0'):
                 possible_lessons_filtered.append([res[-3], res[1], res[2]])
 
@@ -223,10 +223,10 @@ def main():
     if purpose == "sign in":
         details = sign_in()
         if details:
-            if details[-1][-2] == "Teacher":
-                Schedule_meeting(details[-1])
+            if "Teacher" in details:
+                Schedule_meeting(details)
             else:
-                Add_lesson_reqest(details[-1])
+                Add_lesson_reqest(details)
     elif purpose == "sign up":
         sign_up()
     input()
