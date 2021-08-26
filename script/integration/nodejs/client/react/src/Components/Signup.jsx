@@ -26,8 +26,7 @@ async function register(params, callback){
     urlEncodedDataPairs.push(encodeURIComponent(name)+'='+encodeURIComponent(params[name]));
     }
     alert(urlEncodedDataPairs.join("&"));
-    xhr.send("id=546987321&studentCode=83812&fullname=Jojo%20Referene&username=usero123&gender=M&phone=0506435356&email=harel%40gmail.com&pswd=1234");
-
+    xhr.send(urlEncodedDataPairs.join("&"));
 
 }
 
@@ -41,7 +40,7 @@ function Signup() { //  fullname, username, gender, phone, email, pswd
         var params = new Object();
         params.id = "546987321";
         params.studentCode = "83812";
-        params.fullname = "Jojo Referene";
+        params.fullname = "Jojg Referene";
         params.username = "usero123";
         params.gender = "M";
         params.phone = "0506435356"
