@@ -268,14 +268,12 @@ function signJwt(result, err, res)
 
             user = Object.values(JSON.parse(JSON.stringify(result)))[0];
             const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "1h"})
-            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
-            res.end(JSON.stringify({accessToken:accessToken}))
+            res.json({accessToken:accessToken})
         }
         else 
         {
             console.log("not found");
-            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
-            res.end("1")
+            res.send("1")
         }
     }
     return result;   
