@@ -14,8 +14,9 @@ const { nextTick } = require("process");
 app.use(express.json());
 app.use(fileUpload());
 app.use(express.static(__dirname + "/client/"));
-
-
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); 
 
 //connection to db
 const con = mysql.createConnection({
@@ -38,26 +39,55 @@ con.connect(function(err) {
     
 });
 
-// checking result
-function checkResult(result, err, res)
+// checking result of get request
+function checkGetReq(result, err, res)
 {
     if(err)
     { 
         console.log(err);
         res.send("Error!");
-        throw err;
     }
     else
     {
         console.log("Query was successfully executed!");
+        console.log(result);
         if (Object.keys(result).length != 0)
         {
-            res.send(result).status(200);
+            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            res.end(result);
         }
         else 
         {
-            console.log("not found");
-            res.send("We didnt find what you are looking for...")
+            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            res.end("Not found");
+            console.log("We didnt find what you are looking for...")
+        }
+    }
+    return result;
+}
+
+// checking result of post request
+function checkPostReq(result, err, res)
+{
+    if(err)
+    { 
+        console.log(err);
+        res.send("Error!");
+    }
+    else
+    {
+        console.log("Query was successfully executed!");
+        console.log(result);
+        if (result.affectedRows === 1)
+        {
+            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            res.end("Done successfully!");
+        }
+        else 
+        {
+            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            res.end("No matched users!");
+            console.log("No matched users!");
         }
     }
     return result;
@@ -171,7 +201,7 @@ function addStudent(res, id, school, grade, classnum, pupilGender)
         con.query(sqlQuery2);
     }
     const response = {studentCode: studentCode}
-    checkResult(JSON.stringify(response), undefined, res);
+    checkPostReq(JSON.stringify(response), undefined, res);
 }
 
 // register pre-authentication using studentCode and id check
@@ -196,8 +226,9 @@ function register (res, id, studentCode, fullname, username, gender, phone, emai
                     WHERE 
                         id = ${mysql.escape(id)} AND
                         StudentCode = ${mysql.escape(studentCode)};`;
+    console.log(sqlQuery);
     con.query(sqlQuery,  function(err, result){
-        checkResult(result, err, res);
+        checkPostReq(result, err, res);
     });
 }
 
@@ -302,7 +333,7 @@ function createAdmin(res, id, firstname, lastname, pswd, school, phone, email)
                 ${mysql.escape(email)}
     );`;
     con.query(sqlQuery,  function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });
 }
 
@@ -338,7 +369,7 @@ function searchTeacher(res, subject, date, studentGender, tutorGender, grade1, g
         sqlQuery += gradesPrefs + ";";
 
         con.query(sqlQuery,  function(err, result){
-            checkResult(result, err, res);
+            checkGetReq(result, err, res);
         });
 }
 
@@ -349,7 +380,7 @@ function showAvailableHours(res, tutorId)
                     INNER JOIN tutors ON tutors.studentid = calendar.studentid
                     WHERE calendar.studentId = ${mysql.escape(tutorId)};`;
     con.query(sqlQuery,  function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });
 }
 
@@ -358,7 +389,7 @@ function cancelLesson(res, lessonId, pupilId)
 { 
     var sqlQuery = `DELETE FROM lessons WHERE id = ${mysql.escape(lessonId)} AND pupilid = ${mysql.escape(pupilId)};`;  // delete the lesson itself
     con.query(sqlQuery,  function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });
 }
 
@@ -366,7 +397,7 @@ function cancelLesson(res, lessonId, pupilId)
 function showStudents(res)
 {
     con.query("SELECT * FROM students", function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });
 }
 
@@ -376,7 +407,7 @@ function scheduleLesson(res, pupilId, tutorId, calendarId, subject, points, grad
     const room = "LetsStudy/" + subject + "/" +  generateStudentCode(11);
     var sqlQuery = `INSERT INTO lessons(pupilId, tutorId, tutorcalid, subjectName, points, grade, tookplace, room) VALUES ( ${mysql.escape(pupilId)},  ${mysql.escape(tutorId)},  ${mysql.escape(calendarId)}, ${mysql.escape(subject)},${mysql.escape(points)}, ${mysql.escape(grade)}, 0, ${mysql.escape(room)})`;
     con.query(sqlQuery,function(err, result){
-                checkResult(result, err, res);
+                checkGetReq(result, err, res);
     });
 }
 
@@ -385,7 +416,7 @@ function showLessons(res, studentid)
 {
     var sqlQuery = `SELECT * FROM lessons WHERE (pupilid = ${mysql.escape(studentid)} OR tutorid = ${mysql.escape(studentid)});`;
     con.query(sqlQuery,function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });
 }
 
@@ -395,7 +426,7 @@ function showStats(res, cityid, subject)
 {
     var students = 1;
     con.query(`SELECT COUNT(*) FROM students WHERE cityid = ${mysql.escape(cityid)};`, function(err, result){
-        students = checkResult(result, err, res);
+        students = checkGetReq(result, err, res);
         con.query()
     });
     //console.log(students);
@@ -411,7 +442,7 @@ function showStats(res, cityid, subject)
 function approveTutor(res, studentId)
 {
     con.query(`UPDATE tutors SET  tutors.isapproved = 1 WHERE studentid = ${mysql.escape(studentId)};`, function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });
 }
 
@@ -434,7 +465,7 @@ function AddAvailableTime(res, tutorId, availableDate,  starttime, endtime)
                         ${mysql.escape(endtime)}
             );`
     con.query(sqlQuery, function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });
 }
 
@@ -443,7 +474,7 @@ function removeAvailableTime(res, calId)
 {
     var sqlQuery = `DELETE FROM calendar WHERE id =  ${mysql.escape(calId)}`;
     con.query(sqlQuery, function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });
 }
 
@@ -465,7 +496,7 @@ function  addTeachingSubjects(res, tutorId, subject, points, grade)
                         ${mysql.escape(grade)}
                     );`;
     con.query(sqlQuery, function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });
 }
 
@@ -478,7 +509,7 @@ function removeTeachingSubjects(res, tutorId, subject, points, grade)
                         AND points = ${mysql.escape(points)}
                         AND grade = ${mysql.escape(grade)});`;
     con.query(sqlQuery, function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });
 }
 
@@ -486,7 +517,7 @@ function removeTeachingSubjects(res, tutorId, subject, points, grade)
 function getTutoringHours(res, tutorId){
     sqlQuery = `SELECT tutoringHours FROM tutors WHERE studentid = ${mysql.escape(tutorId)};`;
     con.query(sqlQuery, function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });
 }
 
@@ -494,7 +525,7 @@ function getTutoringHours(res, tutorId){
 function addTutoringHour(res, tutorId){
     sqlQuery = `UPDATE tutors SET tutoringHours = (tutoringHours + 1) WHERE studentId = ${mysql.escape(tutorId)};`;
     con.query(sqlQuery, function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });
 }
 
@@ -550,7 +581,7 @@ function sendToken(res, result)
                 expiration.setTime(expiration.getTime() + 5 * 60 * 1000); // adding 5 min to expiration
                 sqlQuery = `UPDATE students SET token = ${mysql.escape(token)}, expiration = ${mysql.escape(expiration)} WHERE id = ${mysql.escape(studentId)};`;
                 console.log("[EMAIL SENT!]");
-                con.query(sqlQuery, function(err, result){checkResult(result, err, res)}); 
+                con.query(sqlQuery, function(err, result){checkGetReq(result, err, res)}); 
             }
         });
     });
@@ -588,7 +619,7 @@ function changePassword(res, studentId, pass, confirmPass)
     }
     sqlQuery = `UPDATE students set pswd = ${mysql.escape(newPass)} WHERE id = ${mysql.escape(studentId)};`;
     con.query(sqlQuery, function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });   
 }
 
@@ -621,7 +652,7 @@ function rateLesson(res, tutorId, lessonId, rate)
     con.query(sqlQuery2, function(err, result){
     });
     con.query(sqlQuery3, function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });
 }
 
@@ -674,7 +705,7 @@ function uploadProfileImage(res, studentId, profileImg)
                         console.log("Image approved!");
                         let sqlQuery = `UPDATE tutors SET photo = LOAD_FILE(${mysql.escape(uploadPath)}) WHERE studentid = ${mysql.escape(studentId)};`;
                         con.query(sqlQuery, function(err, result){
-                            checkResult(result, err, res);
+                            checkGetReq(result, err, res);
                         });
                     }
                 });
@@ -693,7 +724,7 @@ function getRoomName(res, lessonId)
 {
     let sqlQuery = `SELECT room FROM lessons WHERE id = ${mysql.escape(lessonId)}`;
     con.query(sqlQuery, function(err, result){
-        checkResult(result, err, res);
+        checkGetReq(result, err, res);
     });   
 }
 
@@ -746,18 +777,20 @@ app.get('/api/students/registerAuth/:id/:studentCode', (req, res) => {
 
 
 // register 
-app.put('/api/students/register', (req, res) => {
+app.post('/api/students/register', (req, res) => {
     // for validation 
     const id = req.body.id;
     const studentCode = req.body.studentCode;
     
     const fullname = req.body.fullname; 
-    const username = req.body.username;  
+    const username = req.body.username; 
+
     const gender = req.body.gender; 
     // const partnergender = req.body.partnergender; remove and add only in tutor's case
     const phone = req.body.phone;
     const email = req.body.email;
     const pswd = req.body.pswd;
+    console.log(id, studentCode, fullname, username, gender, phone, email, pswd);
     register (res, id, studentCode, fullname, username, gender, phone, email, pswd);
 });
 

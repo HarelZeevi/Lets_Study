@@ -7,11 +7,62 @@ import { IoMdCall } from 'react-icons/io';
 import { IoMdPerson } from 'react-icons/io';
 import { useRef } from 'react';
 
+
+async function register(params, callback){
+    var xhr = new XMLHttpRequest();
+    const url = 'http://localhost:1234/api/students/register'; 
+    
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            callback(xhr.responseText)
+        }
+    }
+
+    // CONVERTING OBJECT PARAMS TO ENCODED STRING
+    let urlEncodedData = "", urlEncodedDataPairs = [], name;
+    for( name in params ) {
+    urlEncodedDataPairs.push(encodeURIComponent(name)+'='+encodeURIComponent(params[name]));
+    }
+    alert(urlEncodedDataPairs.join("&"));
+    xhr.send("id=546987321&studentCode=83812&fullname=Jojo%20Referene&username=usero123&gender=M&phone=0506435356&email=harel%40gmail.com&pswd=1234");
+
+
+}
+
 function Signup() { //  fullname, username, gender, phone, email, pswd
     const malebtn = useRef();
     const femalebtn = useRef();
     const ps1 = useRef();
     const ps2 = useRef();
+
+    const registerForm = () => {
+        var params = new Object();
+        params.id = "546987321";
+        params.studentCode = "83812";
+        params.fullname = "Jojo Referene";
+        params.username = "usero123";
+        params.gender = "M";
+        params.phone = "0506435356"
+        params.email = "harel@gmail.com"
+        params.pswd = "1234";
+
+        /*
+        var params = {
+            id:"546987321",
+            studentCode:"83812",
+            fullname:"JojoReferene",
+            username:"usero123",
+            gender:"M",
+            phone:"05064353566", 
+            email:"g@gmail.com",
+            pswd:"1234"
+        };
+        */
+        register(params, (resp) => {alert(resp)})
+    }
+
     const malegender = () => {
         malebtn.current.style = 'background-color: rgb(86, 89, 235); transition: 0.3s all; color: #fff;';
         femalebtn.current.style = 'background-color: #fff; color: rgb(86, 89, 235);';
@@ -42,7 +93,7 @@ function Signup() { //  fullname, username, gender, phone, email, pswd
     }
     return (
         <div className="signup_box">
-            <form className="signup_form" dir="rtl">
+            <form className="signup_form" dir="rtl" onSubmit={registerForm}>
                 <IoMdPerson className="form_input_logos" id="MdPersonTop"></IoMdPerson><input required className="signup_form_inputs" id="signup_form_topinput" title="" type="text" placeholder="שם מלא" pattern="[א-ת]{2,15}[ ]{1}[א-ת]{2,15}"></input>
                 <br></br><br></br>
                 <IoMdPerson className="form_input_logos"></IoMdPerson><input required className="signup_form_inputs" type="text" placeholder="שם משתמש" pattern="[a-z0-9]{3,12}"></input>
@@ -62,7 +113,7 @@ function Signup() { //  fullname, username, gender, phone, email, pswd
                 <IoIosEyeOff onClick={p2_hide} className="form_input_eyes" id="PasswordEyes2_off"></IoIosEyeOff>
                 <IoIosLock className="form_input_logos"></IoIosLock><input ref={ps2} required className="signup_form_inputs" id="form_p2" type="password" placeholder="סיסמה בשנית"></input>
                 <br></br><br></br>
-                <button className="form_submitbtn" disabled>הרשמה</button>
+                <button className="form_submitbtn">הרשמה</button>
             </form>
         </div>
     )
