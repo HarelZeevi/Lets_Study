@@ -10,7 +10,7 @@ import { useRef } from 'react';
 
 async function register(params, callback){
     var xhr = new XMLHttpRequest();
-    const url = 'http://localhost:1234/api/students/register'; 
+    const url = 'http://localhost:1234/api/sendToken/'; 
     
     xhr.open('POST', url, true);
     xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
