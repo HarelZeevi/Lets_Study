@@ -17,7 +17,7 @@ export function App() {
     <Route component={Login} path="/login" />
     <Route component={SignupAuth} path="/sign-up-authentication" />
     <Route component={Signup} path="/sign-up" />
-    <Route component={ForgotPassword1} path="/forgot-password-mail" />
+    <Route component={ForgotPassword1} path="/forgot-password-email" />
     <Route component={ForgotPassword2} path="/forgot-password-verify" />
     <Route component={ForgotPassword3} path="/forgot-password-new-password" />
     <Route component={Home} exact path="/"/>

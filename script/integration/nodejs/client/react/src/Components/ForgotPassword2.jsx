@@ -7,6 +7,28 @@ import { IoMdCall } from 'react-icons/io';
 import { IoMdPerson } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import '../Styles/forgotPass2.css'; 
+
+function forgotPswd2(params, callback){
+    var xhr = new XMLHttpRequest();
+    const url = 'http://localhost:1234/api/checkToken/'; 
+    
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            callback(xhr.responseText)
+        }
+    }
+
+    // CONVERTING OBJECT PARAMS TO ENCODED STRING
+    let urlEncodedData = "", urlEncodedDataPairs = [], name;
+    for( name in params ) {
+    urlEncodedDataPairs.push(encodeURIComponent(name)+'='+encodeURIComponent(params[name]));
+    }
+    alert(urlEncodedDataPairs.join("&"));
+    xhr.send(urlEncodedDataPairs.join("&"));
+}
+
 export default function ForgotPassword2() {
 
     /*
@@ -15,8 +37,17 @@ export default function ForgotPassword2() {
             Do: small alert - קוד האימות שהכנסת שגוי.
 
     */
-            const form_signupCode = useRef();
-            const submitFormButton = useRef();
+
+    const forgotPswdSubmit2 = () =>
+    {
+        const params = {
+            token:"TOKEN IN HERE"
+        }
+        forgotPswd2(params, (res) => {alert(res)});
+    }
+    
+    const form_signupCode = useRef();
+    const submitFormButton = useRef();
     const formValidation = ()=>{
         
         if(form_signupCode.current.value.length === 6){
@@ -37,7 +68,7 @@ export default function ForgotPassword2() {
                 <div>
                 <div className="Container" dir="rtl">
                         <span className="Title">שחזור סיסמה</span>
-                        <form className="SemdMailForm">
+                        <form className="SemdMailForm" onSubmit={forgotPswdSubmit2}>
                         <input className="VerificationCode"
                         onChange={formValidation}
                          type="password"

@@ -66,8 +66,8 @@ function checkGetReq(result, err, res)
     return result;
 }
 
-// checking result of post request
-function checkPostReq(result, err, res)
+// checking result of sign-up request
+function checkSignUp(result, err, res, id, username, password)
 {
     if(err)
     { 
@@ -80,14 +80,40 @@ function checkPostReq(result, err, res)
         console.log(result);
         if (result.affectedRows === 1)
         {
+            signIn(res, id, username, password)
+        }
+        else 
+        {
+            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            res.end("Not found In Database!");
+            console.log("Not found In Database!");
+        }
+    }
+    return result;
+}
+
+// checking result of post request
+function checkPostReq(result, err, res)
+{
+    if(err)
+    { 
+        console.log(err);
+        res.send("Error!");
+    }
+    else
+    {
+        console.log("Query was successfully executed!");
+        console.log(result);
+        if (result)
+        {
             res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
             res.end("Done successfully!");
         }
         else 
         {
             res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
-            res.end("No matched users!");
-            console.log("No matched users!");
+            res.end("Not found In Database!");
+            console.log("Not found In Database!");
         }
     }
     return result;
@@ -228,7 +254,7 @@ function register (res, id, studentCode, fullname, username, gender, phone, emai
                         StudentCode = ${mysql.escape(studentCode)};`;
     console.log(sqlQuery);
     con.query(sqlQuery,  function(err, result){
-        checkPostReq(result, err, res);
+        checkSignUp(result, err, res, id, username, pswd);
     });
 }
 
@@ -248,7 +274,8 @@ function signJwt(result, err, res)
     if(err)
     { 
         console.log(err);
-        res.send("Error!");
+        res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+        res.end("Error!");
         throw err;
     }
     else
@@ -268,12 +295,14 @@ function signJwt(result, err, res)
 
             user = Object.values(JSON.parse(JSON.stringify(result)))[0];
             const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "1h"})
-            res.json({accessToken:accessToken})
+            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            res.end(JSON.stringify({accessToken:accessToken}))
         }
         else 
         {
             console.log("not found");
-            res.send("1")
+            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            res.end("1")
         }
     }
     return result;   
