@@ -1,10 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { IoIosEye } from 'react-icons/io';
-import { IoIosEyeOff } from 'react-icons/io';
-import { IoIosLock } from 'react-icons/io';
-import { IoMdMail } from 'react-icons/io';
-import { IoMdCall } from 'react-icons/io';
-import { IoMdPerson } from 'react-icons/io';
+import { IoMdLock } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import '../Styles/forgotPass2.css'; 
 
@@ -41,8 +36,8 @@ export default function ForgotPassword2() {
     const forgotPswdSubmit2 = () =>
     {
         const params = {
-            token:"TOKEN IN HERE"
-        }
+            token: form_signupCode.current.value
+        };
         forgotPswd2(params, (res) => {alert(res)});
     }
     
@@ -66,19 +61,19 @@ export default function ForgotPassword2() {
     
     return (
                 <div>
-                <div className="Container" dir="rtl">
-                        <span className="Title">שחזור סיסמה</span>
-                        <form className="SemdMailForm" onSubmit={forgotPswdSubmit2}>
-                        <input className="VerificationCode"
+                <div className="fp2_container" dir="rtl">
+                        <span className="title">שחזור סיסמה</span>
+                        <IoMdLock id="fp2lock"></IoMdLock>
+                        <form className="SendMailForm" onSubmit={forgotPswdSubmit2}>
+                        <input className="verificationCode"
                         onChange={formValidation}
                          type="password"
                          ref={form_signupCode}
                           placeholder="קוד אימות...">
                         
                           </input>
-                        <span className="Alert">  * הקוד נשלח לכתובת המייל שלך <Link to="" className="SendAgain">שלח שוב</Link></span>
-                        
-                        <button className="form_submitbtn" ref={submitFormButton}>אישור קוד</button>
+                        <span className="fp_2alert">  * הקוד נשלח לכתובת המייל שלך <Link to="" className="SendAgain">שלח שוב</Link></span>                 
+                        <button disabled className="fp2_submitbtn" ref={submitFormButton}>אישור קוד</button>
                         </form>
                     </div>
                 </div>

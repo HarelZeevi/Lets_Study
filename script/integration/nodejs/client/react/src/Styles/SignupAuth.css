@@ -11,16 +11,26 @@ body {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   }
+.title{
+    z-index: 2;
+    width: 50%;
+    position: absolute;
+    font-weight: bold;
+    font-size:xx-large;
+    top: 10%;
+    left: 25%;
+}
+
 .signup {
     width: 600px;
-    height: 300px;
+    height: 400px;
     position: relative;
     display: flex;
     justify-content: flex-end;
     box-shadow: 0 0 55px rgb(47, 47, 47);
     border-radius: 25px;
     margin: auto;
-    top: 150px;
+    top: 100px;
 }
 /* Disables the arrows in the type number input */
 input::-webkit-outer-spin-button,
@@ -31,22 +41,18 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
-.auth_form {
-    position: relative;
-    top: 50px;
-}
 .signup_inputs {
-    width: 250px;
-    height: 30px;
-    position: relative;
-    display: grid;
-    right: 171px;
-    border-radius: 10px;
-    border: solid 2px rgb(82, 82, 82);
-    outline: none;
+    position: absolute;
+    height: 40px;
+    width: 57%;
+    padding-right: 50px;
+    top: 35%;
+    left: 17%;
+    border: 1.5px solid #000;
+    box-shadow: 0 0 10px #000;
 }
-.signup_inputs:hover {
-    border: solid 2px #000;
+#signupCode {
+    top: 50%;
 }
 ::placeholder {
     font-weight: 700;
@@ -54,17 +60,47 @@ input[type=number] {
 }
 .signup_submit {
     position: absolute;
-    width: 350px;
+    width: 60%;
     height: 40px;
-    border: 1px solid #000;
+    border: 1.5px solid #000;
     border-radius: 5px;
     color: #fff;
     overflow: hidden;
     z-index: 1;
-    right: 125px;
+    top: 65%;
+    font-size: 25px;
+    border-radius: 25px;
     background-color:rgb(86, 89, 235);
     opacity: 0.7;
+    margin-top: 35px;
+    left: 20%;
     cursor: not-allowed;
+}
+.auth_alert {
+    position: absolute;
+    height: 30px;
+    width: 50%;
+    top: 62%;
+    left: 41%;
+    text-decoration: none;
+}
+.auth_alert_span{
+    text-decoration: none;
+    color: blue;
+}
+.auth_alert_span:hover {
+    text-decoration: underline;
+}
+.signup_userid, .signup_usercode {
+    position: absolute;
+    font-size: 27px;
+    top: 37.5%;
+    right: 18%;
+    z-index: 2;
+}
+.signup_usercode {
+    top: 52%;
+    font-size: 30px;
 }
 .signup_submit::before,
 .signup_submit::after {

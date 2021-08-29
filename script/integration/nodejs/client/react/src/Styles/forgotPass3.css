@@ -19,20 +19,20 @@ code {
 #PaswordEyes1_on,
 #PaswordEyes1_off {
     z-index: 2;
-    left: 130px;
-    top: 252px;
+    left: 110px;
+    top: 51%;
 }
 
 #PaswordEyes2_on,
 #PaswordEyes2_off {
     z-index: 2;
-    left: 130px;
-    top: 185px;
+    left: 110px;
+    top: 36%;
 }
 
-.Container {
+.fp3_container {
     width: 600px;
-    height: 450px;
+    height: 400px;
     position: relative;
     display: flex;
     justify-content: flex-end;
@@ -42,26 +42,14 @@ code {
     top: 100px;
 }
 
-.Title {
+.title {
     z-index: 2;
+    width: 50%;
     position: absolute;
     font-weight: bold;
     font-size: xx-large;
     top: 10%;
-    left: 230px;
-}
-
-.Alert {
-    position: absolute;
-    height: 30px;
-    width: 50%;
-    top: 63%;
-    left: 37%;
-}
-
-.SendAgain {
-    text-decoration: none;
-    color: blue;
+    left: 25%;
 }
 
 .ResetPassword,
@@ -69,50 +57,52 @@ code {
     position: absolute;
     height: 40px;
     width: 65%;
-    top: 40%;
-    left: 20%;
+    top: 35%;
+    left: 17%;
     border: 1.5px solid #000;
     box-shadow: 0 0 10px #000;
 }
 
 .ResetPassword2 {
-    top: 55%;
+    top: 50%;
 }
-
+input {
+    outline: none;
+}
 .ResetPassword,
 .ResetPassword2::placeholder {
     font-weight: 700;
     font-size: 15px;
 }
 
-.form_submitbtn {
+.fp3_submitbtn {
     position: absolute;
-    width: 350px;
-    height: 50px;
+    width: 60%;
+    height: 40px;
     border: 1.5px solid #000;
     border-radius: 5px;
     color: #fff;
     overflow: hidden;
     z-index: 1;
-    left: 22.5%;
     top: 65%;
     font-size: 25px;
     border-radius: 25px;
-    background-color: rgb(86, 89, 235);
+    background-color:rgb(86, 89, 235);
     opacity: 0.7;
-    cursor: not-allowed;
     margin-top: 35px;
+    left: 20%;
+    cursor: not-allowed;
 }
 
-.form_submitbtn::before,
-.form_submitbtn::after {
+.fp3_submitbtn::before,
+.fp3_submitbtn::after {
     background: #4323fa;
     content: "";
     position: absolute;
     z-index: -1;
 }
 
-.form_submitbtn::after {
+.fp3_submitbtn::after {
     height: 100%;
     left: -35%;
     top: 0;
@@ -122,7 +112,7 @@ code {
     width: 0;
 }
 
-.form_submitbtn:hover:after {
+.fp3_submitbtn:hover:after {
     height: 100%;
     width: 135%;
 }

@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../Styles/login.css';
+import { FaUserCircle } from 'react-icons/fa';
+import { IoMdLock } from 'react-icons/io';
 
 
 async function signIn(params, callback){
@@ -36,11 +38,15 @@ export default function Login() {
             Do: small alert - * תעודת הזהות שהכנסת לא תקינה.
 
     */
+   const login_submit_btn = useRef();
+   const login_userid_handler = useRef();
+   const login_password_handler = useRef();
+
    const signInForm = () => {
        const params = {
-           id:"123456789",
-           password:"1234"
-       }
+           id: login_userid_handler.current.value,
+           password: login_password_handler.current.value
+       };
 
        signIn(params, (res) => {
             if (res === "1")
@@ -51,22 +57,35 @@ export default function Login() {
             {
                 let token = JSON.parse(res).accessToken;
                 localStorage.setItem("token", "Bearer " + token);
-           
+                alert(token);
             }
             });
    }
-
+   const login_form_validation = () => {
+       if(login_userid_handler.current.value.length==9 && login_password_handler.current.value.length>=6) {
+            login_submit_btn.current.style.transition = "0.3s";
+            login_submit_btn.current.style.opacity = "1";
+            login_submit_btn.current.disabled= null;
+            login_submit_btn.current.style.cursor = "default";
+       }
+       else {
+            login_submit_btn.current.style.transition = "0.3s";
+            login_submit_btn.current.style.opacity = "0.7";
+            login_submit_btn.current.disabled = 'false';
+            login_submit_btn.current.style.cursor = "not-allowed";
+       }
+   }
     return (
         <div>
-         
             <div className="LoginContainer" dir="rtl">
-                <span className="Title">התחברות</span>
+                <span className="title">התחברות</span>
                 <form onSubmit={signInForm}>
-                    <input type="text" className="IdArea" placeholder="תעודת זהות"></input>
-                    <input type="password" className="PasswordArea" placeholder="סיסמה"></input>
-                    <Link to="/forgot-password-mail" className="AlertMessage">שכחתי סיסמה</Link>
-                    <hr></hr>
-                    <button className="login_submitbtn">התחבר</button>
+                    <FaUserCircle className="login_userid"></FaUserCircle>
+                    <input type="text" onChange={login_form_validation} ref={login_userid_handler} className="IdArea" placeholder="תעודת זהות"></input>
+                    <IoMdLock className="login_lock"></IoMdLock>
+                    <input type="password" onChange={login_form_validation} ref={login_password_handler} className="PasswordArea" placeholder="סיסמה"></input>
+                    <Link to="/forgot-password-email" className="alertMessage">שכחתי סיסמה</Link>
+                    <button className="login_submitbtn" ref={login_submit_btn} disabled>התחבר</button>
                 </form> 
             </div>
         </div>

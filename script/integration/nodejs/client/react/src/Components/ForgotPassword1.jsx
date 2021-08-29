@@ -1,11 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { IoIosEye } from 'react-icons/io';
-import { IoIosEyeOff } from 'react-icons/io';
-import { IoIosLock } from 'react-icons/io';
 import { IoMdMail } from 'react-icons/io';
-import { IoMdCall } from 'react-icons/io';
-import { IoMdPerson } from 'react-icons/io';
 import '../Styles/forgotPass1.css';
 
 function forgotPswd1(params, callback){
@@ -41,9 +35,10 @@ function ForgotPassword1() {
     */
 
     const forgotPswdSubmit1 = () => {
+        alert(3);
         const params = {
-            email:"harelzeevi@gmail.com"
-        }
+            email: inputVal.current.value
+        };
         forgotPswd1(params, (res) => alert(res));
     }
 
@@ -64,22 +59,21 @@ function ForgotPassword1() {
             submitFormButton.current.disabled = "true";
             submitFormButton.current.style.cursor = "not-allowed";
         }
-        console.log(0);
     }
     return (
         <div>
-            <div className="Container">
-                    <span className="Title">שחזור סיסמה</span>
+            <div className="fp1_container">
+                    <span className="title">שחזור סיסמה</span>
                     <form className="SendCodeVerification"  onSubmit={forgotPswdSubmit1} ref={form_id} dir="rtl">
                     <input id="EmailField"
                      ref={inputVal}
                     onChange={formMailValidation}
-                    className="EmailField"
+                    className="emailField"
                      type="email" 
                     placeholder="כתובת מייל...">
                     </input>
-                    <span className="Alert" dir="rtl">* ישלח אליך קוד במייל לשחזור סיסמה.</span>
-                    <button className="form_submitbtn" ref={submitFormButton}> שלח לי מייל</button>
+                    <IoMdMail className="mail_icon_fp1"></IoMdMail><span className="fp1_alert" dir="rtl">* ישלח אליך קוד במייל לשחזור סיסמה.</span>
+                    <button disabled className="fp1_submitbtn" ref={submitFormButton}> שלח לי מייל</button>
                     </form>
                 </div>
             </div>

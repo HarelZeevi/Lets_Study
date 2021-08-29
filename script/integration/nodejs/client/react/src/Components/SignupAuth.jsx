@@ -1,5 +1,8 @@
 import '../Styles/SignupAuth.css';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { FaUserCircle } from 'react-icons/fa';
+import { IoMdLock } from 'react-icons/io';
 
 async function registerAuth(id, studentCode, callback){
     const url = 'http://localhost:1234/api/students/registerAuth/' + id + '/' + studentCode; 
@@ -92,13 +95,15 @@ function SignupAuth()
     }
     return (
         <div className="signup">
+            <span className="title">הרשמה</span>
             <form className="auth_form" dir="rtl" onSubmit={formSubmit}>
+                <FaUserCircle class="signup_userid"></FaUserCircle>
                 <input ref={form_id} onChange={formIdValidation} className="signup_inputs" pattern="[0-9]{9}" type="number" name="id" autocomplete="off" required placeholder="תעודת זהות"></input>
-                <br></br>
+                <IoMdLock className="signup_usercode"></IoMdLock>
                 <input ref={form_signupCode} onChange={formIdValidation} id="signupCode" className="signup_inputs" type="text" autocomplete="off" name="username" required placeholder="קוד הרשמה"></input>
+                <span className="auth_alert">כבר יש לך חשבון? <Link to="/login" className="auth_alert_span">להתחברות</Link></span>     
                 <span ref={formErrorSpan} className="form_redError"></span>
-                <br></br><br></br>
-                <button disabled ref={formSubmitBtn} className="signup_submit" type="submit"><p>אישור</p></button>
+                <button disabled ref={formSubmitBtn} className="signup_submit" type="submit"><p>הירשם</p></button>
             </form>
         </div>
     )

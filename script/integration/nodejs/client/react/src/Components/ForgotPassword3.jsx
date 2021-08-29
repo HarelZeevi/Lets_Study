@@ -1,12 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import { IoIosEye } from 'react-icons/io';
 import { IoIosEyeOff } from 'react-icons/io';
-import { IoIosLock } from 'react-icons/io';
-import { IoMdMail } from 'react-icons/io';
-import { IoMdCall } from 'react-icons/io';
-import { IoMdPerson } from 'react-icons/io';
 import '../Styles/forgotPass3.css';
+
 export default function ForgotPass3() {
     const firstField = useRef();
     const secondField = useRef();
@@ -30,7 +26,12 @@ export default function ForgotPass3() {
         }
 
     }
-
+    const fp3Submit = () => {
+        const params = {
+            password: firstField.current.value
+        };
+        // HAREL - ADD YOUR INTEGRATION HERE! - something like forgotpass3(params, (res) => {)
+    }
     const p1_display = () => {
         document.getElementById('PaswordEyes1_on').style.display = 'none';
         document.getElementById('PaswordEyes1_off').style.display = 'block';
@@ -54,35 +55,24 @@ export default function ForgotPass3() {
     }
     return (
 
-        <div >
-            <div className="Container"
+        <div>
+            <div className="fp3_container"
                 dir="rtl" >
-                <span className="Title" > שחזור סיסמה </span>
-                    <form className="ResetPasswordForm" >
+                <span className="title" > שחזור סיסמה </span>
+                    <form className="ResetPasswordForm" onSubmit={fp3Submit}>
                         <input className="ResetPassword"
                             onChange={passwordsEqual}
                             ref={firstField}
                             type="password"
                             placeholder="סיסמה חדשה..." >
                         </input>
-                        <IoIosEye onClick={p1_display}
-                            className="form_input_eyes"
-                            id="PaswordEyes1_on" >
-                        </IoIosEye>
-                        <IoIosEyeOff onClick={p1_hide} className="form_input_eyes" id="PaswordEyes1_off" > </IoIosEyeOff>
-
-                        <input className="ResetPassword2"
-                            onChange={passwordsEqual}
-                            ref={secondField}
-                            type="password"
-                            placeholder="אימות סיסמה חדשה..." >
-
-                        </input> <IoIosEye onClick={p2_display}
-                            className="form_input_eyes"
-                            id="PaswordEyes2_on" > </IoIosEye> <IoIosEyeOff onClick={p2_hide}
-                                className="form_input_eyes"
-                                id="PaswordEyes2_off" > </IoIosEyeOff> <button className="form_submitbtn"
-                                    ref={submitFormButton} > אישור סיסמה </button> </form> 
+                        <IoIosEye onClick={p1_display} className="form_input_eyes" id="PaswordEyes1_on"></IoIosEye>
+                        <IoIosEyeOff onClick={p1_hide} className="form_input_eyes" id="PaswordEyes1_off"></IoIosEyeOff>
+                        <input className="ResetPassword2" onChange={passwordsEqual} ref={secondField} type="password" placeholder="אימות סיסמה חדשה..." ></input>
+                        <IoIosEye onClick={p2_display} className="form_input_eyes" id="PaswordEyes2_on" ></IoIosEye>
+                        <IoIosEyeOff onClick={p2_hide} className="form_input_eyes" id="PaswordEyes2_off" > </IoIosEyeOff> 
+                        <button disabled className="fp3_submitbtn"ref={submitFormButton} > אישור סיסמה </button> 
+                    </form> 
 
             </div>
         </div>

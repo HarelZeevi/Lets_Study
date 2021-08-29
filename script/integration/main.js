@@ -54,7 +54,7 @@ function checkGetReq(result, err, res)
         if (Object.keys(result).length != 0)
         {
             res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
-            res.end(result);
+            res.end(JSON.stringify(result));
         }
         else 
         {
@@ -292,7 +292,7 @@ function signJwt(result, err, res)
             {
                 uType =  result[0].userType // 'P' or 'T'
             }
-
+            console.log("found");
             user = Object.values(JSON.parse(JSON.stringify(result)))[0];
             const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "1h"})
             res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
