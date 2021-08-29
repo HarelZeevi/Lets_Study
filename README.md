@@ -27,7 +27,7 @@ Here you'll put all the tests you have written.
 # /src
 This one is simple.
 If you use someone's code that has already been written just add it here.
-That way everyone will be able to run the code you have writen without having any issues.
+That way everyone will be able to run the code you have written without having any issues.
 
 
 Editor: Harel Zeevi
