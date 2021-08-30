@@ -158,6 +158,10 @@ function checkAuth(result, err, res)
         if (Object.keys(result).length != 0)
         {
             res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+            if (result[0].pswd != null){
+                console.log("The user is already registerd.");
+                return res.end("The user is already registerd.");
+            }
             console.log("user exists")
             res.end("User Exists!");
         }
