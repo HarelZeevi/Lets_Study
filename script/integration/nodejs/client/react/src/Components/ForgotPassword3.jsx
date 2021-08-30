@@ -3,6 +3,31 @@ import { IoIosEye } from 'react-icons/io';
 import { IoIosEyeOff } from 'react-icons/io';
 import '../Styles/forgotPass3.css';
 
+function forgotPswd3(params, callback){
+    var xhr = new XMLHttpRequest();
+    const url = 'http://localhost:1234/api/changePassword/'; 
+    
+      
+    xhr.open("POST", url);
+    let token = localStorage.getItem("token");
+    
+    xhr.onreadystatechange = function() { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            callback(xhr.responseText)
+        }
+    }
+    
+
+    // CONVERTING OBJECT PARAMS TO ENCODED STRING
+    let urlEncodedData = "", urlEncodedDataPairs = [], name;
+    for(name in params) {
+    urlEncodedDataPairs.push(encodeURIComponent(name)+'='+encodeURIComponent(params[name]));
+    }
+    xhr.setRequestHeader("authorization", token);
+    xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+    xhr.send(urlEncodedDataPairs.join("&"));
+}
+
 export default function ForgotPass3() {
     const firstField = useRef();
     const secondField = useRef();
@@ -16,7 +41,7 @@ export default function ForgotPass3() {
         ) {
             submitFormButton.current.style.transition = "0.3s";
             submitFormButton.current.style.opacity = "1";
-            submitFormButton.current.disabled = "false";
+            submitFormButton.current.disabled = null;
             submitFormButton.current.style.cursor = "default";
         } else {
             submitFormButton.current.style.transition = "0.3s";
@@ -28,9 +53,11 @@ export default function ForgotPass3() {
     }
     const fp3Submit = () => {
         const params = {
-            password: firstField.current.value
+            newPass: firstField.current.value
         };
-        // HAREL - ADD YOUR INTEGRATION HERE! - something like forgotpass3(params, (res) => {)
+        forgotPswd3(params, (res) => {
+            alert(res);
+        })
     }
     const p1_display = () => {
         document.getElementById('PaswordEyes1_on').style.display = 'none';

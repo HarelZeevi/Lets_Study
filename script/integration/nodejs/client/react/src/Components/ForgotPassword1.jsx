@@ -35,7 +35,6 @@ function ForgotPassword1() {
     */
 
     const forgotPswdSubmit1 = () => {
-        alert(3);
         const params = {
             email: inputVal.current.value
         };
@@ -50,7 +49,7 @@ function ForgotPassword1() {
         if (emailRegex.test(inputVal.current.value)){
             submitFormButton.current.style.transition = "0.3s";
             submitFormButton.current.style.opacity = "1";
-            submitFormButton.current.disabled = "false";
+            submitFormButton.current.disabled = null;
             submitFormButton.current.style.cursor = "default"; 
         }
         else{

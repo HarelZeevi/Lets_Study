@@ -17,7 +17,7 @@ function forgotPswd2(params, callback){
 
     // CONVERTING OBJECT PARAMS TO ENCODED STRING
     let urlEncodedData = "", urlEncodedDataPairs = [], name;
-    for( name in params ) {
+    for(name in params) {
     urlEncodedDataPairs.push(encodeURIComponent(name)+'='+encodeURIComponent(params[name]));
     }
     alert(urlEncodedDataPairs.join("&"));
@@ -38,7 +38,20 @@ export default function ForgotPassword2() {
         const params = {
             token: form_signupCode.current.value
         };
-        forgotPswd2(params, (res) => {alert(res)});
+        
+        forgotPswd2(params, (res) => {
+            if (res === "1")
+            {
+                alert("Invalid or expired Token.")
+            }
+            else
+            {
+                let token = JSON.parse(res).accessToken;
+                alert(token);
+                localStorage.setItem("token", "Bearer " + token);
+
+            }
+        });
     }
     
     const form_signupCode = useRef();
@@ -48,7 +61,7 @@ export default function ForgotPassword2() {
         if(form_signupCode.current.value.length === 6){
             submitFormButton.current.style.transition = "0.3s";
             submitFormButton.current.style.opacity = "1";
-            submitFormButton.current.disabled = "false";
+            submitFormButton.current.disabled = null;
             submitFormButton.current.style.cursor = "default"; 
         }
         else{

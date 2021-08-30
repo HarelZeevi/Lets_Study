@@ -6,6 +6,7 @@ var fs = require('fs');
 const fileUpload = require("express-fileupload");
 //const Joi = require("joi");
 const crypto = require("crypto");
+const cors = require('cors')
 const app = express();
 const mysql = require('mysql');
 const path = require('path');
@@ -17,7 +18,28 @@ app.use(express.static(__dirname + "/client/"));
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(cors());
 
+/*
+function cors(req, res, next) {
+    console.log("cors middleware")
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'http://localhost:3000');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+};
+*/
 //connection to db
 const con = mysql.createConnection({
     host: "localhost",
@@ -53,12 +75,12 @@ function checkGetReq(result, err, res)
         console.log(result);
         if (Object.keys(result).length != 0)
         {
-            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
             res.end(JSON.stringify(result));
         }
         else 
         {
-            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
             res.end("Not found");
             console.log("We didnt find what you are looking for...")
         }
@@ -84,7 +106,7 @@ function checkSignUp(result, err, res, id, username, password)
         }
         else 
         {
-            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
             res.end("Not found In Database!");
             console.log("Not found In Database!");
         }
@@ -98,7 +120,9 @@ function checkPostReq(result, err, res)
     if(err)
     { 
         console.log(err);
-        res.send("Error!");
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("error: " + err);
+        return;
     }
     else
     {
@@ -106,14 +130,15 @@ function checkPostReq(result, err, res)
         console.log(result);
         if (result)
         {
-            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
             res.end("Done successfully!");
         }
         else 
         {
-            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
-            res.end("Not found In Database!");
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
             console.log("Not found In Database!");
+            res.end("Not found In Database!");
+            
         }
     }
     return result;
@@ -130,17 +155,16 @@ function checkAuth(result, err, res)
     }
     else
     {
-        console.log(result);
         if (Object.keys(result).length != 0)
         {
-            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
             console.log("user exists")
             res.end("User Exists!");
         }
         else 
         {
             console.log("User was Not found!");
-            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
             res.end("User was Not found!");
         }
     }
@@ -274,7 +298,7 @@ function signJwt(result, err, res)
     if(err)
     { 
         console.log(err);
-        res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
         res.end("Error!");
         throw err;
     }
@@ -292,16 +316,17 @@ function signJwt(result, err, res)
             {
                 uType =  result[0].userType // 'P' or 'T'
             }
-            console.log("found");
+            
             user = Object.values(JSON.parse(JSON.stringify(result)))[0];
             const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "1h"})
-            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            console.log(accessToken);
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
             res.end(JSON.stringify({accessToken:accessToken}))
         }
         else 
         {
             console.log("not found");
-            res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
             res.end("1")
         }
     }
@@ -311,9 +336,12 @@ function signJwt(result, err, res)
 // authenticate token function to convert token to user object
 function authJwt(req, res, next)
 {
-    const token = req.header('x-api-key')
-    if (!token) 
-        return res.sendStatus(401); 
+    console.log("Auth")
+    const token = req.headers.authorization.split(' ')[1]
+    if (token == null){ 
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        return res.end("unauthorized");   
+    }
     try{
         let decodeToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
         req.tokenData = decodeToken;
@@ -321,7 +349,8 @@ function authJwt(req, res, next)
     }
     catch (err){ 
         console.log(err);
-        res.sendStatus(401);
+        //res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("unauthorized")    
     }
 }
 
@@ -571,48 +600,47 @@ function findStudent(email, studentId, callback)
 
 function sendToken(res, result)
 {
-    if (result[0] === undefined) // User couldn't be found by email or id
+    console.log(result[0] == null);
+    if (result[0] == null) // User couldn't be found by email or id
     {
-        return res.send("email or id don't exist in students table");
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Email was not found!");
+        return;
     }
     var email = result[0].email;
-    console.log(email);
+    console.log("email:" + email);
     var studentId = result[0].id;
-    crypto.randomBytes(48, (err, buffer)=>{
-        if (err)
-        {
-            console.log(err);
-            res.send(errr);
+    console.log("id:" + studentId);
+    var token = generateStudentCode(6);
+    const smtpTransport = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: "letstudybuisness@gmail.com",
+            pass: "asasdasdwgsdgaffg134134"
         }
-        var token = buffer.toString("hex");
-        const smtpTransport = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: "letstudybuisness@gmail.com",
-                pass: "BnaYSbHgFFLxL7"
-            }
-        });
+    });
 
-        var mailOptions = {
-            from: "letstudybuisness@gmail.com",
-            to: email,
-            subject: 'Password Change Token',
-            html: `:Please use this token to reset your password<br><b>${token}</b>`
-        };
-        smtpTransport.sendMail(mailOptions, function(error, response){
-            if(error){
-                console.log(error);
-                res.send(error);
-            }
-            else{
-                //res.redirect('/');
-                let expiration = new Date(); // current time
-                expiration.setTime(expiration.getTime() + 5 * 60 * 1000); // adding 5 min to expiration
-                sqlQuery = `UPDATE students SET token = ${mysql.escape(token)}, expiration = ${mysql.escape(expiration)} WHERE id = ${mysql.escape(studentId)};`;
-                console.log("[EMAIL SENT!]");
-                con.query(sqlQuery, function(err, result){checkGetReq(result, err, res)}); 
-            }
-        });
+    var mailOptions = {
+        from: "letstudybuisness@gmail.com",
+        to: email,
+        subject: 'Password Change Token',
+        html: `:Please use this token to reset your password<br><b>${token}</b>`
+    };
+    smtpTransport.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log("error")
+            console.log(error);
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+            res.end(error);
+        }
+        else{
+            //res.redirect('/');
+            let expiration = new Date(); // current time
+            expiration.setTime(expiration.getTime() + 5 * 60 * 1000); // adding 5 min to expiration
+            sqlQuery = `UPDATE students SET token = ${mysql.escape(token)}, expiration = ${mysql.escape(expiration)} WHERE id = ${mysql.escape(studentId)};`;
+            console.log('Email sent: ' + info.response);
+            con.query(sqlQuery, function(err, result){checkGetReq(result, err, res)}); 
+        }
     });
 }
 
@@ -628,7 +656,7 @@ function compareTimes(tokentime)
 
 function checkToken(token, callback)
 {
-    sqlQuery = `SELECT id, token, expiration FROM students WHERE token = ${mysql.escape(token)};`;
+    sqlQuery = `SELECT * FROM students WHERE token = ${mysql.escape(token)};`;
     con.query(sqlQuery, (err, result) => {
         if (err){ 
             throw err;
@@ -640,15 +668,12 @@ function checkToken(token, callback)
 // password change using confirm password and password. uses: 
 //    1. logged in 
 //    2. reset password after token authentication
-function changePassword(res, studentId, pass, confirmPass)
+function changePassword(res, studentId, newPass)
 {
-    if (!(confirmPass === pass))
-    {
-        return res.send("Not matching Passwords!");
-    }
     sqlQuery = `UPDATE students set pswd = ${mysql.escape(newPass)} WHERE id = ${mysql.escape(studentId)};`;
+    console.log(sqlQuery);
     con.query(sqlQuery, function(err, result){
-        checkGetReq(result, err, res);
+        checkPostReq(result, err, res);
     });   
 }
 
@@ -783,7 +808,10 @@ app.get('/api/students', (req, res) =>{
 // add student - admin 
 // returns student-code
 app.post('/api/students', authJwt, (req, res) => {
-    if (req.tokenData.userType === 'P' || req.tokenData.userType === 'T') return res.send("You are Not allowed to do this action.")
+    if (req.tokenData.userType === 'P' || req.tokenData.userType === 'T') {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("You are not allowed to do this action!");
+    }
     
     // add student code
     const id = req.body.id; // admin enters info and the validation on the student's side
@@ -854,7 +882,10 @@ app.post('/api/admins', (req, res) => {
 
 // look for a teacher
 app.get('/api/tutors/:subject/:date/:studentGender/:rate/:tutorGender?/:grade1?/:grade2?', authJwt, (req, res) => {
-    if (!(req.tokenData.userType === 'P')) return res.send("You are Not allowed to do this action.") 
+    if (!(req.tokenData.userType === 'P')) {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("You are not allowed to do this action!");
+    } 
 
     const subject = req.params.subject; // The lesson's requested subject (must pass)
     const date = req.params.date;       // The requested date of the lesson (must pass)
@@ -972,8 +1003,6 @@ app.post('/api/tutoringHours', authJwt, (req, res) => {
 app.post('/api/sendToken/', (req, res) => {
     const email = req.body.email;
     const studentId = req.body.studentId;
-    console.log(email);
-    console.log(studentId);
     findStudent(email, studentId, (result) => {sendToken(res, result)});
 });
  
@@ -981,15 +1010,18 @@ app.post('/api/sendToken/', (req, res) => {
 app.post('/api/checkToken/', (req, res) => {
     const token = req.body.token;
     checkToken(token, (result) => {
-        if (token === result[0].token && compareTimes(result[0].expiration))
-            res.send(result[0].id);
-        else    
-            res.send("Tokens don't match / time is up");
+        if (result[0] != null && token === result[0].token && compareTimes(result[0].expiration)){
+            signIn(res, result[0].id, result[0].username, result[0].pswd);
+        }
+        else{    
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+            res.end("1");
+        }
     });
 });
 
 // change the password
-app.post('/api/resetPassword/', (req, res) => {
+app.post('/api/resetPassword/', authJwt, (req, res) => {
     const studentId = req.body.studentId;
     const token = req.body.token;
     const password = req.body.password;
@@ -1002,7 +1034,8 @@ app.post('/api/resetPassword/', (req, res) => {
         }
         else
         {
-            res.send(`We couldn't reset your password. Please check again:
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+            res.end(`We couldn't reset your password. Please check again:
                         \n\t1. if the expiration time hasn't passed.
                         \n\t2. if the token you entered is the token that have been emailed to you. `);
         }
@@ -1010,18 +1043,24 @@ app.post('/api/resetPassword/', (req, res) => {
 });
 
 // change password 
-app.put("/api/changePassword/", authJwt, (req, res) => {
-    if (req.tokenData.userType === 'P' || req.tokenData.userType === 'T') return res.send("You are Not allowed to do this action.")
-    
-    const studentId = req.tokenData.id;
-    const newPass = req.body.newPass;
-    
-    changePassword(res, studentId, newPass);
+app.post("/api/changePassword/", authJwt, (req, res) => {
+    if (req.tokenData.userType != 'P' && req.tokenData.userType != 'T') {
+        return res.end("You are not allowed to do this action!");
+    }
+    else{
+        const studentId = req.tokenData.id;
+        const newPass = req.body.newPass;
+        console.log(newPass);
+        changePassword(res, studentId, newPass);
+    }
 });
 
 // rate lesson
 app.post('/api/rates', authJwt, (req, res) => {
-    if (!(req.tokenData.userType === 'P')) return res.send("You are Not allowed to do this action.")
+    if (!(req.tokenData.userType === 'P')) {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("You are not allowed to do this action!");
+    }
 
     const tutorId = req.body.tutorId;
     const lessonId = req.body.lessonId;
@@ -1031,8 +1070,11 @@ app.post('/api/rates', authJwt, (req, res) => {
 });
 
 /////***** add your route here ******/////////
-app.get('/api/stats/:cityid/:subject', (req, res) => {
-    if (req.tokenData.userType === 'P' || req.tokenData.userType === 'T') return res.send("You are Not allowed to do this action.")
+app.get('/api/stats/:cityid/:subject', authJwt, (req, res) => {
+    if (req.tokenData.userType === 'P' || req.tokenData.userType === 'T') {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("You are not allowed to do this action!");
+    }
     
     const cityid = req.params.cityid;
     const subject = req.params.subject;
@@ -1041,7 +1083,10 @@ app.get('/api/stats/:cityid/:subject', (req, res) => {
 
 // upload profile image
 app.post('/api/students/uploadProfileImg/', authJwt, (req, res) => {
-    if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) return res.send("You are Not allowed to do this action.")
+    if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("You are not allowed to do this action!");
+    }
     if (!req.files || Object.keys(req.files).length === 0) {
         res.status(400).send('No files were uploaded.');
     }
