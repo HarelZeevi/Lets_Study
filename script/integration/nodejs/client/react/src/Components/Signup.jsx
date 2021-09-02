@@ -86,8 +86,8 @@ function Signup() { //  fullname, username, gender, phone, email, pswd
     }
     const registerForm = () => {
         var params = {
-            id: "546987321",
-            studentCode: "83812",
+            id: localStorage.getItem("id"),
+            studentCode: localStorage.getItem("studentCode"),
             fullname: submit_fullname.current.value,
             username: submit_username.current.value,
             gender: submit_gender,
@@ -96,7 +96,9 @@ function Signup() { //  fullname, username, gender, phone, email, pswd
             pswd: ps1.current.value
         };
         register(params, (res) => {
-            alert(res)
+            alert(res);
+            localStorage.setItem("id", null);
+            localStorage.setItem("studentCode", null);
             let token = JSON.parse(res).accessToken;
             localStorage.setItem("token", "Bearer " + token);
         })

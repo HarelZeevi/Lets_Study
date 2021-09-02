@@ -1,4 +1,4 @@
-// import modules.js file
+//import hasWhiteSpace from '../../test/testInput.js';
 const express = require("express");
 require('dotenv').config()
 const jwt = require("jsonwebtoken")
@@ -20,26 +20,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(cors());
 
-/*
-function cors(req, res, next) {
-    console.log("cors middleware")
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//hasWhiteSpace("hrllo sdasd")
 
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'http://localhost:3000');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
-
-    // Pass to next layer of middleware
-    next();
-};
-*/
 //connection to db
 const con = mysql.createConnection({
     host: "localhost",
@@ -128,7 +111,7 @@ function checkPostReq(result, err, res)
     {
         console.log("Query was successfully executed!");
         console.log(result);
-        if (result)
+        if (Object.keys(result).length != 0)
         {
             res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
             res.end("Done successfully!");
@@ -267,23 +250,80 @@ function registerAuth(res, id, studentCode)
     });
 }
 
+
+//This function checks wether a specific property name is already in the students table
+function checkPropTest(result, err, res, propName)
+{
+    if(err)
+    { 
+        console.log(err);
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("error: " + err);
+        return;
+    }
+    else
+    {
+        console.log("Query was successfully executed!");
+        console.log(result);
+        if (Object.keys(result).length != 0)
+        {
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+            console.log("Alredy in use!");
+            res.end("1");
+        }
+        else 
+        {
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+            console.log("Not used - free to use!");
+            res.end("0");
+            
+        }
+    }
+    return result;
+}
+
+
+// register middleware testing 
+function testProperty(res, prop, name){
+    let checkQuery;
+    if (prop === "1")
+        checkQuery = `SELECT * FROM students WHERE username = ${mysql.escape(name)};`;  
+    else if (prop === "2")
+        checkQuery = `SELECT * FROM students WHERE email = ${mysql.escape(name)};`;  
+    else if (prop === "3") 
+        checkQuery = `SELECT * FROM students WHERE phone = ${mysql.escape(name)};`;  
+    if (checkQuery === undefined){
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        return res.end("Invalid property number!");
+    }
+    con.query(checkQuery,  function(err, result){
+        checkPropTest(result, err, res)
+    });
+}
+
 // Register function 
 function register (res, id, studentCode, fullname, username, gender, phone, email, pswd)
 {
-    var sqlQuery = `UPDATE students 
-                    SET fullname = ${mysql.escape(fullname)},
-                        username = ${mysql.escape(username)}, 
-                        gender = ${mysql.escape(gender)}, 
-                        phone =  ${mysql.escape(phone)}, 
-                        email =  ${mysql.escape(email)}, 
-                        pswd =  ${mysql.escape(pswd)}
-                    WHERE 
-                        id = ${mysql.escape(id)} AND
-                        StudentCode = ${mysql.escape(studentCode)};`;
-    console.log(sqlQuery);
-    con.query(sqlQuery,  function(err, result){
-        checkSignUp(result, err, res, id, username, pswd);
-    });
+    //const testRes = testRegister(res, username, phone, email, next);
+   // console.log("Test result: " + testRes);
+    //if (1 == 1 || testRes)
+        //return null;
+    //else{
+        var sqlQuery = `UPDATE students 
+                        SET fullname = ${mysql.escape(fullname)},
+                            username = ${mysql.escape(username)}, 
+                            gender = ${mysql.escape(gender)}, 
+                            phone =  ${mysql.escape(phone)}, 
+                            email =  ${mysql.escape(email)}, 
+                            pswd =  ${mysql.escape(pswd)}
+                        WHERE 
+                            id = ${mysql.escape(id)} AND
+                            StudentCode = ${mysql.escape(studentCode)};`;
+        console.log(sqlQuery);
+        con.query(sqlQuery,  function(err, result){
+            checkSignUp(result, err, res, id, username, pswd);
+        });
+    //}
 }
 
 // students Sign in function
@@ -469,7 +509,7 @@ function scheduleLesson(res, pupilId, tutorId, calendarId, subject, points, grad
     const room = "LetsStudy/" + subject + "/" +  generateStudentCode(11);
     var sqlQuery = `INSERT INTO lessons(pupilId, tutorId, tutorcalid, subjectName, points, grade, tookplace, room) VALUES ( ${mysql.escape(pupilId)},  ${mysql.escape(tutorId)},  ${mysql.escape(calendarId)}, ${mysql.escape(subject)},${mysql.escape(points)}, ${mysql.escape(grade)}, 0, ${mysql.escape(room)})`;
     con.query(sqlQuery,function(err, result){
-                checkGetReq(result, err, res);
+        checkGetReq(result, err, res);
     });
 }
 
@@ -836,6 +876,12 @@ app.get('/api/students/registerAuth/:id/:studentCode', (req, res) => {
 });
 
 
+// checking wether a property (email / username / phone) is already in the users table.
+app.post('/api/students/register/propTest', (req, res) => {
+    const prop = req.body.property;
+    const name = req.body.name;
+    testProperty(res, prop, name);
+});
 
 // register 
 app.post('/api/students/register', (req, res) => {
@@ -851,7 +897,6 @@ app.post('/api/students/register', (req, res) => {
     const phone = req.body.phone;
     const email = req.body.email;
     const pswd = req.body.pswd;
-    console.log(id, studentCode, fullname, username, gender, phone, email, pswd);
     register (res, id, studentCode, fullname, username, gender, phone, email, pswd);
 });
 
@@ -1024,27 +1069,6 @@ app.post('/api/checkToken/', (req, res) => {
     });
 });
 
-// change the password
-app.post('/api/resetPassword/', authJwt, (req, res) => {
-    const studentId = req.body.studentId;
-    const token = req.body.token;
-    const password = req.body.password;
-    const confirmPassword = req.body.confirmPassword;
-    resetPassword(res, studentId, token, password, confirmPassword, function(result){
-        if (confirmPassword === password &&
-            compareTimes(result.expiration))
-        {
-            changePassword(res, studentId, password)
-        }
-        else
-        {
-            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
-            res.end(`We couldn't reset your password. Please check again:
-                        \n\t1. if the expiration time hasn't passed.
-                        \n\t2. if the token you entered is the token that have been emailed to you. `);
-        }
-    });
-});
 
 // change password 
 app.post("/api/changePassword/", authJwt, (req, res) => {

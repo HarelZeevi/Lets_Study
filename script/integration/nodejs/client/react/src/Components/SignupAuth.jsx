@@ -27,7 +27,14 @@ function SignupAuth()
     const formSubmit = () => {
         const id = form_id.current.value;
         const studentCode = form_signupCode.current.value;
-        registerAuth(id, studentCode, (resp => {alert(resp)}));
+        registerAuth(id, studentCode, (resp => {
+            alert(resp);
+            if (resp === "User Exists!")
+            {
+                localStorage.setItem("id", id);
+                localStorage.setItem("studentCode",studentCode);
+            }
+        }));
     }
     const formIdValidation = (event) => { // CHANGE THE LENGTH OF THE SIGNUP CODE IF NEEDED!
         if(form_id.current.value.length === 9) 
