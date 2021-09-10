@@ -183,6 +183,7 @@ function addStudent(res, id, school, grade, classnum, pupilGender)
 						studentCode,
                         id,
                         userType,
+                        profile_img,
                         fullname,
                         username, 
                         school, 
@@ -202,6 +203,7 @@ function addStudent(res, id, school, grade, classnum, pupilGender)
                         ${mysql.escape(userType)},
                         null,
                         null,
+                        null,
                         ${mysql.escape(school)},
                         null,
                         ${mysql.escape(grade)},
@@ -218,7 +220,6 @@ function addStudent(res, id, school, grade, classnum, pupilGender)
         var sqlQuery2 = `INSERT INTO tutors
                         (
                                     studentid,
-                                    photo,
                                     bio,
                                     isapproved,
                                     rate,
@@ -228,7 +229,6 @@ function addStudent(res, id, school, grade, classnum, pupilGender)
                         VALUES
                         (
                                     ${mysql.escape(id)},
-                                    null,
                                     'Hi Im ${mysql.escape(grade)}th grader',
                                     false,
                                     5,
@@ -442,7 +442,7 @@ function createAdmin(res, id, firstname, lastname, pswd, school, phone, email)
 // look for a teacher function
 function searchTeacher(res, subject, date, studentGender, tutorGender, grade1, grade2 = undefined, rate)
 {
-    var sqlQuery = `SELECT subjects.studentid, subjects.subjectname, subjects.points, students.fullname, students.grade, students.gender, tutors.rate, tutors.pupilGender, calendar.starttime, calendar.endtime
+    var sqlQuery = `SELECT subjects.studentid, subjects.subjectname, subjects.points, students.fullname, tutors.bio, students.profile_img, students.grade, students.gender, tutors.rate, tutors.pupilGender, calendar.starttime, calendar.endtime
                     FROM subjects 
                     INNER JOIN tutors ON subjects.studentid = tutors.studentid 
                     INNER JOIN students ON subjects.studentid = students.id
@@ -451,7 +451,7 @@ function searchTeacher(res, subject, date, studentGender, tutorGender, grade1, g
                         AND calendar.availabledate = ${mysql.escape(date)}
                         AND tutors.isapproved = 1
                         AND (tutors.pupilGender = ${mysql.escape(studentGender)}
-                            OR tutors.pupilGender = NULL)
+                            OR tutors.pupilGender IS NULL)
                         AND (tutors.rate >= ${mysql.escape(parseInt(rate))})`; 
     
     // student's gender preferences
@@ -770,7 +770,7 @@ async function moderator(img_path, callback)
     };
     request(options, async function (error, response) {
     if (error) throw new Error(error);
-    callback(response.body);
+    callback(/*response.body*/{Result:false});
     });
 }
 
@@ -792,16 +792,17 @@ function uploadProfileImage(res, studentId, profileImg)
         else
             {
                 status = moderator(uploadPath, (status)=> {
-                    if (JSON.parse(status).Result === true)
+                    if (false && JSON.parse(status).Result === true)
                     {
                         console.log(status.Result);
-                        res.send("Your profile image hasn't been uploaded because it was marked as inappropriate!");
+                        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+                        res.end("Your profile image hasn't been uploaded because it was marked as inappropriate!");
                     }
                     else   
                     {
                         console.log(status)
                         console.log("Image approved!");
-                        let sqlQuery = `UPDATE tutors SET photo = LOAD_FILE(${mysql.escape(uploadPath)}) WHERE studentid = ${mysql.escape(studentId)};`;
+                        let sqlQuery = `UPDATE students SET profile_img = LOAD_FILE(${mysql.escape(uploadPath)}) WHERE id = ${mysql.escape(studentId)};`;
                         con.query(sqlQuery, function(err, result){
                             checkGetReq(result, err, res);
                         });
@@ -930,7 +931,7 @@ app.post('/api/admins', (req, res) => {
 });
 
 // look for a teacher
-app.get('/api/tutors/:subject/:date/:studentGender/:rate/:tutorGender?/:grade1?/:grade2?', authJwt, (req, res) => {
+app.get('/api/tutors/:subject/:date/:rate/:tutorGender?/:grade1?/:grade2?', authJwt, (req, res) => {
     if (!(req.tokenData.userType === 'P')) {
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
         res.end("You are not allowed to do this action!");
@@ -1120,6 +1121,7 @@ app.post('/api/students/uploadProfileImg/', authJwt, (req, res) => {
     }
     else 
     {
+        console.log("Starting file upload!");
         let profileImg = req.files.profileImg;
         let studentId = req.tokenData.id;
         uploadProfileImage(res, studentId, profileImg);    
