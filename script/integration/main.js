@@ -20,7 +20,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(cors());
 
-
 //hasWhiteSpace("hrllo sdasd")
 
 //connection to db
@@ -393,7 +392,7 @@ function authJwt(req, res, next)
     }
     catch (err){ 
         console.log(err);
-        //res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
         res.end("unauthorized")    
     }
 }
@@ -843,9 +842,20 @@ app.get('/', (req, res) => {
 });
 
 
+// check weather a user is logged in, if true return his name and image.
+app.post('/api/students/isSignedIn', authJwt, (req, res) => {
+    const fullname = undefined || req.tokenData.fullname;
+    const profile_img = undefined || req.tokenData.profile_img;
+    const navbarData = {
+        fullname: fullname,
+        profile_img: profile_img
+    };
+    res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+    res.end(JSON.stringify(navbarData));
+});
 
 // show students
-app.get('/api/students', (req, res) =>{
+app.get('/api/students', authJwt, (req, res) =>{
     showStudents(res);
 });
 
