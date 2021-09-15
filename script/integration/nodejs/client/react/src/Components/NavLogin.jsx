@@ -2,9 +2,9 @@ import '../Styles/NavLogin.css';
 import '../Styles/Navbar.css';
 import { Link } from 'react-router-dom';
 import { FaAngleDown, FaRegEnvelope } from 'react-icons/fa';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { FiLogOut, FiSettings, FiHelpCircle, FiX } from 'react-icons/fi';
-
+import Navbar from './Navbar';
 
 function navGetDetails(callback){
     var xhr = new XMLHttpRequest();
@@ -16,13 +16,17 @@ function navGetDetails(callback){
     xhr.setRequestHeader("authorization", token);
     xhr.onreadystatechange = function() { // Call a function when the state changes.
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            callback(xhr)
+            callback(xhr.responseText);
+            //alert(xhr.responseText)
         }
     }
     xhr.send(null);
 
 }
 
+function logOut(callback){
+    localStorage.removeItem("token"); 
+}
 
 function NavLogin() {
     const profile_username = useRef();
@@ -39,18 +43,26 @@ function NavLogin() {
     const popup_t3 = useRef();
     const popup_i4 = useRef();
     const popup_t4 = useRef();
-
+    const [userPicture, setUserPicture] = useState();
+    const [userName, setUserName] = useState();
+    navbarSubmit();
+    
     // IDO here you add the integration details. Here we call the function and know weather the user is loggedIn or not.
     function navbarSubmit()
     {
         navGetDetails((res) => {
-            if (res.status === 403)
+            if (res === "unauthorized")
                 {
-                console.log('Not logged In') // replace with navber real reaction
+                    alert("User is not authorized!");
+                    return (
+                        <Navbar></Navbar>
+                    )
                 }
             else    
                 {
-                    console.log(JSON.parse(res.responseText)) // username and image json obj                    
+                    const result = JSON.parse(res); // username and image json obj  
+                    setUserPicture(result.profile_img); // ENTER THE PICTURE'S SRC ATTRIBUTE INSIDE THE BRACKETS
+                    setUserName(result.username); // ENTER THE USER'S USERNAME INSIDE THE BRACKETS
                 }
         })
     }
@@ -105,11 +117,12 @@ function NavLogin() {
         popup_i4.current.style.color = '#000';
         popup_t4.current.style.color = '#000';
     }
+    
     return (
         <div className="navbar">
             <ul className='nav_profile' onMouseOver={profile_hover} onMouseOut={profile_outhover}>
-                <li><img src="https://images.squarespace-cdn.com/content/v1/559b2478e4b05d22b1e75b2d/1545073697675-3728MXUJFYMLYOT2SKAA/Nesbit.jpg" onClick={profile_popup_reveal} className='nav_pfp'></img></li>
-                <li ref={profile_username} className='nav_profile_username_li' onClick={profile_popup_reveal}><span className='nav_username'>Idoabr</span></li>
+                <li><img src={userPicture} onClick={profile_popup_reveal} className='nav_pfp'></img></li>
+                <li ref={profile_username} className='nav_profile_username_li' onClick={profile_popup_reveal}><span className='nav_username'>{userName}</span></li>
                 <li ref={profile_arrow} className='nav_profile_arrow_li' onClick={profile_popup_reveal}><FaAngleDown className='nav_profile_arrow'></FaAngleDown></li>
             </ul>
             <div ref={profile_popup} className='nav_profile_popup'>

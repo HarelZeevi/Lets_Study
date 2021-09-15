@@ -441,17 +441,20 @@ function createAdmin(res, id, firstname, lastname, pswd, school, phone, email)
 // look for a teacher function
 function searchTeacher(res, subject, date, studentGender, tutorGender, grade1, grade2 = undefined, rate)
 {
-    var sqlQuery = `SELECT subjects.studentid, subjects.subjectname, subjects.points, students.fullname, tutors.bio, students.profile_img, students.grade, students.gender, tutors.rate, tutors.pupilGender, calendar.starttime, calendar.endtime
+    var sqlQuery = `SELECT subjects.studentid, subjects.subjectname, subjects.points, students.fullname, tutors.bio, students.profile_img, students.grade, students.gender, tutors.rate, tutors.pupilGender, calendar.starttime, calendar.endtime, calendar.id
                     FROM subjects 
+                    
                     INNER JOIN tutors ON subjects.studentid = tutors.studentid 
                     INNER JOIN students ON subjects.studentid = students.id
                     INNER JOIN calendar ON subjects.studentid = calendar.studentid
+            
                     WHERE subjects.subjectname = ${mysql.escape(subject)}
                         AND calendar.availabledate = ${mysql.escape(date)}
                         AND tutors.isapproved = 1
                         AND (tutors.pupilGender = ${mysql.escape(studentGender)}
                             OR tutors.pupilGender IS NULL)
-                        AND (tutors.rate >= ${mysql.escape(parseInt(rate))})`; 
+                        AND (tutors.rate >= ${mysql.escape(parseInt(rate))})
+                    GROUP BY(subjects.studentid)`; 
     
     // student's gender preferences
     if (tutorGender)
@@ -844,10 +847,10 @@ app.get('/', (req, res) => {
 
 // check weather a user is logged in, if true return his name and image.
 app.post('/api/students/isSignedIn', authJwt, (req, res) => {
-    const fullname = undefined || req.tokenData.fullname;
+    const username = undefined || req.tokenData.username;
     const profile_img = undefined || req.tokenData.profile_img;
     const navbarData = {
-        fullname: fullname,
+        username: username,
         profile_img: profile_img
     };
     res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});

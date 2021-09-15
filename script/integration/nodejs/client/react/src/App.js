@@ -9,10 +9,11 @@ import Signup from './Components/Signup.jsx';
 import Navbar from './Components/Navbar.jsx';
 import SignupAuth from './Components/SignupAuth.jsx';
 import "../src/Styles/app.css";
+import NavLogin from './Components/NavLogin.jsx';
 export function App() {
   return (
     <div className="app">
-    <Navbar/>
+    <NavLogin/>
     <Switch>
     <Route component={Login} path="/login" />
     <Route component={SignupAuth} path="/sign-up-authentication" />
