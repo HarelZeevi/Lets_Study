@@ -1,0 +1,15 @@
+.ProfileSettings {
+    width: 100%;
+}
+.SettingsForm {
+    margin-top: 50px;
+    margin-right: 30px;
+    text-align: right;
+}
+.settings_input_pfp {
+    font-weight: 500;
+}
+.Settings_input_teacherBio {
+    width: 350px;
+    height: 35px;
+}

@@ -24,10 +24,10 @@ app.use(cors());
 
 //connection to db
 const con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password:"1234",
-    database: "lets_study_users"
+    host: "b1kz3wyilkzkgbcvthwe-mysql.services.clever-cloud.com",
+    user: "unvhli21w5pbia4r",
+    password:"nWuBECNMKAZ1SBTPYfk3",
+    database: "b1kz3wyilkzkgbcvthwe"
 });
 
 con.connect(function(err) {
@@ -329,7 +329,9 @@ function register (res, id, studentCode, fullname, username, gender, phone, emai
 function signIn(res, id, username, password)
 {  
     // creating jwt 
-    var sqlQuery = `SELECT * FROM students WHERE (id = ${mysql.escape(id)} OR username = ${mysql.escape(username)}) AND pswd = ${mysql.escape(password)};`;
+    var sqlQuery = `SELECT id, userType, fullname, username, school, gender, grade, phone, email, classnum
+                    FROM students 
+                    WHERE (id = ${mysql.escape(id)} OR username = ${mysql.escape(username)}) AND pswd = ${mysql.escape(password)};`;
     con.query(sqlQuery,  function(err, result){
         signJwt(result, err, res);
     });
@@ -829,6 +831,31 @@ function getRoomName(res, lessonId)
     });   
 }
 
+// this function gets property number, new value for the property and user's id.
+// the function will run an sql query that changes the property's old value to the new value. 
+function changeProperty(res, propNum, val, id)
+{
+    let sqlQuery = `UPDATE students SET username = ${mysql.escape(val)} WHERE id = ${mysql.escape(id)};`;
+    switch(propNum)
+    {
+        case 1:  // change username 
+            break;
+        case 2: // change Email
+            sqlQuery = `UPDATE students SET email = ${mysql.escape(val)} WHERE id = ${mysql.escape(id)};`;
+            break;
+        case 3: // change phone number
+            sqlQuery = `UPDATE students SET phone = ${mysql.escape(val)} WHERE id = ${mysql.escape(id)};`;
+            break;
+        case 4: // change tutor's bio information
+            sqlQuery = `UPDATE tutors SET bio = ${mysql.escape(val)} WHERE studentid = ${mysql.escape(id)};`;
+    }
+
+    con.query(sqlQuery, function(err, result){
+        checkPostReq(result, err, res);
+    }); 
+
+}
+
 /* API routes*/
 
 /* app possible methods:
@@ -1111,7 +1138,7 @@ app.post('/api/rates', authJwt, (req, res) => {
     rateLesson(res, tutorId, lessonId, rate)
 });
 
-/////***** add your route here ******/////////
+
 app.get('/api/stats/:cityid/:subject', authJwt, (req, res) => {
     if (req.tokenData.userType === 'P' || req.tokenData.userType === 'T') {
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
@@ -1122,6 +1149,8 @@ app.get('/api/stats/:cityid/:subject', authJwt, (req, res) => {
     const subject = req.params.subject;
     showStats(res, cityid, subject);
 });
+
+// userr account settings update below
 
 // upload profile image
 app.post('/api/students/uploadProfileImg/', authJwt, (req, res) => {
@@ -1141,6 +1170,57 @@ app.post('/api/students/uploadProfileImg/', authJwt, (req, res) => {
     }
 });
 
+// change username
+app.post('/api/students/changeUsername', authJwt, (req, res) => {
+    if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("You are not allowed to do this action!");
+    }
+
+    const newUsername = req.body.newUsername;
+    const id = req.tokenData.id;
+
+    changeProperty(res, 1, newUsername, id)
+})
+
+// change Email
+app.post('/api/students/changeEmail', authJwt, (req, res) => {
+    if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("You are not allowed to do this action!");
+    }
+
+    const newEmail = req.body.newEmail
+    const id = req.tokenData.id;
+    
+    changeProperty(res, 2, newEmail, id);
+})
+
+// change phone number
+app.post('/api/students/changePhone', authJwt, (req, res) => {
+    if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("You are not allowed to do this action!");
+    }
+    
+    const newPhone = req.body.newPhone;
+    const id = req.tokenData.id;
+    
+    changeProperty(res, 3, newPhone, id);
+})
+
+// change tutor's bio info
+app.post('/api/tutors/changeBio', authJwt, (req, res) => {
+    if (!(req.tokenData.userType === 'T')) {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("You are not allowed to do this action!");
+    }
+
+    const newBio = req.body.newBio;
+    const id = req.tokenData.id;
+    
+    changeProperty(res, 4, newBio, id);
+})
 
 // getting jitsi room name
 app.get('/api/lessonRoom/:lessonId', (req, res) => {
