@@ -443,7 +443,7 @@ function createAdmin(res, id, firstname, lastname, pswd, school, phone, email)
 // look for a teacher function
 function searchTeacher(res, subject, date, studentGender, tutorGender, grade1, grade2 = undefined, rate)
 {
-    var sqlQuery = `SELECT subjects.studentid, subjects.subjectname, subjects.points, students.fullname, tutors.bio, students.profile_img, students.grade, students.gender, tutors.rate, tutors.pupilGender, calendar.starttime, calendar.endtime, calendar.id
+    var sqlQuery = `SELECT subjects.studentid, subjects.subjectname, subjects.points, students.fullname, tutors.bio, students.profile_img, students.grade, students.gender, tutors.rate, tutors.pupilGender
                     FROM subjects 
                     
                     INNER JOIN tutors ON subjects.studentid = tutors.studentid 
@@ -989,7 +989,8 @@ app.get('/api/tutors/:subject/:date/:rate/:tutorGender?/:grade1?/:grade2?', auth
 
 // show available hours
 app.get('/api/availability/:tutorId', authJwt, (req, res) => {
-
+    if (req.tokenData.userType === 'P' || req.tokenData.userType === 'T') return res.status(401).send("You are Not allowed to do this action.")
+    
     const tutorId = req.params.tutorId;
     showAvailableHours(res, tutorId);
 });
