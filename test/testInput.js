@@ -1,26 +1,26 @@
 module.exports = {
-    hasWhiteSpace: function (s){
+    validateName: function(s) {
         var strength = 0;
         if (s.indexOf(' ') >= 0) {
             strength += 1;
         } else {
-            console.log("Must contain space!");
+            console.log(("Musr contain space!"));
         }
 
-        if (s.match('/[0-9]+/')) {
-            console.log("Name cant contain numbers!");
+        if (s.match(/[0-9]+/)) {
+            console.log(("Name cant contain numbers!"));
         } else {
             strength += 1;
         }
 
-        if (strength === 2) {
-            return true;
+        if (strength == 2) {
+            return true
         } else {
-            return false;
+            return false
         }
     },
 
-    passwordcheck: function (password) {
+    validatePswd: function(password) {
         var strength = 0;
         if (password.match(/[a-z]+/)) {
             strength += 1;
@@ -60,7 +60,7 @@ module.exports = {
         }
     },
 
-    username: function(username) {
+    validateUsername: function(username) {
         var strength = 0;
         if (username.length >= 6) {
             strength += 1;
@@ -84,7 +84,7 @@ module.exports = {
         }
     },
 
-    phonenum: function(phone) {
+    validatePhone: function(phone) {
         var strength = 0;
         if (phone.length > 10) {
             console.log(("Phone too long!"));
@@ -107,7 +107,7 @@ module.exports = {
 
     },
 
-    isValidIsraeliID: function(id) {
+    validateId: function(id) {
         var id = String(id).trim();
         if (id.length > 9 || id.length < 5 || isNaN(id)) return false;
 
@@ -122,13 +122,6 @@ module.exports = {
             }) % 10 === 0;
     },
 
-    // Usage
-    /*
-    ["339677395"].map(function(e) {
-        console.log(e + " is " + (isValidIsraeliID(e) ? "a valid" : "an invalid") + " Israeli ID");
-    });
-    */
-
     validateEmail: function(emailAdress) {
         let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (emailAdress.match(regexEmail)) {
@@ -138,12 +131,28 @@ module.exports = {
         }
     },
 
-    validateEmail: function(emailAdress) {
-        let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (emailAdress.match(regexEmail)) {
-            return true;
+    validateClassnum: function(classnum) {
+        if (classnum >= 1 && classnum <= 12) {
+            return true
         } else {
-            return false;
+            return false
+        }
+    },
+
+
+    validateGender: function(gender) {
+        if (gender == "F" || gender == "M") {
+            return true
+        } else {
+            return false
+        }
+    },
+
+    validateStudentCode: function(code) {
+        if (code.length == 6) {
+            return true
+        } else {
+            return false
         }
     }
 }
