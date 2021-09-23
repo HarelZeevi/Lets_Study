@@ -6,6 +6,7 @@
     height: 350px;
     background-size: cover;
     position: absolute;
+    top: 90px;
 }
 .homepage_header_textfield {
     position: absolute;
@@ -104,10 +105,10 @@
     position: absolute;
     left: 175px;
     top: 220px;
-    border: 2px solid #000;
+    border: 2px solid rgb(5, 124, 25);
     border-radius: 20px;
-    box-shadow: 0px 0px 10px rgb(0,0,0,0.7);
-    background-color: rgb(90, 238, 114);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
+    background-color: rgb(126, 240, 145);
     transition: 0.3s all;
 }
 .home_midbanner_ctalink {
@@ -120,6 +121,7 @@
 }
 .home_midbanner_cta:hover {
     background-color: rgb(53, 204, 78);
+    border: solid 2px rgb(53, 204, 78);
 }
 .home_reviewsection {
     width: 100%;

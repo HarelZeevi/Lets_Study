@@ -2,38 +2,15 @@ import '../Styles/NavLogin.css';
 import '../Styles/Navbar.css';
 import { Link } from 'react-router-dom';
 import { FaAngleDown, FaRegEnvelope } from 'react-icons/fa';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { FiLogOut, FiSettings, FiHelpCircle, FiX } from 'react-icons/fi';
-import Navbar from './Navbar';
-
-function navGetDetails(callback){
-    var xhr = new XMLHttpRequest();
-    const url = "http://localhost:1234/api/students/isSignedIn"; 
-    
-    xhr.open('POST', url, true);
-    let token = localStorage.getItem("token");
-    xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader("authorization", token);
-    xhr.onreadystatechange = function() { // Call a function when the state changes.
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            callback(xhr.responseText);
-            //alert(xhr.responseText)
-        }
-    }
-    xhr.send(null);
-
-}
-
-function logOut(callback){
-    localStorage.removeItem("token"); 
-}
 
 function NavLogin() {
     const profile_username = useRef();
     const profile_arrow = useRef();
     const profile_popup = useRef();
     let popup_revealed = false;
-
+    const ps_wrapper = useRef();
     // i = icon, t = title
     const popup_i1 = useRef(); 
     const popup_t1 = useRef(); 
@@ -43,29 +20,6 @@ function NavLogin() {
     const popup_t3 = useRef();
     const popup_i4 = useRef();
     const popup_t4 = useRef();
-    const [userPicture, setUserPicture] = useState();
-    const [userName, setUserName] = useState();
-    navbarSubmit();
-    
-    // IDO here you add the integration details. Here we call the function and know weather the user is loggedIn or not.
-    function navbarSubmit()
-    {
-        navGetDetails((res) => {
-            if (res === "unauthorized")
-                {
-                    alert("User is not authorized!");
-                    return (
-                        <Navbar></Navbar>
-                    )
-                }
-            else    
-                {
-                    const result = JSON.parse(res); // username and image json obj  
-                    setUserPicture(result.profile_img); // ENTER THE PICTURE'S SRC ATTRIBUTE INSIDE THE BRACKETS
-                    setUserName(result.username); // ENTER THE USER'S USERNAME INSIDE THE BRACKETS
-                }
-        })
-    }
 
     function profile_hover() {
         profile_username.current.style.color = 'rgb(66, 168, 66)';
@@ -78,10 +32,12 @@ function NavLogin() {
     function profile_popup_reveal() {
         if(popup_revealed) {
             profile_popup.current.style.display = 'none';
+            ps_wrapper.current.style.display = 'none';
             popup_revealed = false;
         }
         else {
             profile_popup.current.style.display = 'block';
+            ps_wrapper.current.style.display = 'block';
             popup_revealed = true;
         }
     }
@@ -117,14 +73,22 @@ function NavLogin() {
         popup_i4.current.style.color = '#000';
         popup_t4.current.style.color = '#000';
     }
-    
+
+    const showPS = () => {
+        document.getElementById('ProfileSettings_Wrapper').style.display= 'block';
+        document.getElementById('ProfileSettings_DivBox').style.display = 'block';
+        profile_popup.current.style.display = 'none';
+        ps_wrapper.current.style.display = 'none';
+        popup_revealed = false;
+    }
     return (
         <div className="navbar">
             <ul className='nav_profile' onMouseOver={profile_hover} onMouseOut={profile_outhover}>
-                <li><img src={userPicture} onClick={profile_popup_reveal} className='nav_pfp'></img></li>
-                <li ref={profile_username} className='nav_profile_username_li' onClick={profile_popup_reveal}><span className='nav_username'>{userName}</span></li>
+                <li><img src="https://images.squarespace-cdn.com/content/v1/559b2478e4b05d22b1e75b2d/1545073697675-3728MXUJFYMLYOT2SKAA/Nesbit.jpg" onClick={profile_popup_reveal} className='nav_pfp'></img></li>
+                <li ref={profile_username} className='nav_profile_username_li' onClick={profile_popup_reveal}><span className='nonselective nav_username'>Idoabr</span></li>
                 <li ref={profile_arrow} className='nav_profile_arrow_li' onClick={profile_popup_reveal}><FaAngleDown className='nav_profile_arrow'></FaAngleDown></li>
             </ul>
+            <div ref={ps_wrapper} className='nav_profile_popup_wrapper' onClick={profile_popup_reveal}></div>
             <div ref={profile_popup} className='nav_profile_popup'>
                 <FiX onClick={profile_popup_reveal} className='profile_popup_close'></FiX>
                 <table className='profile_popup_menu'>
@@ -137,8 +101,8 @@ function NavLogin() {
                         <td ref={popup_i1} onMouseOver={popup_highlight_1} onMouseOut={popup_unhighlight_1}><FiHelpCircle className='profile_popup_icons'></FiHelpCircle></td>
                     </tr>
                     <tr>
-                        <td ref={popup_t2} onMouseOver={popup_highlight_2} onMouseOut={popup_unhighlight_2} className='profile_popup_titles'>הגדרות</td>
-                        <td ref={popup_i2} onMouseOver={popup_highlight_2} onMouseOut={popup_unhighlight_2}><FiSettings className='profile_popup_icons'></FiSettings></td>
+                        <td ref={popup_t2} onMouseOver={popup_highlight_2} onMouseOut={popup_unhighlight_2} className='profile_popup_titles' onClick={showPS} >הגדרות</td>
+                        <td ref={popup_i2} onMouseOver={popup_highlight_2} onMouseOut={popup_unhighlight_2} onClick={showPS}><FiSettings className='profile_popup_icons'></FiSettings></td>
                     </tr>
                     <tr>
                         <td ref={popup_t3} onMouseOver={popup_highlight_3} onMouseOut={popup_unhighlight_3} className='profile_popup_titles'>צור קשר</td>

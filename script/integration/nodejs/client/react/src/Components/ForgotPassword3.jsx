@@ -8,10 +8,9 @@ function forgotPswd3(params, callback){
     const url = 'http://localhost:1234/api/changePassword/'; 
     
       
-    xhr.open("POST", url, true);
+    xhr.open("POST", url);
     let token = localStorage.getItem("token");
-    xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader("authorization", token);
+    
     xhr.onreadystatechange = function() { // Call a function when the state changes.
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             callback(xhr.responseText)
@@ -24,7 +23,8 @@ function forgotPswd3(params, callback){
     for(name in params) {
     urlEncodedDataPairs.push(encodeURIComponent(name)+'='+encodeURIComponent(params[name]));
     }
-    alert(urlEncodedDataPairs.join("&"));
+    xhr.setRequestHeader("authorization", token);
+    xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
     xhr.send(urlEncodedDataPairs.join("&"));
 }
 
@@ -57,7 +57,7 @@ export default function ForgotPass3() {
         };
         forgotPswd3(params, (res) => {
             alert(res);
-        });
+        })
     }
     const p1_display = () => {
         document.getElementById('PaswordEyes1_on').style.display = 'none';

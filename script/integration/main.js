@@ -4,7 +4,8 @@ require('dotenv').config()
 const jwt = require("jsonwebtoken")
 var fs = require('fs');
 const fileUpload = require("express-fileupload");
-//const Joi = require("joi");
+const 
+tests = require('../../test/testInput')
 const crypto = require("crypto");
 const cors = require('cors')
 const app = express();
@@ -20,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(cors());
 
-//hasWhiteSpace("hrllo sdasd")
+
 
 //connection to db
 const con = mysql.createConnection({
@@ -856,6 +857,49 @@ function changeProperty(res, propNum, val, id)
 
 }
 
+function testData(value, inputType)
+{
+    switch(inputType)
+    {
+        case 1: // name
+        {    
+            if(!(tests.hasWhiteSpace(value)))
+                return 1;
+        }
+        case 2: // pswd
+        {    
+            if(!(tests.passwordcheck(value)))
+                return 2;
+            break;
+        }
+        case 3: // username
+        {    
+            if(!(tests.username(value)))
+                return 3;
+            break;
+        }
+        case 4: //phone
+        {    
+            if(!(tests.phonenum(value)))
+                return 4;
+            break;
+        }
+        case 5: // id
+        {    
+            if(!(tests.isValidIsraeliID(value)))
+                return 5;
+            break;
+        }
+        case 6: // email
+        {    
+            if(!(tests.validateEmail(value)))
+                return 6;
+            break;
+        }
+    }
+    return 0;
+}
+
 /* API routes*/
 
 /* app possible methods:
@@ -876,6 +920,13 @@ app.get('/', (req, res) => {
 app.post('/api/students/isSignedIn', authJwt, (req, res) => {
     const username = undefined || req.tokenData.username;
     const profile_img = undefined || req.tokenData.profile_img;
+    if(testData(username, 3) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid Username!");
+        return;
+    } 
+
     const navbarData = {
         username: username,
         profile_img: profile_img
@@ -905,6 +956,14 @@ app.post('/api/students', authJwt, (req, res) => {
     const classnum = req.body.classnum; // admin enters info
     const pupilGender = req.body.pupilGender || undefined; // admin enters info
     
+    console.log("res" + testData(id, 5));
+    if(testData(id, 5) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid input!");
+        return;
+    } 
+    
     addStudent(res, id, school, grade, classnum, pupilGender);
 });
 
@@ -912,6 +971,13 @@ app.post('/api/students', authJwt, (req, res) => {
 app.get('/api/students/registerAuth/:id/:studentCode', (req, res) => {
     const id = req.params.id;
     const studentCode = req.params.studentCode;
+
+    if(testData(id, 5) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid Username!");
+        return;
+    } 
 
     registerAuth(res, id, studentCode);
 });
@@ -938,6 +1004,18 @@ app.post('/api/students/register', (req, res) => {
     const phone = req.body.phone;
     const email = req.body.email;
     const pswd = req.body.pswd;
+
+    if(testData(username, 3) !== 0 ||
+       testData(fullname, 1) !== 0 || 
+       testData(id, 5) !== 0 ||
+       testData(phone, 4) !== 0 ||
+       testData(email, 6) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid Username!");
+        return;
+    } 
+
     register (res, id, studentCode, fullname, username, gender, phone, email, pswd);
 });
 
@@ -946,6 +1024,14 @@ app.post('/api/students/signIn', (req, res) => {
     const id = req.body.id;
     const username = req.body.username;
     const password = req.body.password;
+    if(testData(username, 3) !== 0 ||
+       testData(password, 2) !== 0 || 
+       testData(id, 5) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid Username!");
+        return;
+    } 
     signIn(res, id, username, password);
 });
 

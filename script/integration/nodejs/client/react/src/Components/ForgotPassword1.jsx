@@ -1,5 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
+import { Link} from 'react-router-dom';
+
 import { IoMdMail } from 'react-icons/io';
+
 import '../Styles/forgotPass1.css';
 
 function forgotPswd1(params, callback){
@@ -72,7 +75,7 @@ function ForgotPassword1() {
                     placeholder="כתובת מייל...">
                     </input>
                     <IoMdMail className="mail_icon_fp1"></IoMdMail><span className="fp1_alert" dir="rtl">* ישלח אליך קוד במייל לשחזור סיסמה.</span>
-                    <button disabled className="fp1_submitbtn" ref={submitFormButton}> שלח לי מייל</button>
+                    <Link to="/forgot-password-verify"> <button disabled className="fp1_submitbtn" ref={submitFormButton}> שלח לי מייל</button></Link>
                     </form>
                 </div>
             </div>

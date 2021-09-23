@@ -1,16 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../Styles/login.css';
 import { FaUserCircle } from 'react-icons/fa';
 import { IoMdLock } from 'react-icons/io';
 
 
-function signIn(params, callback){
+async function signIn(params, callback){
     var xhr = new XMLHttpRequest();
-    const url = "http://localhost:1234/api/students/signIn"; 
+    const url = 'http://localhost:1234/api/students/signIn'; 
     
     xhr.open('POST', url, true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() { // Call a function when the state changes.
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             callback(xhr.responseText)
@@ -47,7 +47,7 @@ export default function Login() {
            id: login_userid_handler.current.value,
            password: login_password_handler.current.value
        };
-       alert(params)
+
        signIn(params, (res) => {
             if (res === "1")
             {

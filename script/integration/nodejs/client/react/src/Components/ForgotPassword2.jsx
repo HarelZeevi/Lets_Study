@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { IoMdLock } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import '../Styles/forgotPass2.css'; 
@@ -86,7 +86,7 @@ export default function ForgotPassword2() {
                         
                           </input>
                         <span className="fp_2alert">  * הקוד נשלח לכתובת המייל שלך <Link to="" className="SendAgain">שלח שוב</Link></span>                 
-                        <button disabled className="fp2_submitbtn" ref={submitFormButton}>אישור קוד</button>
+                      <Link to="/forgot-password-new-password"> <button disabled className="fp2_submitbtn" ref={submitFormButton}>אישור קוד</button></Link> 
                         </form>
                     </div>
                 </div>

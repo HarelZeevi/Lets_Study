@@ -110,7 +110,7 @@ function SignupAuth()
                 <input ref={form_signupCode} onChange={formIdValidation} id="signupCode" className="signup_inputs" type="text" autocomplete="off" name="username" required placeholder="קוד הרשמה"></input>
                 <span className="auth_alert">כבר יש לך חשבון? <Link to="/login" className="auth_alert_span">להתחברות</Link></span>     
                 <span ref={formErrorSpan} className="form_redError"></span>
-                <button disabled ref={formSubmitBtn} className="signup_submit" type="submit"><p>הירשם</p></button>
+               <Link to="/sign-up"> <button disabled ref={formSubmitBtn} className="signup_submit" type="submit"><p>הירשם</p></button></Link>
             </form>
         </div>
     )
