@@ -30,4 +30,4 @@ If you use someone's code that has already been written just add it here.
 That way everyone will be able to run the code you have written without having any issues.
 
 
-Editor: Harel Zeevi
+Author: Harel Zeevi
