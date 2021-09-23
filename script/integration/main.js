@@ -1024,9 +1024,8 @@ app.post('/api/students/signIn', (req, res) => {
     const id = req.body.id;
     const username = req.body.username;
     const password = req.body.password;
-    if(testData(username, 3) !== 0 ||
-       testData(password, 2) !== 0 || 
-       testData(id, 5) !== 0)
+    if(false && (testData(password, 2) !== 0 || 
+       testData(id, 5) !== 0))
     {
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
         res.end("Invalid Username!");

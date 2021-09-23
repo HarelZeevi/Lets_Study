@@ -4,9 +4,62 @@ import { FcCheckmark } from 'react-icons/fc';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import { useRef } from 'react';
 // The request function
+function changeProperty(propNum, params, callback)
+{
+    let reqURL;
+    switch(propNum)
+    {
+        case 1:  // change username 
+            reqURL = 'http://localhost:1234/api/students/changeUsername';
+            break;
+        case 2: // change Email
+            reqURL = 'http://localhost:1234/api/students/changeEmail';
+            break;
+        case 3: // change phone number
+            reqURL = 'http://localhost:1234/api/students/changePhone';
+            break;
+        case 4: // change tutor's bio information
+            reqURL = 'http://localhost:1234/api/students/changeBio';
+    }
 
+    // here are the function to call when submit the changed property IDO
+    const sbmtChangeUsername   = () => {
+        const newUsername =  "Ori23"; // Ido here you put the input form the user
+        changeProperty(1, {newUsername :newUsername})
+    }  
+    const sbmtChangEmail = () => {
+        const newEmail = "sdfjsndf@gmail.com"; // Ido here you put the input form the user
+        changeProperty(2, {newUsername :newEmail})
+    }
+    const sbmtChangePhone = () => {
+        const newPhone = "0562856382"; // Ido here you put the input form the user
+        changeProperty(3, {newUsername :newPhone})
+    }
+    const sbmtChangeBio = () => {
+        const newBio = "Hi this is my new Bio"; // Ido here you put the input form the user
+        changeProperty(4, {newUsername :newBio})
+    }
+    const sbmtChangeImg = () => {
+        const newImg = "image"; // Ido here you put the input form the user
+    }  
 
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', reqURL, true);
+    xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            callback(xhr.responseText)
+        }
+    }
 
+    // CONVERTING OBJECT PARAMS TO ENCODED STRING
+    let urlEncodedData = "", urlEncodedDataPairs = [], name;
+    for( name in params ) {
+    urlEncodedDataPairs.push(encodeURIComponent(name)+'='+encodeURIComponent(params[name]));
+    }
+    alert(urlEncodedDataPairs.join("&"));
+    xhr.send(urlEncodedDataPairs.join("&"));
+}
 
 function ProfileSettings() {
     const form_image_input = useRef();

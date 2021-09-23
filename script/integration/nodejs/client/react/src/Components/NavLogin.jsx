@@ -4,6 +4,28 @@ import { Link } from 'react-router-dom';
 import { FaAngleDown, FaRegEnvelope } from 'react-icons/fa';
 import { useRef } from 'react';
 import { FiLogOut, FiSettings, FiHelpCircle, FiX } from 'react-icons/fi';
+import Navbar from './Navbar.jsx';
+import { useState } from 'react';
+
+function navGetDetails(callback){
+    var xhr = new XMLHttpRequest();
+    const url = "http://localhost:1234/api/students/isSignedIn"; 
+    
+    xhr.open('POST', url, true);
+    let token = localStorage.getItem("token");
+    xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader("authorization", token);
+    xhr.onreadystatechange = function() { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            callback(xhr)
+        }
+    }
+    xhr.send(null);
+
+}
+
+//const [userPicture, setUserPicture] = useState();
+//const [userName, setUserName] = useState();
 
 function NavLogin() {
     const profile_username = useRef();
@@ -21,6 +43,25 @@ function NavLogin() {
     const popup_i4 = useRef();
     const popup_t4 = useRef();
 
+    // IDO here you add the integration details. Here we call the function and know weather the user is loggedIn or not.
+    function navbarSubmit()
+    {
+        navGetDetails((res) => {
+            if (res.status === 403)
+                {
+                    return (
+                        <Navbar/>
+                    )
+                }
+            else    
+                {
+                    let resObj = JSON.parse(res.responseText);
+                    alert("Username: " + resObj.username) // username and image json obj  
+                   // setUserPicture(); // ENTER THE PICTURE'S SRC ATTRIBUTE INSIDE THE BRACKETS
+                   //setUserName(); // ENTER THE USER'S USERNAME INSIDE THE BRACKETS
+                }
+        })
+    }
     function profile_hover() {
         profile_username.current.style.color = 'rgb(66, 168, 66)';
         profile_arrow.current.style.color = 'rgb(66, 168, 66)';
@@ -81,6 +122,7 @@ function NavLogin() {
         ps_wrapper.current.style.display = 'none';
         popup_revealed = false;
     }
+    navbarSubmit();
     return (
         <div className="navbar">
             <ul className='nav_profile' onMouseOver={profile_hover} onMouseOut={profile_outhover}>
