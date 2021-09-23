@@ -76,8 +76,8 @@ module.exports = {
             strength -= 1;
         }
 
-
-        if (strength == 2) {
+        console.log(strength);
+        if (strength === 2) {
             return true
         } else {
             return false

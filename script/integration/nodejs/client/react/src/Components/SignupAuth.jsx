@@ -25,6 +25,7 @@ function SignupAuth()
     const IdError = "תעודת הזהות שהכנסת לא תקינה.";
     const CodeError = "קוד ההרשמה שהכנסת לא תקין.";
     const formSubmit = () => {
+        alert(5);
         const id = form_id.current.value;
         const studentCode = form_signupCode.current.value;
         registerAuth(id, studentCode, (resp => {

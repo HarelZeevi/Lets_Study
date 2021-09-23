@@ -920,12 +920,6 @@ app.get('/', (req, res) => {
 app.post('/api/students/isSignedIn', authJwt, (req, res) => {
     const username = undefined || req.tokenData.username;
     const profile_img = undefined || req.tokenData.profile_img;
-    if(testData(username, 3) !== 0)
-    {
-        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
-        res.end("Invalid Username!");
-        return;
-    } 
 
     const navbarData = {
         username: username,
@@ -975,7 +969,7 @@ app.get('/api/students/registerAuth/:id/:studentCode', (req, res) => {
     if(testData(id, 5) !== 0)
     {
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
-        res.end("Invalid Username!");
+        res.end("Invalid id!");
         return;
     } 
 
@@ -1005,16 +999,16 @@ app.post('/api/students/register', (req, res) => {
     const email = req.body.email;
     const pswd = req.body.pswd;
 
-    if(testData(username, 3) !== 0 ||
+    /*if(testData(username, 3) !== 0 ||
        testData(fullname, 1) !== 0 || 
        testData(id, 5) !== 0 ||
        testData(phone, 4) !== 0 ||
        testData(email, 6) !== 0)
     {
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
-        res.end("Invalid Username!");
+        res.end("Invalid input!");
         return;
-    } 
+    } */
 
     register (res, id, studentCode, fullname, username, gender, phone, email, pswd);
 });

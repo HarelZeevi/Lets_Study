@@ -41,6 +41,7 @@ function ForgotPassword1() {
         const params = {
             email: inputVal.current.value
         };
+        alert(5);
         forgotPswd1(params, (res) => alert(res));
     }
 

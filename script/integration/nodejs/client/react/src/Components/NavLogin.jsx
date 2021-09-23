@@ -47,7 +47,8 @@ function NavLogin() {
     function navbarSubmit()
     {
         navGetDetails((res) => {
-            if (res.status === 403)
+            alert(res.responseText);
+            if (res.status === 403 || res.responseText === "unauthorized")
                 {
                     return (
                         <Navbar/>
