@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import { Link} from 'react-router-dom';
-
 import { IoMdMail } from 'react-icons/io';
-
+import { useHistory } from "react-router-dom";
 import '../Styles/forgotPass1.css';
 
 function forgotPswd1(params, callback){
@@ -35,14 +34,15 @@ function ForgotPassword1() {
     Error #2 - ID doesn’t exist in the DB
             Do: small alert- תעודת הזהות שהכנסת לא תקינה.
 
-    */
-
+            */
+   let forgotpassword1_history = useHistory();
     const forgotPswdSubmit1 = () => {
+        console.log(5);
         const params = {
             email: inputVal.current.value
         };
-        alert(5);
         forgotPswd1(params, (res) => alert(res));
+        forgotpassword1_history.push('/forgot-password-verify');
     }
 
     const submitFormButton = useRef();
@@ -63,11 +63,12 @@ function ForgotPassword1() {
             submitFormButton.current.style.cursor = "not-allowed";
         }
     }
+
     return (
         <div>
             <div className="fp1_container">
                     <span className="title">שחזור סיסמה</span>
-                    <form className="SendCodeVerification"  onSubmit={forgotPswdSubmit1} ref={form_id} dir="rtl">
+                    <form className="SendCodeVerification" onSubmit={forgotPswdSubmit1} ref={form_id} dir="rtl">
                     <input id="EmailField"
                      ref={inputVal}
                     onChange={formMailValidation}
@@ -76,7 +77,7 @@ function ForgotPassword1() {
                     placeholder="כתובת מייל...">
                     </input>
                     <IoMdMail className="mail_icon_fp1"></IoMdMail><span className="fp1_alert" dir="rtl">* ישלח אליך קוד במייל לשחזור סיסמה.</span>
-                    <Link to="/forgot-password-verify"> <button disabled className="fp1_submitbtn" ref={submitFormButton}> שלח לי מייל</button></Link>
+                    <button disabled className="fp1_submitbtn" ref={submitFormButton}> שלח לי מייל</button>
                     </form>
                 </div>
             </div>

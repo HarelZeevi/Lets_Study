@@ -17,7 +17,6 @@ export function App() {
   return (
     <div className="app">
     <NavLogin />
-    <ProfileSettings />
     <Switch>
     <Route component={Login} path="/login" />
     <Route component={SignupAuth} path="/sign-up-authentication" />

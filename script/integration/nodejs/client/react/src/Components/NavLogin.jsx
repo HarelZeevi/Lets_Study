@@ -2,10 +2,10 @@ import '../Styles/NavLogin.css';
 import '../Styles/Navbar.css';
 import { Link } from 'react-router-dom';
 import { FaAngleDown, FaRegEnvelope } from 'react-icons/fa';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { FiLogOut, FiSettings, FiHelpCircle, FiX } from 'react-icons/fi';
 import Navbar from './Navbar.jsx';
-import { useState } from 'react';
+import ProfileSettings from './ProfileSettings.jsx';
 
 function navGetDetails(callback){
     var xhr = new XMLHttpRequest();
@@ -159,9 +159,10 @@ function NavLogin() {
             </div>
             <ul className="nav_list">
                 <li><Link to="/login" className="nav_list_pc">השיעורים שלי</Link></li>
-                <li><Link to="/sign-up-authentication" className="nav_list_pc">עזרה</Link></li>
+                <li className='navlogin_secondfield'><Link to="/sign-up-authentication" className="nav_list_pc">עזרה</Link></li>
             </ul>
             <img width={200} height={75} className="nav_logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img>
+            <ProfileSettings placeholder_username='idoabr' placeholder_phone='0501234567' placeholder_email='user@gmail.com' user_image='https://images.squarespace-cdn.com/content/v1/559b2478e4b05d22b1e75b2d/1545073697675-3728MXUJFYMLYOT2SKAA/Nesbit.jpg'/>
         </div>
     )
 }

@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { IoMdLock } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import '../Styles/forgotPass2.css'; 
 
 function forgotPswd2(params, callback){
@@ -32,9 +33,10 @@ export default function ForgotPassword2() {
             Do: small alert - קוד האימות שהכנסת שגוי.
 
     */
-
+    let forgotpassword2_history = useHistory();
     const forgotPswdSubmit2 = () =>
     {
+        alert('hi');
         const params = {
             token: form_signupCode.current.value
         };
@@ -52,6 +54,7 @@ export default function ForgotPassword2() {
 
             }
         });
+        forgotpassword2_history.push('/forgot-password-new-password');
     }
     
     const form_signupCode = useRef();
@@ -86,7 +89,7 @@ export default function ForgotPassword2() {
                         
                           </input>
                         <span className="fp_2alert">  * הקוד נשלח לכתובת המייל שלך <Link to="" className="SendAgain">שלח שוב</Link></span>                 
-                      <Link to="/forgot-password-new-password"> <button disabled className="fp2_submitbtn" ref={submitFormButton}>אישור קוד</button></Link> 
+                        <button disabled className="fp2_submitbtn" ref={submitFormButton}>אישור קוד</button>
                         </form>
                     </div>
                 </div>

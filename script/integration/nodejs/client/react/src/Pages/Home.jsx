@@ -11,9 +11,9 @@ export default function Home() {
     return(
         <div className="homepage" dir="rtl">
             <div className="homepage_header">
-                <div className='homepage_header_textfield' dir='rtl'>
+                <div data-aos='zoom-in' className='homepage_header_textfield' dir='rtl'>
                     <h1 className='header_title'>נמאס לכם לשלם על שיעורים פרטיים?</h1>
-                    <h3>
+                    <h3 className='header_text'>
                         ב-LetsStudy תוכלו להירשם ולהיכנס לשיעורים
                         <br></br>
                         פרטיים בקלות ובמהירות, דרך בית הספר,
@@ -21,7 +21,7 @@ export default function Home() {
                         מכל מקום ולגמרי בחינם!
                     </h3>
                 </div>
-                <div className='homepage_header_1'>
+                <div className='homepage_header_1' >
                     <img className='homepage_header_illustrations' src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Eo_circle_green_white_checkmark.svg/2048px-Eo_circle_green_white_checkmark.svg.png'></img>
                     <h1>מצליחים</h1>
                     <hr className='header_box_hr'></hr>

@@ -3,6 +3,8 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import { IoMdLock } from 'react-icons/io';
+import { useHistory } from "react-router-dom";
+
 
 async function registerAuth(id, studentCode, callback){
     const url = 'http://localhost:1234/api/students/registerAuth/' + id + '/' + studentCode; 
@@ -24,6 +26,7 @@ function SignupAuth()
     const formSubmitBtn = useRef();
     const IdError = "תעודת הזהות שהכנסת לא תקינה.";
     const CodeError = "קוד ההרשמה שהכנסת לא תקין.";
+    let signupauth_history = useHistory();
     const formSubmit = () => {
         alert(5);
         const id = form_id.current.value;
@@ -36,6 +39,7 @@ function SignupAuth()
                 localStorage.setItem("studentCode",studentCode);
             }
         }));
+        signupauth_history.push('/sign-up');
     }
     const formIdValidation = (event) => { // CHANGE THE LENGTH OF THE SIGNUP CODE IF NEEDED!
         if(form_id.current.value.length === 9) 
@@ -111,7 +115,7 @@ function SignupAuth()
                 <input ref={form_signupCode} onChange={formIdValidation} id="signupCode" className="signup_inputs" type="text" autocomplete="off" name="username" required placeholder="קוד הרשמה"></input>
                 <span className="auth_alert">כבר יש לך חשבון? <Link to="/login" className="auth_alert_span">להתחברות</Link></span>     
                 <span ref={formErrorSpan} className="form_redError"></span>
-               <Link to="/sign-up"> <button disabled ref={formSubmitBtn} className="signup_submit" type="submit"><p>הירשם</p></button></Link>
+                <button disabled ref={formSubmitBtn} className="signup_submit" type="submit"><p>הירשם</p></button>
             </form>
         </div>
     )

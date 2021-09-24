@@ -84,6 +84,7 @@
     right: 600px;
     margin-top: 40px;
     text-align: right;
+    animation: midbanner_textdrop 0.7s;
 }
 .home_midbanner_textfield p {
     font-size: 20px;
@@ -152,4 +153,14 @@
 .reviews_text {
     font-weight: 400;
     font-size: 20px;
+}
+@keyframes midbanner_textdrop {
+    0% {
+        right: 300px;
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        right: 600px;
+    }
 }
