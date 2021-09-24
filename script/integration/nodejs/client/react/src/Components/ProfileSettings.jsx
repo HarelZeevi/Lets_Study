@@ -25,6 +25,8 @@ function changeProperty(propNum, params, callback)
     var xhr = new XMLHttpRequest();
     xhr.open('POST', reqURL, true);
     xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+    let token = localStorage.getItem("token");
+    xhr.setRequestHeader("authorization", token);
     xhr.onreadystatechange = function() { // Call a function when the state changes.
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             callback(xhr.responseText)
@@ -36,7 +38,7 @@ function changeProperty(propNum, params, callback)
     for( name in params ) {
     urlEncodedDataPairs.push(encodeURIComponent(name)+'='+encodeURIComponent(params[name]));
     }
-    alert(urlEncodedDataPairs.join("&"));
+    alert("Params: " + urlEncodedDataPairs.join("&"));
     xhr.send(urlEncodedDataPairs.join("&"));
 }
 
@@ -51,17 +53,17 @@ function ProfileSettings(props) {
 
     // here are the function to call when submit the changed property IDO
     const sbmtChangeUsername = newUsername => {
-        changeProperty(1, {newUsername :newUsername})
+        changeProperty(1, {newUsername :newUsername}, (res) => alert(res))
     }  
     const sbmtChangeEmail = newEmail => {
-        changeProperty(2, {newUsername :newEmail})
+        changeProperty(2, {newEmail :newEmail}, (res) => alert(res))
     }
     const sbmtChangePhone = newPhone => {
-        changeProperty(3, {newUsername :newPhone})
+        changeProperty(3, {newPhone :newPhone}, (res) => alert(res))
     }
     const sbmtChangeBio = () => {
         const newBio = "Hi this is my new Bio"; // Ido here you put the input form the user
-        changeProperty(4, {newUsername :newBio})
+        changeProperty(4, {newUsername :newBio}, (res) => alert(res))
     }
     const sbmtChangeImg = () => {
         const newImg = "image"; // Ido here you put the input form the user

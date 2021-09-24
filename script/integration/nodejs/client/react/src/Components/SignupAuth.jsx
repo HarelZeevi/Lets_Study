@@ -31,6 +31,8 @@ function SignupAuth()
         alert(5);
         const id = form_id.current.value;
         const studentCode = form_signupCode.current.value;
+        alert("id: " + id);
+        alert("stucode" + studentCode);
         registerAuth(id, studentCode, (resp => {
             alert(resp);
             if (resp === "User Exists!")

@@ -851,6 +851,7 @@ function changeProperty(res, propNum, val, id)
             sqlQuery = `UPDATE tutors SET bio = ${mysql.escape(val)} WHERE studentid = ${mysql.escape(id)};`;
     }
 
+    console.log(sqlQuery);
     con.query(sqlQuery, function(err, result){
         checkPostReq(result, err, res);
     }); 
@@ -863,30 +864,30 @@ function testData(value, inputType)
     {
         case 1: // name
         {    
-            if(!(tests.hasWhiteSpace(value)))
+            if(!(tests.validateName(value)))
                 return 1;
         }
         case 2: // pswd
         {    
-            if(!(tests.passwordcheck(value)))
+            if(!(tests.validatePswd(value)))
                 return 2;
             break;
         }
         case 3: // username
         {    
-            if(!(tests.username(value)))
+            if(!(tests.validateUsername(value)))
                 return 3;
             break;
         }
         case 4: //phone
         {    
-            if(!(tests.phonenum(value)))
+            if(!(tests.validatePhone(value)))
                 return 4;
             break;
         }
         case 5: // id
         {    
-            if(!(tests.isValidIsraeliID(value)))
+            if(!(tests.validateId(value)))
                 return 5;
             break;
         }
@@ -1259,9 +1260,9 @@ app.post('/api/students/changeUsername', authJwt, (req, res) => {
 
     const newUsername = req.body.newUsername;
     const id = req.tokenData.id;
-
+    console.log("params: " + req.body.params);
     changeProperty(res, 1, newUsername, id)
-})
+});
 
 // change Email
 app.post('/api/students/changeEmail', authJwt, (req, res) => {
@@ -1270,11 +1271,11 @@ app.post('/api/students/changeEmail', authJwt, (req, res) => {
         res.end("You are not allowed to do this action!");
     }
 
-    const newEmail = req.body.newEmail
+    const newEmail = req.body.newEmail;
     const id = req.tokenData.id;
     
     changeProperty(res, 2, newEmail, id);
-})
+});
 
 // change phone number
 app.post('/api/students/changePhone', authJwt, (req, res) => {
@@ -1287,7 +1288,7 @@ app.post('/api/students/changePhone', authJwt, (req, res) => {
     const id = req.tokenData.id;
     
     changeProperty(res, 3, newPhone, id);
-})
+});
 
 // change tutor's bio info
 app.post('/api/tutors/changeBio', authJwt, (req, res) => {
@@ -1300,7 +1301,7 @@ app.post('/api/tutors/changeBio', authJwt, (req, res) => {
     const id = req.tokenData.id;
     
     changeProperty(res, 4, newBio, id);
-})
+});
 
 // getting jitsi room name
 app.get('/api/lessonRoom/:lessonId', (req, res) => {
