@@ -42,6 +42,36 @@ function changeProperty(propNum, params, callback)
     xhr.send(urlEncodedDataPairs.join("&"));
 }
 
+function b64toBlob(dataURI) {
+    
+    var byteString = atob(dataURI.split(',')[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'image/jpeg' });
+}
+
+function uploadImage(image, callback)
+{
+    var data = new FormData();
+    alert(image);
+    data.append("profileImg", image);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://localhost:1234/api/students/uploadProfileImg/', true);
+    let token = localStorage.getItem("token");
+    xhr.setRequestHeader("Authorization", token);
+    xhr.onreadystatechange = function() { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            callback(xhr.responseText)
+        }
+    }
+    xhr.send(data);
+
+}
+
 function ProfileSettings(props) {
     const oldUsername = props.placeholder_username;
     const oldPhone = props.placeholder_phone;
@@ -66,7 +96,17 @@ function ProfileSettings(props) {
         changeProperty(4, {newUsername :newBio}, (res) => alert(res))
     }
     const sbmtChangeImg = () => {
-        const newImg = "image"; // Ido here you put the input form the user
+        let PS_oFReader = new FileReader();
+        PS_oFReader.readAsDataURL(form_image_input.current.files[0]);
+        PS_oFReader.onload = function (PS_oFReaderE) {
+            ps_userImg.current.src = PS_oFReaderE.target.result;
+            const newImg = PS_oFReaderE.target.result; // Ido here you put the input form the user
+            alert(newImg);
+            // Harel here you add the changeproperty function with the parameter newImg (newImg is the base64 of the received image)
+            uploadImage(newImg, (res) => {
+                alert(res); // response from the server
+            });
+        }
     }  
 
     const closePS = () => {
@@ -150,7 +190,7 @@ function ProfileSettings(props) {
                         <img ref={ps_userImg} className='ps_form_img' src={oldPfp}></img>
                         <label className='ps_form_input_img_label'>
                             <GoPencil className='ps_form_input_img_pencil'/>
-                            <input ref={form_image_input} className='ps_form_input_img' type='file'></input>
+                            <input ref={form_image_input} id='PS_form_image_input' onChange={sbmtChangeImg} className='ps_form_input_img' type='file'></input>
                         </label>
                         <div className='ps_img_un'>
                             {oldUsername}

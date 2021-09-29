@@ -67,6 +67,9 @@
     left: 100px;
     top: 30px;
 }
+.ps_form_img {
+    object-fit:unset;
+}
 .ps_form_input_img {
     display: none;
 }

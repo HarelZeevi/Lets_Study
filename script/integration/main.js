@@ -25,9 +25,9 @@ app.use(cors());
 
 //connection to db
 const con = mysql.createConnection({
-    host: "b1kz3wyilkzkgbcvthwe-mysql.services.clever-cloud.com",
-    user: "unvhli21w5pbia4r",
-    password:"nWuBECNMKAZ1SBTPYfk3",
+    host: "localhost",
+    user: "root",
+    password:"1234",
     database: "b1kz3wyilkzkgbcvthwe"
 });
 
@@ -783,44 +783,43 @@ async function moderator(img_path, callback)
 // image profile upload 
 function uploadProfileImage(res, studentId, profileImg)
 {
-    let uploadPath = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/profileImages/' + profileImg.name;
+    let uploadPath = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/profileImages/' + studentId;
 
-    // 'mv' function for uploading the file to the server
-    if (profileImg.mimetype === "image/jpeg" || profileImg.mimetype === "image/png")
+    if (profileImg.match("jpg"))
     {
-        profileImg.mv(uploadPath, function(err) {
-        if (err)
-        {
-            console.log(err);
-            res.send(err);
-        }
-        else
-            {
-                status = moderator(uploadPath, (status)=> {
-                    if (false && JSON.parse(status).Result === true)
-                    {
-                        console.log(status.Result);
-                        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
-                        res.end("Your profile image hasn't been uploaded because it was marked as inappropriate!");
-                    }
-                    else   
-                    {
-                        console.log(status)
-                        console.log("Image approved!");
-                        let sqlQuery = `UPDATE students SET profile_img = LOAD_FILE(${mysql.escape(uploadPath)}) WHERE id = ${mysql.escape(studentId)};`;
-                        con.query(sqlQuery, function(err, result){
-                            checkGetReq(result, err, res);
-                        });
-                    }
-                });
-            }
+        var base64Data = profileImg.replace("data:image/jpeg;base64,", "");
+        require("fs").writeFile(uploadPath + ".jpg", base64Data, 'base64', function(err) {
+            console.log("jpg")
+            uploadPath += ".jpg";
         });
     }
     else 
     {
         message = "This format is not allowed , please upload file with '.png' / '.jpg'";
-        res.send(message);
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end(message);
     }
+    console.log(base64Data);
+    
+
+    status = moderator(uploadPath, (status)=> {
+        if (false && JSON.parse(status).Result === true)
+        {
+            console.log(status.Result);
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+            res.end("Your profile image hasn't been uploaded because it was marked as inappropriate!");
+        }
+        else   
+        {
+            console.log(status)
+            console.log("Image approved!");
+            let sqlQuery = `UPDATE students SET profile_img = LOAD_FILE(${mysql.escape(uploadPath)}) WHERE id = ${mysql.escape(studentId)};`;
+            console.log(sqlQuery);
+            con.query(sqlQuery, function(err, result){
+                checkGetReq(result, err, res);
+            });
+        }
+    });
 }
 
 // function for getting jitsi room name by lesson id
@@ -1235,17 +1234,20 @@ app.get('/api/stats/:cityid/:subject', authJwt, (req, res) => {
 
 // upload profile image
 app.post('/api/students/uploadProfileImg/', authJwt, (req, res) => {
+    
     if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) {
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
         res.end("You are not allowed to do this action!");
     }
-    if (!req.files || Object.keys(req.files).length === 0) {
-        res.status(400).send('No files were uploaded.');
+    console.log(req.body);
+    if (!req.body || Object.keys(req.body).length === 0) {
+        console.log("no file");
+        res.status(200).send('No files were uploaded.');
     }
     else 
     {
         console.log("Starting file upload!");
-        let profileImg = req.files.profileImg;
+        let profileImg =req.body.profileImg;
         let studentId = req.tokenData.id;
         uploadProfileImage(res, studentId, profileImg);    
     }
