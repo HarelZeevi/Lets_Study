@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
-import { Link} from 'react-router-dom';
+import { Link, useHistory} from 'react-router-dom';
 import { IoMdMail } from 'react-icons/io';
-import { useHistory } from "react-router-dom";
 import '../Styles/forgotPass1.css';
 
 function forgotPswd1(params, callback){
@@ -63,11 +62,11 @@ function ForgotPassword1() {
             submitFormButton.current.style.cursor = "not-allowed";
         }
     }
-
+    document.title="איפוס סיסמה";
     return (
         <div>
-            <div className="fp1_container">
-                    <span className="title">שחזור סיסמה</span>
+            <div className="fp1_container cred_pages_topmargin">
+                    <span className="title">איפוס סיסמה</span>
                     <form className="SendCodeVerification" onSubmit={forgotPswdSubmit1} ref={form_id} dir="rtl">
                     <input id="EmailField"
                      ref={inputVal}

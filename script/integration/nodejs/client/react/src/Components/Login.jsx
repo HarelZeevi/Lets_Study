@@ -2,8 +2,7 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../Styles/login.css';
 import { FaUserCircle } from 'react-icons/fa';
-import { IoMdLock } from 'react-icons/io';
-
+import { IoMdLock, IoIosEye, IoIosEyeOff } from 'react-icons/io';
 
 function signIn(params, callback){
     var xhr = new XMLHttpRequest();
@@ -62,7 +61,7 @@ export default function Login() {
             });
    }
    const login_form_validation = () => {
-       if(login_userid_handler.current.value.length==9 && login_password_handler.current.value.length>=6) {
+       if(parseInt(login_userid_handler.current.value).toString().length==9 && login_password_handler.current.value.length>=6) {
             login_submit_btn.current.style.transition = "0.3s";
             login_submit_btn.current.style.opacity = "1";
             login_submit_btn.current.disabled= null;
@@ -75,16 +74,33 @@ export default function Login() {
             login_submit_btn.current.style.cursor = "not-allowed";
        }
    }
+   const login_eyeopen = useRef();
+   const login_eyeclose = useRef();
+   const login_eyedisplay = () => {
+        login_eyeopen.current.style.display = 'none';
+        login_eyeclose.current.style.display = 'block';
+        // login_pass_field.current.type = 'text';
+        login_password_handler.current.type = 'text';
+    }
+    const login_eyehide = () => {
+        login_eyeopen.current.style.display = 'block';
+        login_eyeclose.current.style.display = 'none';
+        // login_pass_field.current.type = 'password';
+        login_password_handler.current.type = 'password'
+    }
+    document.title="התחברות לאתר";
     return (
         <div>
-            <div className="LoginContainer" dir="rtl">
+            <div className="LoginContainer cred_pages_topmargin" dir="rtl">
                 <span className="title">התחברות</span>
                 <form onSubmit={signInForm}>
                     <FaUserCircle className="login_userid"></FaUserCircle>
-                    <input type="text" onChange={login_form_validation} ref={login_userid_handler} className="IdArea" placeholder="תעודת זהות"></input>
+                    <input type="text" onChange={login_form_validation} ref={login_userid_handler} className="login_inputs IdArea" placeholder="תעודת זהות"></input>
                     <IoMdLock className="login_lock"></IoMdLock>
-                    <input type="password" onChange={login_form_validation} ref={login_password_handler} className="PasswordArea" placeholder="סיסמה"></input>
-                    <Link to="/forgot-password-email" className="alertMessage">שכחתי סיסמה</Link>
+                    <input type="password" onChange={login_form_validation} ref={login_password_handler} className="login_inputs PasswordArea" placeholder="סיסמה"></input>
+                    <button className='login_eyes_btns' type='button' ref={login_eyeopen}><IoIosEye className='login_eyes' onClick={login_eyedisplay}/></button>
+                    <button className='login_eyes_btns' id='login_eye_closed' type='button' ref={login_eyeclose}><IoIosEyeOff className='login_eyes' onClick={login_eyehide}/></button>
+                    <span className='fp_label'>שכחתם סיסמה?<Link to="/forgot-password-email" className="fp_deeplink">לחצו כאן</Link></span>
                     <button className="login_submitbtn" ref={login_submit_btn} disabled>התחבר</button>
                 </form> 
             </div>

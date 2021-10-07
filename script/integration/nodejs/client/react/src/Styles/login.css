@@ -12,19 +12,22 @@ body {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   }
-.alertMessage{
-    position: absolute;
-    height: 30px;
-    width: 50%;
-    top: 62%;
-    left: 50%;
+.fp_deeplink{
     text-decoration: none;
     color: blue;
+    position: relative;
+    right: 5px;
+}
+.fp_label {
+    position: absolute;
+    top: 62%;
+    right: 17%;
+    font-size: 15px;
 }
 input {
     outline: none;
 }
-.alertMessage:hover {
+.fp_deeplink:hover {
     text-decoration: underline;
 }
 .title{
@@ -56,7 +59,7 @@ input {
     top: 35%;
     left: 17%;
     border: 1.5px solid #000;
-    box-shadow: 0 0 10px #000;
+    box-shadow: 0 0 8px #000;
 }
 .login_lock, .login_userid {
     position: absolute;
@@ -114,4 +117,23 @@ input {
 .login_submitbtn:hover:after {
     height: 100%;
     width: 135%;
+}
+.login_eyes_btns {
+    font-size: 32.5px;
+    position: absolute;
+    top: 205px;
+    left: 105px;
+    z-index: 2;
+    /* display: block; */
+    background-color: transparent;
+    border: none;
+}
+#login_eye_closed {
+    display: none;
+}
+.login_inputs {
+    font-size: 18px;
+}
+.login_inputs::placeholder {
+    font-size: 18px;
 }

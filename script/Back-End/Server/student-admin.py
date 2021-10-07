@@ -4,6 +4,7 @@ from tkinter.filedialog import askdirectory, askopenfilename
 
 import openpyxl as xlsx
 import requests as requests
+from openpyxl.worksheet.worksheet import Worksheet
 
 ascii_txt = '''
 
@@ -40,9 +41,8 @@ def add_student(DATA, JWT):
 
 def change_xlsx(path, JWT):
     wrbk = xlsx.load_workbook(path)
-    sh = wrbk.active
+    sh: Worksheet = wrbk.active
     students = []
-
     # iterate through excel and display data
     for i in range(2, sh.max_row + 1):
         student = {}
@@ -54,10 +54,18 @@ def change_xlsx(path, JWT):
         student["grade"] = grade.value
         # classnum
         classnum = sh.cell(row=i, column=3)
+
         student["classnum"] = classnum.value
-        print(student)
         students.append(student)
-        add_student(student, JWT)
+        result = json.loads(json.loads(add_student(student, JWT).content))
+        try:
+            studentCode = result["studentCode"]
+            print("value: ", sh.cell(row=i, column=4).value)
+            sh.cell(row=i, column=4).value = studentCode
+        except:
+            print("value: ", sh.cell(row=i, column=4).value)
+            sh.cell(row=i, column=4).value = "User already exist"
+    wrbk.save(path)
     print(students)
     return students
 

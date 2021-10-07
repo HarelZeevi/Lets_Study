@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { IoMdLock } from 'react-icons/io';
-import { Link } from 'react-router-dom';
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from 'react-router-dom';
 import '../Styles/forgotPass2.css'; 
 
 function forgotPswd2(params, callback){
@@ -74,11 +73,11 @@ export default function ForgotPassword2() {
             submitFormButton.current.style.cursor = "not-allowed"; 
         }
     }
-    
+    document.title="איפוס סיסמה";
     return (
                 <div>
-                <div className="fp2_container" dir="rtl">
-                        <span className="title">שחזור סיסמה</span>
+                <div className="fp2_container cred_pages_topmargin" dir="rtl">
+                        <span className="title">איפוס סיסמה</span>
                         <IoMdLock id="fp2lock"></IoMdLock>
                         <form className="SendMailForm" onSubmit={forgotPswdSubmit2}>
                         <input className="verificationCode"

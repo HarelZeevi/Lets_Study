@@ -10,4 +10,9 @@ img, br, button, input, .nonselective {
           -ms-user-select: none; /* Internet Explorer/Edge */
               user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
+              -webkit-user-drag: none;
+
+}
+.cred_pages_topmargin {
+  top: 175px;
 }

@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { IoIosEye } from 'react-icons/io';
-import { IoIosEyeOff } from 'react-icons/io';
+import { IoIosEye, IoIosEyeOff } from 'react-icons/io';
 import '../Styles/forgotPass3.css';
 
 function forgotPswd3(params, callback){
@@ -80,12 +79,12 @@ export default function ForgotPass3() {
         document.getElementById('PaswordEyes2_off').style.display = 'none';
         firstField.current.type = 'password';
     }
+    document.title="איפוס סיסמה";
     return (
-
         <div>
-            <div className="fp3_container"
+            <div className="fp3_container cred_pages_topmargin"
                 dir="rtl" >
-                <span className="title" > שחזור סיסמה </span>
+                <span className="title" >איפוס סיסמה</span>
                     <form className="ResetPasswordForm" onSubmit={fp3Submit}>
                         <input className="ResetPassword"
                             onChange={passwordsEqual}

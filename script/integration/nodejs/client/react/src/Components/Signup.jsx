@@ -1,10 +1,5 @@
 import '../Styles/Signup.css';
-import { IoIosEye } from 'react-icons/io';
-import { IoIosEyeOff } from 'react-icons/io';
-import { IoIosLock } from 'react-icons/io';
-import { IoMdMail } from 'react-icons/io';
-import { IoMdCall } from 'react-icons/io';
-import { IoMdPerson } from 'react-icons/io';
+import { IoIosEye, IoIosEyeOff, IoIosLock, IoMdMail, IoMdCall, IoMdPerson } from 'react-icons/io';
 import { useRef } from 'react';
 
 
@@ -136,8 +131,9 @@ function Signup() { //  fullname, username, gender, phone, email, pswd
         document.getElementById('PasswordEyes2_off').style.display = 'none';
         ps2.current.type = 'password';
     }
+    document.title="יצירת חשבון";
     return (
-        <div className="signup_box">
+        <div className="signup_box cred_pages_topmargin">
             <form className="signup_form" dir="rtl" onSubmit={registerForm}>
                 <IoMdPerson className="form_input_logos" id="MdPersonTop"></IoMdPerson><input onChange={form_validation} ref={submit_fullname} required className="signup_form_inputs" id="signup_form_topinput" title="יש להכניס שם מלא בעברית" type="text" placeholder="שם מלא" pattern="[א-ת]{2,12}[ ]{1}[א-ת]{2,12}"></input>
                 <br></br><br></br>

@@ -1,9 +1,8 @@
 import '../Styles/SignupAuth.css';
 import { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import { IoMdLock } from 'react-icons/io';
-import { useHistory } from "react-router-dom";
 
 
 async function registerAuth(id, studentCode, callback){
@@ -107,9 +106,10 @@ function SignupAuth()
             formSubmitBtn.current.style.cursor = "not-allowed";
         }
     }
+    document.title="אימות חשבון";
     return (
-        <div className="signup">
-            <span className="title">הרשמה</span>
+        <div className="signup cred_pages_topmargin">
+            <span className="title">אימות חשבון</span>
             <form className="auth_form" dir="rtl" onSubmit={formSubmit}>
                 <FaUserCircle class="signup_userid"></FaUserCircle>
                 <input ref={form_id} onChange={formIdValidation} className="signup_inputs" pattern="[0-9]{9}" type="number" name="id" autocomplete="off" required placeholder="תעודת זהות"></input>

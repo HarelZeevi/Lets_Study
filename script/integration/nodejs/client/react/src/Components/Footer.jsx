@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import '../Styles/footer.css';
 import { BiCopyright } from 'react-icons/bi';
+import { FaYoutube, FaInstagram, FaFacebook } from 'react-icons/fa';
 function Footer() {
     return (
         <div className='footer_box'>
@@ -31,6 +32,7 @@ function Footer() {
                 <div className='footer_social3'>
                     <a href='#' target='_blank'>{/* Instagram Logo*/}</a>
                 </div>
+                
             </div>
             <div className='footer_legalbox'>
                 <ul dir='rtl'>
