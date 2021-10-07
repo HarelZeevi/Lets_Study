@@ -6,7 +6,6 @@ import ForgotPassword3 from './Components/ForgotPassword3.jsx';
 import Login from './Components/Login.jsx';
 import Home from './Pages/Home.jsx';
 import Signup from './Components/Signup.jsx';
-import Navbar from './Components/Navbar.jsx';
 import SignupAuth from './Components/SignupAuth.jsx';
 import Lessons from './Pages/Lessons.jsx';
 import Footer from './Components/Footer.jsx';

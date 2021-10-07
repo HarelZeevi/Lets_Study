@@ -87,7 +87,7 @@ module.exports = {
     validatePhone: function(phone) {
         var strength = 0;
         if (phone.length > 10) {
-            console.log(("Phone too long!"));
+            console.log("Phone too long!");
         } else if (phone.length < 10) {
             console.log(("Phone too short!"));
         } else {

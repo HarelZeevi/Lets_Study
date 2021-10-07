@@ -5,7 +5,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import { IoMdLock } from 'react-icons/io';
 
 
-async function signIn(params, callback){
+function signIn(params, callback){
     var xhr = new XMLHttpRequest();
     const url = 'http://localhost:1234/api/students/signIn'; 
     

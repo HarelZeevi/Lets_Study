@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 import { FaAngleDown, FaRegEnvelope } from 'react-icons/fa';
 import { useRef, useState } from 'react';
 import { FiLogOut, FiSettings, FiHelpCircle, FiX } from 'react-icons/fi';
-import Navbar from './Navbar.jsx';
 import ProfileSettings from './ProfileSettings.jsx';
+
+let result;
+
 
 function navGetDetails(callback){
     var xhr = new XMLHttpRequest();
@@ -27,6 +29,8 @@ function navGetDetails(callback){
 //const [userPicture, setUserPicture] = useState();
 //const [userName, setUserName] = useState();
 
+
+
 function NavLogin() {
     const profile_username = useRef();
     const profile_arrow = useRef();
@@ -42,27 +46,37 @@ function NavLogin() {
     const popup_t3 = useRef();
     const popup_i4 = useRef();
     const popup_t4 = useRef();
-
+    const [isloggedin, setisloggedin] = useState(false);
+    const [ud_username,setUserName] = useState('ori');
+    const [ud_picture,setPicture] = useState('base64');
+    const [ud_phone,setPhone]=useState('0544972955');
+    const [ud_email,setEmail]=useState('blah@gmail.com');
     // IDO here you add the integration details. Here we call the function and know weather the user is loggedIn or not.
-    function navbarSubmit()
-    {
+    function navbarSubmit() {
         navGetDetails((res) => {
-            alert(res.responseText);
+            //alert(res.responseText);
             if (res.status === 403 || res.responseText === "unauthorized")
                 {
-                    return (
-                        <Navbar/>
-                    )
+
+                    setisloggedin(false); 
                 }
-            else    
+            else
                 {
                     let resObj = JSON.parse(res.responseText);
-                    alert("Username: " + resObj.username) // username and image json obj  
-                   // setUserPicture(); // ENTER THE PICTURE'S SRC ATTRIBUTE INSIDE THE BRACKETS
-                   //setUserName(); // ENTER THE USER'S USERNAME INSIDE THE BRACKETS
+                    //alert("Username: " + resObj.username);
+                    setUserName(resObj.username);
+                    //setPicture(resObj.profile_img)
+                    console.log(resObj.profile_img);
+                    setPhone(resObj.phone)
+                    setPicture(resObj.profile_img)
+                    setEmail(resObj.email)
+                    setisloggedin(true);               
                 }
-        })
+        });
+            
+
     }
+    
     function profile_hover() {
         profile_username.current.style.color = 'rgb(66, 168, 66)';
         profile_arrow.current.style.color = 'rgb(66, 168, 66)';
@@ -123,12 +137,14 @@ function NavLogin() {
         ps_wrapper.current.style.display = 'none';
         popup_revealed = false;
     }
-    navbarSubmit();
-    return (
-        <div className="navbar">
+    navbarSubmit()
+    //setisloggedin = navbarSubmit(); 
+    if(isloggedin) {
+        return (
+            <div className="navbar">
             <ul className='nav_profile' onMouseOver={profile_hover} onMouseOut={profile_outhover}>
-                <li><img src="https://images.squarespace-cdn.com/content/v1/559b2478e4b05d22b1e75b2d/1545073697675-3728MXUJFYMLYOT2SKAA/Nesbit.jpg" onClick={profile_popup_reveal} className='nav_pfp'></img></li>
-                <li ref={profile_username} className='nav_profile_username_li' onClick={profile_popup_reveal}><span className='nonselective nav_username'>Idoabr</span></li>
+                <li><img src={ud_picture} onClick={profile_popup_reveal} className='nav_pfp'></img></li>
+                <li ref={profile_username} className='nav_profile_username_li' onClick={profile_popup_reveal}><span className='nonselective nav_username'>{ud_username}</span></li>
                 <li ref={profile_arrow} className='nav_profile_arrow_li' onClick={profile_popup_reveal}><FaAngleDown className='nav_profile_arrow'></FaAngleDown></li>
             </ul>
             <div ref={ps_wrapper} className='nav_profile_popup_wrapper' onClick={profile_popup_reveal}></div>
@@ -162,9 +178,22 @@ function NavLogin() {
                 <li className='navlogin_secondfield'><Link to="/sign-up-authentication" className="nav_list_pc">עזרה</Link></li>
             </ul>
             <img width={200} height={75} className="nav_logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img>
-            <ProfileSettings placeholder_username='idoabr' placeholder_phone='0501234567' placeholder_email='user@gmail.com' user_image='https://images.squarespace-cdn.com/content/v1/559b2478e4b05d22b1e75b2d/1545073697675-3728MXUJFYMLYOT2SKAA/Nesbit.jpg'/>
+            <ProfileSettings placeholder_username={ud_username} placeholder_phone={ud_phone} placeholder_email={ud_email} user_image={ud_picture}/>
         </div>
-    )
+        )
+    }
+    else {
+        return (
+            <div className="navbar">
+                <Link to="/login"><button className="nav_login">התחברות</button></Link>
+                <Link to="/sign-up-authentication"><button className="nav_signup"> הרשמה</button></Link>
+                <ul className="nav_list">
+                    <li><a className="nav_list_pc">עזרה</a></li>
+                </ul>
+                <img width={200} height={75} className="nav_logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img>
+            </div>
+        )
+    }
 }
 
 export default NavLogin
