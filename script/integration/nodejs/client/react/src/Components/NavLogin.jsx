@@ -1,7 +1,7 @@
 import '../Styles/NavLogin.css';
 import '../Styles/Navbar.css';
 import { Link } from 'react-router-dom';
-import { FaAngleDown, FaRegEnvelope } from 'react-icons/fa';
+import { FaAngleDown, FaAngleUp, FaRegEnvelope } from 'react-icons/fa';
 import { useRef, useState } from 'react';
 import { FiLogOut, FiSettings, FiHelpCircle, FiX } from 'react-icons/fi';
 import ProfileSettings from './ProfileSettings.jsx';
@@ -46,6 +46,8 @@ function NavLogin() {
     const popup_t3 = useRef();
     const popup_i4 = useRef();
     const popup_t4 = useRef();
+    let Navlogin_arrowup = 'none';
+    let Navlogin_arrowdown = 'initial';
     const [isloggedin, setisloggedin] = useState(false);
     const [ud_username,setUserName] = useState('ori');
     const [ud_picture,setPicture] = useState('base64');
@@ -66,7 +68,6 @@ function NavLogin() {
                     //alert("Username: " + resObj.username);
                     setUserName(resObj.username);
                     //setPicture(resObj.profile_img)
-                    console.log(resObj.profile_img);
                     setPhone(resObj.phone)
                     setPicture(resObj.profile_img)
                     setEmail(resObj.email)
@@ -80,13 +81,21 @@ function NavLogin() {
     function profile_hover() {
         profile_username.current.style.color = 'rgb(66, 168, 66)';
         profile_arrow.current.style.color = 'rgb(66, 168, 66)';
+        document.getElementById('navlogin_username').style.color = 'rgb(66,168,66)';
+        document.getElementById('nav_profile_arrow_down').style.color = 'rgb(66,168,66)';   
     }
     function profile_outhover() {
         profile_username.current.style.color = '#000';
         profile_arrow.current.style.color = '#000';
+        if(!popup_revealed)
+            document.getElementById('navlogin_username').style.color = '#000';
+        document.getElementById('nav_profile_arrow_down').style.color = '#000';
     }
     function profile_popup_reveal() {
         if(popup_revealed) {
+            document.getElementById('nav_profile_arrow_up').style.display = 'none';
+            document.getElementById('nav_profile_arrow_down').style.display = 'initial';
+            document.getElementById('navlogin_username').style.color = '#000';
             profile_popup.current.style.display = 'none';
             ps_wrapper.current.style.display = 'none';
             popup_revealed = false;
@@ -95,6 +104,9 @@ function NavLogin() {
             profile_popup.current.style.display = 'block';
             ps_wrapper.current.style.display = 'block';
             popup_revealed = true;
+            document.getElementById('nav_profile_arrow_up').style.display = 'initial';
+            document.getElementById('nav_profile_arrow_down').style.display = 'none';
+            document.getElementById('navlogin_username').style.color = 'rgb(66,168,66)';
         }
     }
     function popup_highlight_1() {
@@ -133,6 +145,10 @@ function NavLogin() {
     const showPS = () => {
         document.getElementById('ProfileSettings_Wrapper').style.display= 'block';
         document.getElementById('ProfileSettings_DivBox').style.display = 'block';
+        document.getElementById('nav_profile_arrow_up').style.display = 'none';
+        document.getElementById('nav_profile_arrow_down').style.display = 'initial';
+        document.getElementById('navlogin_username').style.color = '#000';
+        document.getElementById('nav_profile_arrow_down').style.color = '#000';
         profile_popup.current.style.display = 'none';
         ps_wrapper.current.style.display = 'none';
         popup_revealed = false;
@@ -143,9 +159,12 @@ function NavLogin() {
         return (
             <div className="navbar">
             <ul className='nav_profile' onMouseOver={profile_hover} onMouseOut={profile_outhover}>
-                <li><img src={ud_picture} onClick={profile_popup_reveal} className='nav_pfp'></img></li>
-                <li ref={profile_username} className='nav_profile_username_li' onClick={profile_popup_reveal}><span className='nonselective nav_username'>{ud_username}</span></li>
-                <li ref={profile_arrow} className='nav_profile_arrow_li' onClick={profile_popup_reveal}><FaAngleDown className='nav_profile_arrow'></FaAngleDown></li>
+                <li><img src={ud_picture} onClick={profile_popup_reveal} className='nav_pfp' alt="profile picture"></img></li>
+                <li ref={profile_username} className='nav_profile_username_li' onClick={profile_popup_reveal}><span className='nonselective nav_username' id='navlogin_username'>{ud_username}</span></li>
+                <li ref={profile_arrow} className='nav_profile_arrow_li' onClick={profile_popup_reveal}>
+                    <FaAngleDown style={{display: Navlogin_arrowdown}} className='nav_profile_arrow' id='nav_profile_arrow_down'></FaAngleDown>
+                    <FaAngleUp style={{display: Navlogin_arrowup}} className='nav_profile_arrow' id='nav_profile_arrow_up'/>
+                </li>
             </ul>
             <div ref={ps_wrapper} className='nav_profile_popup_wrapper' onClick={profile_popup_reveal}></div>
             <div ref={profile_popup} className='nav_profile_popup'>
@@ -155,29 +174,29 @@ function NavLogin() {
                         <td className='profile_title'>פרופיל</td>
                     </tr>
                     <hr className='profile_hr'></hr>
-                    <tr>
-                        <td ref={popup_t1} onMouseOver={popup_highlight_1} onMouseOut={popup_unhighlight_1} className='profile_popup_titles'>עזרה</td>
+                    <tr className='navlogin_profile_popup'>
+                        <td><Link ref={popup_t1} onMouseOver={popup_highlight_1} onMouseOut={popup_unhighlight_1} className='profile_popup_titles' to='/404'>עזרה</Link></td>
                         <td ref={popup_i1} onMouseOver={popup_highlight_1} onMouseOut={popup_unhighlight_1}><FiHelpCircle className='profile_popup_icons'></FiHelpCircle></td>
                     </tr>
-                    <tr>
+                    <tr className='navlogin_profile_popup'>
                         <td ref={popup_t2} onMouseOver={popup_highlight_2} onMouseOut={popup_unhighlight_2} className='profile_popup_titles' onClick={showPS} >הגדרות</td>
                         <td ref={popup_i2} onMouseOver={popup_highlight_2} onMouseOut={popup_unhighlight_2} onClick={showPS}><FiSettings className='profile_popup_icons'></FiSettings></td>
                     </tr>
-                    <tr>
-                        <td ref={popup_t3} onMouseOver={popup_highlight_3} onMouseOut={popup_unhighlight_3} className='profile_popup_titles'>צור קשר</td>
+                    <tr className='navlogin_profile_popup'>
+                        <td><Link ref={popup_t3} onMouseOver={popup_highlight_3} onMouseOut={popup_unhighlight_3} className='profile_popup_titles' to='/404'>צור קשר</Link></td>
                         <td ref={popup_i3} onMouseOver={popup_highlight_3} onMouseOut={popup_unhighlight_3}><FaRegEnvelope className='profile_popup_icons'></FaRegEnvelope></td>
                     </tr>
-                    <tr>
+                    <tr >
                         <td ref={popup_t4} onMouseOver={popup_highlight_4} onMouseOut={popup_unhighlight_4} className='profile_popup_titles'>התנתקות</td>
                         <td ref={popup_i4} onMouseOver={popup_highlight_4} onMouseOut={popup_unhighlight_4}><FiLogOut className='profile_popup_icons'></FiLogOut></td>
                     </tr>
                 </table>
             </div>
             <ul className="nav_list">
-                <li><Link to="/login" className="nav_list_pc">השיעורים שלי</Link></li>
-                <li className='navlogin_secondfield'><Link to="/sign-up-authentication" className="nav_list_pc">עזרה</Link></li>
+                <li><Link to="/my-lessons" className="nav_list_pc">השיעורים שלי</Link></li>
+                <li className='navlogin_secondfield'><Link to="/404" className="nav_list_pc">עזרה</Link></li>
             </ul>
-            <img width={200} height={75} className="nav_logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img>
+            <Link to='/'><img width={200} height={75} className="nav_logo" alt="logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img></Link>
             <ProfileSettings placeholder_username={ud_username} placeholder_phone={ud_phone} placeholder_email={ud_email} user_image={ud_picture}/>
         </div>
         )
@@ -188,9 +207,9 @@ function NavLogin() {
                 <Link to="/login"><button className="nav_login">התחברות</button></Link>
                 <Link to="/sign-up-authentication"><button className="nav_signup"> הרשמה</button></Link>
                 <ul className="nav_list">
-                    <li><a className="nav_list_pc">עזרה</a></li>
+                    <li><Link to='/404' className="nav_list_pc">עזרה</Link></li>
                 </ul>
-                <img width={200} height={75} className="nav_logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img>
+                <Link to='/'><img width={200} height={75} className="nav_logo" alt="logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img></Link>
             </div>
         )
     }

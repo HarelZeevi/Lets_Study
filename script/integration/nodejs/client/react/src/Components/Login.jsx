@@ -4,7 +4,7 @@ import '../Styles/login.css';
 import { FaUserCircle } from 'react-icons/fa';
 import { IoMdLock, IoIosEye, IoIosEyeOff } from 'react-icons/io';
 
-function signIn(params, callback){
+async function signIn(params, callback){
     var xhr = new XMLHttpRequest();
     const url = 'http://localhost:1234/api/students/signIn'; 
     
@@ -56,6 +56,7 @@ export default function Login() {
             {
                 let token = JSON.parse(res).accessToken;
                 localStorage.setItem("token", "Bearer " + token);
+                localStorage.setItem("isAuthenticated", "true");
                 alert(token);
             }
             });
@@ -100,7 +101,7 @@ export default function Login() {
                     <input type="password" onChange={login_form_validation} ref={login_password_handler} className="login_inputs PasswordArea" placeholder="סיסמה"></input>
                     <button className='login_eyes_btns' type='button' ref={login_eyeopen}><IoIosEye className='login_eyes' onClick={login_eyedisplay}/></button>
                     <button className='login_eyes_btns' id='login_eye_closed' type='button' ref={login_eyeclose}><IoIosEyeOff className='login_eyes' onClick={login_eyehide}/></button>
-                    <span className='fp_label'>שכחתם סיסמה?<Link to="/forgot-password-email" className="fp_deeplink">לחצו כאן</Link></span>
+                    <span className='fp_label'>שכחתם סיסמה?<Link to="/forgot-password-email" className="login_deeplinks">לחצו כאן</Link></span>
                     <button className="login_submitbtn" ref={login_submit_btn} disabled>התחבר</button>
                 </form> 
             </div>

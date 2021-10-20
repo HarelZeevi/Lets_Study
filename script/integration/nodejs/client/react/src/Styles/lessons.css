@@ -1,22 +1,19 @@
-.filterLine{
-    width: 100%;
-    border: 1px solid gray;
-    z-index: 20 ;
-}
 .teachersTable{
-display: flex;
-margin: 0 auto;
-
-flex-direction: column;
-justify-content: center;
-align-items: center;
-z-index: 10 ;
-
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 75px;
 }
 .tc_name, .tc_bio {
     right: 75px;
     position: relative;
     text-align: right;
+}
+#tc_div{
+    display: none;
 }
 .tc_name {
     font-size: 25px;

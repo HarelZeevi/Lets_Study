@@ -56,13 +56,23 @@ code {
 .ResetPassword2 {
     position: absolute;
     height: 40px;
-    width: 65%;
+    width: 59.5%;
     top: 35%;
     left: 17%;
+    padding-right: 35px;
     border: 1.5px solid #000;
     box-shadow: 0 0 10px #000;
 }
-
+.fp3_lock, .fp3_lock2 {
+    font-size: 25px;
+    position: absolute;
+    right: 18%;
+    top: 150px;
+    z-index: 10;
+}
+.fp3_lock2 {
+    top: 210px;
+}
 .ResetPassword2 {
     top: 50%;
 }

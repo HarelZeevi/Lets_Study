@@ -83,33 +83,17 @@ function ProfileSettings(props) {
 
     // here are the function to call when submit the changed property IDO
     const sbmtChangeUsername = newUsername => {
-        changeProperty(1, { newUsername: newUsername }, (res) => {
-            alert(res);
-            let token = JSON.parse(res).accessToken;
-            localStorage.setItem("token", "Bearer " + token);
-        })
+        changeProperty(1, {newUsername :newUsername}, (res) => alert(res))
     }  
     const sbmtChangeEmail = newEmail => {
-        changeProperty(2, { newEmail: newEmail }, (res) => {
-            alert(res);
-            let token = JSON.parse(res).accessToken;
-            localStorage.setItem("token", "Bearer " + token);
-        })
+        changeProperty(2, {newEmail :newEmail}, (res) => alert(res))
     }
     const sbmtChangePhone = newPhone => {
-        changeProperty(3, { newPhone: newPhone }, (res) => {
-            alert(res);
-            let token = JSON.parse(res).accessToken;
-            localStorage.setItem("token", "Bearer " + token);
-        })
+        changeProperty(3, {newPhone :newPhone}, (res) => alert(res))
     }
     const sbmtChangeBio = () => {
         const newBio = "Hi this is my new Bio"; // Ido here you put the input form the user
-        changeProperty(4, { newUsername: newBio }, (res) => {
-            alert(res);
-            let token = JSON.parse(res).accessToken;
-            localStorage.setItem("token", "Bearer " + token);
-        })
+        changeProperty(4, {newUsername :newBio}, (res) => alert(res))
     }
     const sbmtChangeImg = () => {
         let PS_oFReader = new FileReader();
@@ -137,7 +121,7 @@ function ProfileSettings(props) {
             document.getElementById('checkmarkUsername').style.display = 'none';
             document.getElementById('inputField_username').disabled= true;
             edit_username = false;
-            if(document.getElementById('inputField_username').value!=oldUsername && document.getElementById('inputField_username').value.length>3 && document.getElementById('inputField_username').value.length<13)
+            if(document.getElementById('inputField_username').value!==oldUsername && document.getElementById('inputField_username').value.length>3 && document.getElementById('inputField_username').value.length<13)
                 sbmtChangeUsername(document.getElementById('inputField_username').value);
         }
         else {
@@ -203,7 +187,7 @@ function ProfileSettings(props) {
                     <FcCheckmark className='ps_input_checkmark' id='checkmarkEmail' onClick={editEmail}/>
                     <input id='inputField_email' className='ps_form_input' type='email' placeholder={oldEmail} disabled></input>
                     <div className='ps_img_field'>
-                        <img ref={ps_userImg} className='ps_form_img' src={oldPfp}></img>
+                        <img ref={ps_userImg} className='ps_form_img' alt="profile picture" src={oldPfp}></img>
                         <label className='ps_form_input_img_label'>
                             <GoPencil className='ps_form_input_img_pencil'/>
                             <input ref={form_image_input} id='PS_form_image_input' onChange={sbmtChangeImg} className='ps_form_input_img' type='file'></input>

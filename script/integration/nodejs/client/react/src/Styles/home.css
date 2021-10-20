@@ -87,7 +87,7 @@
     animation: midbanner_textdrop 0.7s;
 }
 .home_midbanner_textfield p {
-    font-size: 20px;
+    font-size: 22.5px;
 }
 .home_midbanner_readmore:visited {
     color: #1c6ad1;
@@ -106,22 +106,25 @@
     position: absolute;
     left: 175px;
     top: 220px;
-    border: 2px solid #000;
+    border: 1px solid #000;
     border-radius: 30px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
-    background-color: rgb(126, 240, 145);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.7);
+    background-color: rgb(90,238,114);
     transition: 0.3s all;
+    font-size: 30px;
 }
 .home_midbanner_ctalink {
     text-decoration: none;
     color: #000;
-    font-size: 30px;
 }
 .home_midbanner_ctalink:visited {
     color: #000;
 }
 .home_midbanner_cta:hover {
-    background-color: rgb(53, 204, 78);
+    background-position: right center;
+    background-color: rgb(212, 111, 221);
+    color: #fff;
+    cursor: pointer;
 }
 .home_reviewsection {
     width: 100%;

@@ -4,6 +4,7 @@ import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import '../Styles/home.css';
+import Footer from '../Components/Footer.jsx';
 export default function Home() {
     useEffect(() => {
         Aos.init({ duration: 1000 });
@@ -22,7 +23,7 @@ export default function Home() {
                     </h3>
                 </div>
                 <div className='homepage_header_1' >
-                    <img className='homepage_header_illustrations' src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Eo_circle_green_white_checkmark.svg/2048px-Eo_circle_green_white_checkmark.svg.png'></img>
+                    <img className='homepage_header_illustrations' alt="checkmark icon" src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Eo_circle_green_white_checkmark.svg/2048px-Eo_circle_green_white_checkmark.svg.png'></img>
                     <h1>מצליחים</h1>
                     <hr className='header_box_hr'></hr>
                     <p>
@@ -30,7 +31,7 @@ export default function Home() {
                     </p>
                 </div>
                 <div className='homepage_header_2'>
-                    <img className='homepage_header_illustrations' src='https://image.flaticon.com/icons/png/512/470/470326.png'></img>
+                    <img className='homepage_header_illustrations' alt="calendar icon" src='https://image.flaticon.com/icons/png/512/470/470326.png'></img>
                     <h1>קובעים שיעור</h1>
                     <hr className='header_box_hr'></hr>
                     <p>
@@ -38,7 +39,7 @@ export default function Home() {
                     </p>
                 </div>
                 <div className='homepage_header_3'>
-                    <img className='homepage_header_illustrations' src='https://image.flaticon.com/icons/png/512/3617/3617143.png'></img>
+                    <img className='homepage_header_illustrations' alt="envelope icon" src='https://image.flaticon.com/icons/png/512/3617/3617143.png'></img>
                     <h1>נרשמים</h1>
                     <hr className='header_box_hr'></hr>
                     <p>
@@ -49,7 +50,7 @@ export default function Home() {
                 </div>
             </div>
             <div className='home_midbanner'>
-                <img className='home_midbanner_illustration'src='https://cdni.iconscout.com/illustration/free/thumb/girl-work-on-laptop-1792788-1519329.png'></img>
+                <img className='home_midbanner_illustration' alt="girl working on a laptop illustration" src='https://cdni.iconscout.com/illustration/free/thumb/girl-work-on-laptop-1792788-1519329.png'></img>
                 <div className='home_midbanner_textfield' dir='rtl'>
                     <h1>אצלנו כולם מרוויחים!</h1>
                     <p>
@@ -59,15 +60,15 @@ export default function Home() {
                     <br></br>
                       שעות מחויבות אישית במקום הכי מתאים להם!
                     </p>
-                    <Link className='home_midbanner_readmore' to='#'>קרא עוד...</Link> {/*add link to about us page */ }
+                    <Link className='home_midbanner_readmore' to='/404'>קרא עוד...</Link> {/*add link to about us page */ }
                 </div>
                 <div>
-                    <button className='home_midbanner_cta'><Link className='home_midbanner_ctalink' to='/sign-up-authentication' >להרשמה</Link></button>
+                <Link className='home_midbanner_ctalink' to='/sign-up-authentication'><button className='home_midbanner_cta'>להרשמה</button></Link>
                 </div>
             </div>
             <div className='home_reviewsection'>
                 <div data-aos='fade' data-aos-delay='600' className='home_reviews home_review1'>
-                    <img className='review_user_logos' src='https://pbs.twimg.com/profile_images/3478244961/01ebfc40ecc194a2abc81e82ab877af4_400x400.jpeg'></img>
+                    <img className='review_user_logos' alt="a reviewer's profile picture" src='https://pbs.twimg.com/profile_images/3478244961/01ebfc40ecc194a2abc81e82ab877af4_400x400.jpeg'></img>
                     <br></br>
                     <FaQuoteRight className='reviews_quotes_top'></FaQuoteRight>
                     <p className='reviews_text'>
@@ -78,7 +79,7 @@ export default function Home() {
                     <FaQuoteLeft className='reviews_quotes_bottom'></FaQuoteLeft>
                 </div>
                 <div data-aos='fade' data-aos-delay='300' className='home_reviews home_review2'>
-                    <img className='review_user_logos' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLsA425kPvBBTmuQ89VQmq_sRih5hCb8sokg'></img>
+                    <img className='review_user_logos' alt="a reviewer's profile picture" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLsA425kPvBBTmuQ89VQmq_sRih5hCb8sokg'></img>
                     <br></br>
                     <FaQuoteRight className='reviews_quotes_top'></FaQuoteRight>
                     <p className='reviews_text'>העובדה שהמורים הם תלמידים בדיוק
@@ -88,7 +89,7 @@ export default function Home() {
                     <FaQuoteLeft className='reviews_quotes_bottom'></FaQuoteLeft>
                 </div>
                 <div data-aos='fade' className='home_reviews home_review3'>
-                    <img className='review_user_logos' src='https://d.newsweek.com/en/full/1092536/gal-gadot.jpg?w=1600&h=1600&q=88&f=b33ab1a921459769ef5a5d7afccaa103'></img>
+                    <img className='review_user_logos' alt="a reviewer's profile picture" src='https://d.newsweek.com/en/full/1092536/gal-gadot.jpg?w=1600&h=1600&q=88&f=b33ab1a921459769ef5a5d7afccaa103'></img>
                     <br></br>
                     <FaQuoteRight className='reviews_quotes_top'></FaQuoteRight>
                          <p className='reviews_text'>
@@ -100,6 +101,7 @@ export default function Home() {
                     <FaQuoteLeft className='reviews_quotes_bottom'></FaQuoteLeft>
                 </div>
             </div>
+            <Footer footertop='1150'/>
         </div>
     )
     

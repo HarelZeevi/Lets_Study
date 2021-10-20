@@ -12,7 +12,7 @@ body {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   }
-.fp_deeplink{
+.login_deeplinks{
     text-decoration: none;
     color: blue;
     position: relative;
@@ -27,7 +27,7 @@ body {
 input {
     outline: none;
 }
-.fp_deeplink:hover {
+.login_deeplinks:hover {
     text-decoration: underline;
 }
 .title{

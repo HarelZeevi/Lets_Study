@@ -1,43 +1,64 @@
 .Welcome-Container{
-    
-    position: fixed; 
-    padding-top: 100px;
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%;
-    overflow: auto; 
+  position: fixed; 
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%;
+  z-index: 25;
+  margin-top: 50px;
 }
-
 .Container-Content{
-   z-index: 20;
-    border-radius: 20px;
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 500px;
+  border-radius: 20px;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  height: 550px;
+  width: 800px;
+}
+.loginCTA_illu {
+  margin-top: -75px;
 }
 .close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-
-  }
-  
-  .close:hover,
-  .close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-  }
+  color: #aaaaaa;
+  float: right;
+  font-size: 50px;
+  font-weight: bold;
+  position: relative;
+  right: 20px;
+  margin-top: -15px;
+}
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+.loginCTA_title {
+  position: relative;
+  right: -18px;
+}
 .dark-background-display{
   position: fixed;
+  z-index: 15;
   width: 100%;
-  z-index: 10;
   height: 100%;
   background-color: #000;
   opacity: 0.7;
   top: 0;
+}
+.loginCTA_button {
+  border-radius: 25px;
+  background-color: transparent;
+  transition: 0.3s all;
+  width: 350px;
+  border: 4px solid #f9b964;
+  color: #f9b964;
+  margin-top: -50px;
+}
+.loginCTA_button:hover {
+  background-color: #f9b964;
+  transition: 0.3s all;
+  color:#fff;
 }

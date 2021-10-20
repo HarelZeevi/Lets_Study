@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom';
 import '../Styles/footer.css';
 import { BiCopyright } from 'react-icons/bi';
 import { FaYoutube, FaInstagram, FaFacebook } from 'react-icons/fa';
-function Footer() {
+function Footer(props) {
     return (
-        <div className='footer_box'>
-            <img width={350} height={130} className="footer_logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img>
+        <div className='footer_box' style={{ top: props.footertop + "px" }}>
+            <img width={350} height={130} className="footer_logo" alt="logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img>
             <div className='footer_pagelist_wrapper'>
                 <ul className='footer_pagelist' dir='rtl'>
                     <li>

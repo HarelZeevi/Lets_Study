@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { IoIosEye, IoIosEyeOff } from 'react-icons/io';
+import { IoIosEye, IoIosEyeOff, IoMdLock } from 'react-icons/io';
 import '../Styles/forgotPass3.css';
 
 function forgotPswd3(params, callback){
@@ -86,6 +86,7 @@ export default function ForgotPass3() {
                 dir="rtl" >
                 <span className="title" >איפוס סיסמה</span>
                     <form className="ResetPasswordForm" onSubmit={fp3Submit}>
+                        <IoMdLock className='fp3_lock'/>
                         <input className="ResetPassword"
                             onChange={passwordsEqual}
                             ref={firstField}
@@ -94,6 +95,7 @@ export default function ForgotPass3() {
                         </input>
                         <IoIosEye onClick={p1_display} className="form_input_eyes" id="PaswordEyes1_on"></IoIosEye>
                         <IoIosEyeOff onClick={p1_hide} className="form_input_eyes" id="PaswordEyes1_off"></IoIosEyeOff>
+                        <IoMdLock className='fp3_lock2'/>
                         <input className="ResetPassword2" onChange={passwordsEqual} ref={secondField} type="password" placeholder="אימות סיסמה חדשה..." ></input>
                         <IoIosEye onClick={p2_display} className="form_input_eyes" id="PaswordEyes2_on" ></IoIosEye>
                         <IoIosEyeOff onClick={p2_hide} className="form_input_eyes" id="PaswordEyes2_off" > </IoIosEyeOff> 

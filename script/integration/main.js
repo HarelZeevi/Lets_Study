@@ -523,7 +523,19 @@ function scheduleLesson(res, pupilId, tutorId, calendarId, subject, points, grad
 // show all the future lessons of a student
 function showLessons(res, studentid)
 {
-    var sqlQuery = `SELECT * FROM lessons WHERE (pupilid = ${mysql.escape(studentid)} OR tutorid = ${mysql.escape(studentid)});`;
+    var sqlQuery = `SELECT 	lessons.id, 
+                            lessons.pupilid, 
+                            lessons.tutorid, 
+                            lessons.tutorcalid, 
+                            calendar.availabledate, 
+                            calendar.starttime, 
+                            calendar.endtime, 
+                            lessons.subjectName, 
+                            lessons.points, 
+                            lessons.grade
+                    FROM lessons
+                    INNER JOIN calendar ON lessons.tutorcalid  = calendar.id
+                    WHERE (pupilid = ${mysql.escape(studentid)} OR tutorid = ${mysql.escape(studentid)});`;
     con.query(sqlQuery,function(err, result){
         checkGetReq(result, err, res);
     });
@@ -558,6 +570,7 @@ function approveTutor(res, studentId)
 // add a calendar record to the calendar table that contains an availability schedule of the tutor for a specific day
 function AddAvailableTime(res, tutorId, availableDate,  starttime, endtime)
 {
+    console.log(tutorId + ", " + availableDate + ", " + starttime  + ", " + endtime)
     var sqlQuery = `
     INSERT INTO calendar
             (
@@ -1123,19 +1136,21 @@ app.post('/api/admins', (req, res) => {
 });
 
 // look for a teacher
-app.get('/api/tutors/:subject/:date/:rate/:tutorGender?/:grade1?/:grade2?', authJwt, (req, res) => {
+app.post('/api/findTutors/', authJwt, (req, res) => {
+    console.log("Starting teacher");
     if (!(req.tokenData.userType === 'P')) {
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
         res.end("You are not allowed to do this action!");
     } 
 
-    const subject = req.params.subject; // The lesson's requested subject (must pass)
-    const date = req.params.date;       // The requested date of the lesson (must pass)
-    const grade1 = req.params.grade1 || undefined;     //The tutor's preferred grade - 10 / 11 / 12 (optional pass)
-    const grade2 = req.params.grade2 || undefined;     //The tutor's preferred grade - 10 / 11 / 12 (optional pass) 
+    const subject = req.body.subject; // The lesson's requested subject (must pass)
+    const date = req.body.date;       // The requested date of the lesson (must pass)
+    const grade1 = req.body.grade1 || undefined;     //The tutor's preferred grade - 10 / 11 / 12 (optional pass)
+    const grade2 = req.body.grade2 || undefined;     //The tutor's preferred grade - 10 / 11 / 12 (optional pass) 
     const studentGender = req.tokenData.gender;   // The learner's gender - male or female (must pass)
-    const tutorGender = req.params.tutorGender || undefined;   // The tutor's preferred gender - male or female (optional pass)
-    const rate = req.params.rate;
+    const tutorGender = req.body.tutorGender || undefined;   // The tutor's preferred gender - male or female (optional pass)
+    const rate = req.body.rate;
+    console.log(`${subject}, ${date}, ${studentGender}, Tutor: ${tutorGender}, ${grade1}, ${grade2}, ${rate}`);
     searchTeacher(res, subject, date, studentGender, tutorGender, grade1, grade2, rate);
 });
 
@@ -1165,7 +1180,7 @@ app.put('/api/approveTutor/:tutorId', authJwt, (req, res) => {
 });
 
 // add lesson and shedule it
-app.post('/api/lessons', authJwt, (req, res) => {
+app.post('/api/addlesson', authJwt, (req, res) => {
     if (!(req.tokenData.userType === 'P')) return res.status(401).send("You are Not allowed to do this action.")
 
     const pupilId = req.tokenData.id;
@@ -1173,12 +1188,12 @@ app.post('/api/lessons', authJwt, (req, res) => {
     const calendarId = req.body.calendarId;
     const subject = req.body.subject;
     const points = req.body.points;
-    const grade = req.body.grade;
+    const grade = req.tokenData.grade;
     scheduleLesson(res, pupilId, tutorId, calendarId, subject, points, grade);
 });
 
 // show upcoming lessons of a student / tutor by its id
-app.get('/api/lessons/', authJwt, (req, res) => {
+app.post('/api/lessons/', authJwt, (req, res) => {
     if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
     
     const studentId = req.tokenData.id;

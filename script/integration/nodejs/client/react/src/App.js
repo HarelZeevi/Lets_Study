@@ -9,12 +9,14 @@ import Signup from './Components/Signup.jsx';
 // import Navbar from './Components/Navbar.jsx';
 import SignupAuth from './Components/SignupAuth.jsx';
 import Lessons from './Pages/Lessons.jsx';
+import MyLessons from './Pages/MyLessons';
 import Footer from './Components/Footer.jsx';
 // import ProfileSettings from './Components/ProfileSettings.jsx';
 import "../src/Styles/app.css";
 import NavLogin from './Components/NavLogin.jsx';
-import TeacherFilters from './Components/TeacherFilters.jsx';
 import ProtectedRoute from './Components/ProtectedRoutes.jsx';
+import NotFound from './Pages/NotFound.jsx';
+
 export function App() {
   return (
     <div className="app">
@@ -27,13 +29,13 @@ export function App() {
     <Route component={ForgotPassword2} path="/forgot-password-verify" />{/*2*/ }
     <Route component={ForgotPassword3} path="/forgot-password-new-password" /> {/*3*/ }
     {/* <ProtectedRoute component={Lessons} path="/lessons" /> */}
+    <Route component={Lessons} path='/lessons'/>
+    <Route component={MyLessons} path='/my-lessons'/>
     <Route component={Home} exact path="/"/>
-    <Route component={Lessons} path="/lessons" />
 
     {/*TEST SECTION*/}
-    <Route component={TeacherFilters} path="/filter1"/>
+    <Route component={NotFound} path='/404'/>
     </Switch>
-    {/* <Footer /> */}
     </div>
   )
 }

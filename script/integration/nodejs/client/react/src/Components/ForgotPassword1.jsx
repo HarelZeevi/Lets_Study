@@ -36,7 +36,6 @@ function ForgotPassword1() {
             */
    let forgotpassword1_history = useHistory();
     const forgotPswdSubmit1 = () => {
-        console.log(5);
         const params = {
             email: inputVal.current.value
         };
@@ -73,6 +72,7 @@ function ForgotPassword1() {
                     onChange={formMailValidation}
                     className="emailField"
                      type="email" 
+                     title="יש להכניס כתובת מייל תקינה"
                     placeholder="כתובת מייל...">
                     </input>
                     <IoMdMail className="mail_icon_fp1"></IoMdMail><span className="fp1_alert" dir="rtl">* ישלח אליך קוד במייל לשחזור סיסמה.</span>

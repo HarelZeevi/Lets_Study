@@ -84,8 +84,9 @@ export default function ForgotPassword2() {
                         onChange={formValidation}
                          type="password"
                          ref={form_signupCode}
-                          placeholder="קוד אימות...">
-                        
+                          placeholder="קוד אימות..."
+                          title="קוד האימות נשלח למייל שהזנת בדף הקודם."
+                          >
                           </input>
                         <span className="fp_2alert">  * הקוד נשלח לכתובת המייל שלך <Link to="" className="SendAgain">שלח שוב</Link></span>                 
                         <button disabled className="fp2_submitbtn" ref={submitFormButton}>אישור קוד</button>

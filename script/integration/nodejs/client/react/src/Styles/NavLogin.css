@@ -10,6 +10,9 @@
 .nav_profile_arrow {
     font-size: 25px;
 }
+#nav_profile_arrow_up {
+    color: rgb(66, 168, 66);
+}
 .nav_profile {
     left: -30px;
     list-style-type: none;
@@ -31,11 +34,15 @@
 .profile_popup_icons {
     font-size: 25px;
     padding-top: 10px;
+    cursor: pointer;
 }
 .profile_popup_titles {
     font-size: 20px;
     padding-right: 15px;
+    text-decoration: none;
+    color: #000;
     font-weight: 600;
+    cursor: pointer;
 }
 .nav_profile_popup {
     width: 185px;
@@ -58,7 +65,7 @@
     z-index: 9;
 }
 .profile_popup_close:hover {
-    color: rgb(66, 168, 66);
+    color:rgb(66, 168, 66);
 }
 .profile_popup_menu {
     position: relative;

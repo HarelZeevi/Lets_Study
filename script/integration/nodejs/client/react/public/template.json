@@ -1,0 +1,14 @@
+{
+    "studentid":"053638463",
+    "subjectname":"math",
+    "points": 3,
+    "fullname":"שרון מזרחי",
+    "bio":"אני שרון, לומד במגמות מדעי המחשב ופיזיקה, 5יחל מתמטיקה ואנגלית",
+    "profile_img":null,
+    "grade":11,
+    "gender":"F",
+    "rate":5,
+    "pupilGender":null,
+    "starttime":"12:00:00",
+    "endtime":"15:00:00"
+}
