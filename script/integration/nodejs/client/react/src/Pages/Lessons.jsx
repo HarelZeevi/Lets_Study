@@ -43,6 +43,29 @@ async function fetchTeachers(params, callback){
   xhr.send(urlEncodedDataPairs.join("&"));
 }
 
+async function fetchAcvailability(params, callback){
+    var xhr = new XMLHttpRequest();
+    const url = 'http://localhost:1234/api/findTutors/'; 
+        
+    xhr.open("POST", url);
+    let token = localStorage.getItem("token");
+    
+    xhr.onreadystatechange = function() { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            callback(xhr.responseText)
+        }
+    }
+    
+  
+    // CONVERTING OBJECT PARAMS TO ENCODED STRING
+    let urlEncodedData = "", urlEncodedDataPairs = [], name;
+    for(name in params) {
+    urlEncodedDataPairs.push(encodeURIComponent(name)+'='+encodeURIComponent(params[name]));
+    }
+    xhr.setRequestHeader("authorization", token);
+    xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+    xhr.send(urlEncodedDataPairs.join("&"));
+  }
  function Lessons() {
     const [currentPage, setCurrentPage] = useState(1);
     const [teachersData,setTeachersData] = useState([]);
@@ -54,19 +77,19 @@ async function fetchTeachers(params, callback){
     let tf_gradeYudBeit = true;
     let isOpen1 = false;
     const [resReturn, setResReturn] = useState([])
-
-
+    const [res,setRes] =  useState([]);
+    const renderTeachers = async ()=>{
+        setRes(await axios.get(`/MatchedTeachers.json`));
+        setTeachersData(res.data);
+     }
     useEffect(() => {
       let mount = true;
-        const renderTeachers = async ()=>{
-            const data=await axios.get(`/MatchedTeachers.json`);
-            setTeachersData(data.data);
-         }
+
          if(mount) renderTeachers();
          return ()=>{mount = false}
 
     
-    }, [resReturn])
+    }, [teachersData])
 
 
 
@@ -218,16 +241,21 @@ async function fetchTeachers(params, callback){
         // IMPORTANT!!! The format of the Date String match this pattern: "YYYY/MM/DD" (YEAR/Month/DAY)
         fetchTeachers(
             {
-                "subject": "math",
-                "date":"2021-05-11",
+                "subject": "1",
+                "date":"2022-09-04",
                 "tutorGender": "M",
                 "rate": 5
             },
             (res) => 
             {
-                setResReturn(res)
+                setResReturn(JSON.parse(res))
+                console.log('res: ',JSON.parse(res));
+                setTeachersData(JSON.parse(res));
+                console.log(teachersData);
                 if (res != "Not found")
-                    alert(res);
+                {
+                    console.error('NO DATA')
+                }
             }
        )
     }

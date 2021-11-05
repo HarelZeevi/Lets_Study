@@ -22,8 +22,6 @@ async function register(params, callback){
     }
     alert(urlEncodedDataPairs.join("&"));
     xhr.send(urlEncodedDataPairs.join("&"));
-
-
 }
 
 function Signup() { //  fullname, username, gender, phone, email, pswd
