@@ -51,6 +51,7 @@ function NavLogin() {
     const [isloggedin, setisloggedin] = useState(false);
     const [ud_username,setUserName] = useState('ori');
     const [ud_picture,setPicture] = useState('base64');
+    const [ud_isTeacher, setTeacher] = useState(false);
     const [ud_phone,setPhone]=useState('0544972955');
     const [ud_email,setEmail]=useState('blah@gmail.com');
     // IDO here you add the integration details. Here we call the function and know weather the user is loggedIn or not.
@@ -68,10 +69,12 @@ function NavLogin() {
                     //alert("Username: " + resObj.username);
                     setUserName(resObj.username);
                     //setPicture(resObj.profile_img)
+                    console.log(resObj.profile_img);
                     setPhone(resObj.phone)
                     setPicture(resObj.profile_img)
                     setEmail(resObj.email)
-                    setisloggedin(true);               
+                    setisloggedin(true); 
+                    // setTeacher = false/true;    (example: setTeacher(true);)
                 }
         });
             
@@ -197,7 +200,7 @@ function NavLogin() {
                 <li className='navlogin_secondfield'><Link to="/404" className="nav_list_pc">עזרה</Link></li>
             </ul>
             <Link to='/'><img width={200} height={75} className="nav_logo" alt="logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img></Link>
-            <ProfileSettings placeholder_username={ud_username} placeholder_phone={ud_phone} placeholder_email={ud_email} user_image={ud_picture}/>
+            <ProfileSettings placeholder_username={ud_username} placeholder_phone={ud_phone} placeholder_email={ud_email} user_image={ud_picture} isTeacher={ud_isTeacher}/>
         </div>
         )
     }
