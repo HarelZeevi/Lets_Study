@@ -3,6 +3,7 @@ import { GoPencil } from 'react-icons/go';
 import { FcCheckmark } from 'react-icons/fc';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import { useRef, useState } from 'react';
+import TeacherSettings from './TeacherSettings';
 // The request function
 function changeProperty(propNum, params, callback)
 {
@@ -77,9 +78,10 @@ function ProfileSettings(props) {
     const oldPhone = props.placeholder_phone;
     const oldEmail = props.placeholder_email;
     const oldPfp = props.user_image;
-
+    const isTeacher = props.isTeacher;
     const form_image_input = useRef();
     const ps_userImg = useRef();
+    const [ps_height, setPsHeight] = useState(300);
 
     // here are the function to call when submit the changed property IDO
     const sbmtChangeUsername = newUsername => {
@@ -121,7 +123,7 @@ function ProfileSettings(props) {
             document.getElementById('checkmarkUsername').style.display = 'none';
             document.getElementById('inputField_username').disabled= true;
             edit_username = false;
-            if(document.getElementById('inputField_username').value!==oldUsername && document.getElementById('inputField_username').value.length>3 && document.getElementById('inputField_username').value.length<13)
+            if(document.getElementById('inputField_username').value!=oldUsername && document.getElementById('inputField_username').value.length>3 && document.getElementById('inputField_username').value.length<13)
                 sbmtChangeUsername(document.getElementById('inputField_username').value);
         }
         else {
@@ -166,7 +168,7 @@ function ProfileSettings(props) {
     return (
         <div className='ProfileSettings' id='ProfileSettings_Wrapper'>
             <div className='ProfileSettings_DarkBG' onClick={closePS}></div>
-            <div className='ProfileSettings_Box' id='ProfileSettings_DivBox'>
+            <div className='ProfileSettings_Box' id='ProfileSettings_DivBox' style={{height: ps_height + "px"}}>
                 <IoIosCloseCircleOutline className='ps_close_btn' onClick={closePS}/>
                 <form className='SettingsForm'>
                     <label className='ps_form_label' dir='rtl'>שם משתמש:</label>
@@ -196,6 +198,7 @@ function ProfileSettings(props) {
                             {oldUsername}
                         </div>
                     </div>
+                    <TeacherSettings isTeacher={isTeacher} setPSHeight={setPsHeight}></TeacherSettings>
                 </form>
             </div>
         </div>

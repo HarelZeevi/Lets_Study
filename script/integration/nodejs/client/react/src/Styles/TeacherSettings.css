@@ -1,0 +1,43 @@
+.TeacherSettings_CurrentSubDivs {
+    position: relative;
+    width: 300px;
+    height: 40px;
+    background-image: linear-gradient(to left, rgb(71,127,228), rgb(100, 146, 231));
+    margin-top: 10px;
+    left: 438px;
+    line-height: 40px;
+    padding-right: 40px;
+    font-size: 20px;
+    font-weight: 600;  
+    border: solid 1px #000;
+    color: #ffedec;
+    border-radius: 20px;
+    top: -10px;
+}
+.TeacherSettings_SubDiv_SubIcon {
+    position: absolute;
+    right: 10px;
+    height: 75%;
+    top: 12.5%;
+}
+.TeacherSettings_SubDiv_Close {
+    position: absolute;
+    left: 10px;
+    height: 75%;
+    top: 12.5%;
+    font-size: 25px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+.TeacherSettings_SubDiv_Close:hover {
+    color: #071d38;
+    transition: 0.2s;
+}
+.TeacherSettings_AddSubjectButton {
+    color: blue;
+    text-decoration: none;
+    font-size: 17px;
+}
+.TeacherSettings_AddSubjectButton:hover {
+    text-decoration: underline;
+}

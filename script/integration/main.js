@@ -417,13 +417,15 @@ function signJwt(result, err, res)
 // authenticate token function to convert token to user object
 function authJwt(req, res, next)
 {
-    console.log("Auth")
+
     const token = req.headers.authorization.split(' ')[1]
     if (token == null){ 
+        console.log("unauthorized")
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
         return res.end("unauthorized");   
     }
     try{
+
         let decodeToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
         req.tokenData = decodeToken;
         next();
@@ -1065,9 +1067,14 @@ function testData(value, inputType)
 function base64Img(id, ext) {
     let file = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/profileImages/' + id + ext;
     // read binary data
-    var bitmap = fs.readFileSync(file);
-    // convert binary data to base64 encoded string
-    return  Buffer.from(bitmap).toString('base64');
+    try{
+        var bitmap = fs.readFileSync(file);
+        // convert binary data to base64 encoded string
+        return  Buffer.from(bitmap).toString('base64');
+    }catch(err)
+    {
+        console.log(err);
+    }
 }
 
 // this function returns base64 image of student
@@ -1079,7 +1086,9 @@ function get_profile_img(id, callback){
           if (err){ 
             throw err;
           }
-          callback(results[0].imgFileExt);
+          else{
+            callback(results[0].imgFileExt);
+          }
   })
 }
 /* API routes*/
@@ -1106,13 +1115,15 @@ app.post('/api/students/isSignedIn', authJwt, (req, res) => {
     get_profile_img(req.tokenData.id, function(extension){
         const phone = undefined || req.tokenData.phone;
         const email = undefined || req.tokenData.email;
-        const isTeacher = true 
         
         base64Data = base64Img(req.tokenData.id, extension)
-        if (base64Data.indexOf("dataimage/") == -1)
-            base64Data = `data:image/${extension.replace(".", "")};base64,` + base64Img(req.tokenData.id, extension)
-        else
-            base64Data = base64Data.replace("dataimage/", "data:image/").replace("base64", ";base64,");
+        if (base64Data != null)
+        {
+            if (base64Data.indexOf("dataimage/") == -1)
+                base64Data = `data:image/${extension.replace(".", "")};base64,` + base64Img(req.tokenData.id, extension)
+            else
+                base64Data = base64Data.replace("dataimage/", "data:image/").replace("base64", ";base64,");
+        }
         const navbarData = {
             username: username,
             isTeacher: isTeacher,
@@ -1336,14 +1347,14 @@ app.post('/api/deleteAvailability/', authJwt, (req, res) => {
 
 
 // get tutors subject1, subject2, subject3, subject4 
-app.post('api/tutors/getTeachingSubjects', authJwt, (req, res) => {
+app.post('/api/tutors/getTeachingSubjects', authJwt, (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
-
+    console.log("Get Subject called");
     const tutorId = req.tokenData.id;
     getTeachingSubjects(res, tutorId);
 });
 
-app.post('api/tutors/updateTeachingSubjects', authJwt, (req, res) => {
+app.post('/api/tutors/updateTeachingSubjects', authJwt, (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
     const tutorId = req.tokenData.id;

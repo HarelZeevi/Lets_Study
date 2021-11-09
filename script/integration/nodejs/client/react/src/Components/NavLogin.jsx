@@ -69,12 +69,12 @@ function NavLogin() {
                     //alert("Username: " + resObj.username);
                     setUserName(resObj.username);
                     //setPicture(resObj.profile_img)
-                    console.log(resObj.profile_img);
+                    //console.log(resObj.profile_img);
                     setPhone(resObj.phone)
                     setPicture(resObj.profile_img)
                     setEmail(resObj.email)
                     setisloggedin(true); 
-                    // setTeacher = false/true;    (example: setTeacher(true);)
+                    setTeacher(resObj.isTeacher);
                 }
         });
             
@@ -144,7 +144,10 @@ function NavLogin() {
         popup_i4.current.style.color = '#000';
         popup_t4.current.style.color = '#000';
     }
-
+    const disconnect = () => {
+        localStorage.setItem("token", "");
+        window.location.reload();
+    }
     const showPS = () => {
         document.getElementById('ProfileSettings_Wrapper').style.display= 'block';
         document.getElementById('ProfileSettings_DivBox').style.display = 'block';
@@ -190,7 +193,7 @@ function NavLogin() {
                         <td ref={popup_i3} onMouseOver={popup_highlight_3} onMouseOut={popup_unhighlight_3}><FaRegEnvelope className='profile_popup_icons'></FaRegEnvelope></td>
                     </tr>
                     <tr >
-                        <td ref={popup_t4} onMouseOver={popup_highlight_4} onMouseOut={popup_unhighlight_4} className='profile_popup_titles'>התנתקות</td>
+                        <td ref={popup_t4} onMouseOver={popup_highlight_4} onMouseOut={popup_unhighlight_4} className='profile_popup_titles' onClick={disconnect}>התנתקות</td>
                         <td ref={popup_i4} onMouseOver={popup_highlight_4} onMouseOut={popup_unhighlight_4}><FiLogOut className='profile_popup_icons'></FiLogOut></td>
                     </tr>
                 </table>
