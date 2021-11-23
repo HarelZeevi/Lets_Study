@@ -479,7 +479,7 @@ function createAdmin(res, id, firstname, lastname, pswd, school, phone, email)
 }
 
 // look for a teacher function
-function searchTeacher(res, subject, date, studentGender, tutorGender, grade1, grade2 = undefined, rate)
+function searchTeacher(res, subjectNum, date, studentGender, tutorGender, grade1, grade2 = undefined, rate)
 {
     var sqlQuery = `SELECT subjects.studentid, subjects.subjectId, subjects.points, students.fullname, tutors.bio, students.imgFileExt, students.grade, students.gender, tutors.rate, tutors.pupilGender
                     FROM subjects 
@@ -488,7 +488,10 @@ function searchTeacher(res, subject, date, studentGender, tutorGender, grade1, g
                     INNER JOIN students ON subjects.studentid = students.id
                     INNER JOIN calendar ON subjects.studentid = calendar.studentid
             
-                    WHERE subjects.subjectId = ${mysql.escape(subject)}
+                    WHERE (tutors.subject1 = ${mysql.escape(subjectNum)} OR
+                           tutors.subject2 = ${mysql.escape(subjectNum)} OR
+                           tutors.subject3 = ${mysql.escape(subjectNum)} OR
+                           tutors.subject4 = ${mysql.escape(subjectNum)})
                         AND calendar.availabledate = ${mysql.escape(date)}
                         AND tutors.isapproved = 1
                         AND (tutors.pupilGender = ${mysql.escape(studentGender)}
@@ -1017,7 +1020,6 @@ function changeProperty(req, res, propNum, val, id)
 
 function testData(value, inputType)
 {
-    return 0;
     switch(inputType)
     {
         case 1: // name
@@ -1055,10 +1057,43 @@ function testData(value, inputType)
                 return 6;
             break;
         }
-        case 7: //
-        {
-            // check here
+        case 7: // classnum
+        {    
+            if(!(tests.validateClassnum(value)))
+                return 7;
+            break;
+        }      
+        case 8: // gender
+        {    
+            if(!(tests.validateGender(value)))
+                return 8;
+            break;
         }
+        case 9: // studentCode
+        {    
+            if(!(tests.validateStudentCode(value)))
+                return 9;
+            break;
+        }
+        case 10: // date
+        {    
+            if(!(tests.validateDate(value)))
+                return 10;
+            break;
+        }
+        case 11: // hour
+        {    
+            if(!(tests.validateHour(value)))
+                return 11;
+            break;
+        }
+        case 12: // rate
+        {    
+            if(!(tests.validateRate(value)))
+                return 11;
+            break;
+        }
+
     }
     return 0;
 }
@@ -1159,30 +1194,49 @@ app.post('/api/students', authJwt, (req, res) => {
     const classnum = req.body.classnum; // admin enters info
     const pupilGender = req.body.pupilGender || undefined; // admin enters info
     
-    console.log("res" + testData(id, 5));
+    // check ID
     if(testData(id, 5) !== 0)
     {
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
         res.end("Invalid input!");
         return;
     }
+
     
+    if(testData(classnum, 7) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid input!");
+    }
+
+
+    if(testData(grade, 7) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid input!");
+    }
     addStudent(res, id, school, grade, classnum, pupilGender);
 });
 
 // pre registration authentication 
 app.get('/api/students/registerAuth/:id/:studentCode', (req, res) => {
     const id = req.params.id;
-    const studentCode = req.params.studentCode;
-
+    console.log("res" + testData(id, 5));
     if(testData(id, 5) !== 0)
     {
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
         res.end("Invalid id!");
         return;
-    } 
-
-    registerAuth(res, id, studentCode);
+    }
+    const studentCode = req.params.studentCode;
+    console.log("res" + testData(studentCode, 9));
+    if(testData(studentCode, 9) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid studentCode!");
+        return;
+    }
+  registerAuth(res, id, studentCode);
 });
 
 
@@ -1197,16 +1251,72 @@ app.post('/api/students/register/propTest', (req, res) => {
 app.post('/api/students/register', (req, res) => {
     // for validation 
     const id = req.body.id;
+    console.log("res" + testData(id, 5));
+    if(testData(id, 5) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid id!");
+        return;
+    }
     const studentCode = req.body.studentCode;
-    
+    console.log("res" + testData(studentCode, 9));
+    /*
+    if(testData(studentCode, 9) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid studentCode!");
+        return;
+    }
+    */
     const fullname = req.body.fullname; 
+    console.log("res" + testData(fullname, 1));
+    if(testData(fullname, 1) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid username!");
+        return;
+    }
     const username = req.body.username; 
-
+    console.log("res" + testData(username, 3));
+    if(testData(username, 3) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid username!");
+        return;
+    }
     const gender = req.body.gender; 
+    console.log("res" + testData(gender, 8));
+    if(testData(gender, 8) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid gender!");
+        return;
+    }
     // const partnergender = req.body.partnergender; remove and add only in tutor's case
     const phone = req.body.phone;
+    console.log("res" + testData(phone, 4));
+    if(testData(phone, 4) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid phone!");
+        return;
+    }
     const email = req.body.email;
+    console.log("res" + testData(email, 6));
+    if(testData(email, 6) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid email!");
+        return;
+    }
     const pswd = req.body.pswd;
+    console.log("res" + testData(pswd, 2));
+    if(testData(pswd, 2) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid pswd!");
+        return;
+    }
 
     /*if(testData(username, 3) !== 0 ||
        testData(fullname, 1) !== 0 || 
@@ -1225,8 +1335,29 @@ app.post('/api/students/register', (req, res) => {
 // sign in - returns student object
 app.post('/api/students/signIn', (req, res) => {
     const id = req.body.id;
+    console.log("res" + testData(id, 5));
+    if(testData(id, 5) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid id!");
+        return;
+    }
     const username = req.body.username;
+    console.log("res" + testData(username, 3));
+    if(testData(username, 3) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid username!");
+        return;
+    }
     const password = req.body.password;
+    console.log("res" + testData(password, 2));
+    if(testData(password, 2) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid password!");
+        return;
+    }
     if(false && (testData(password, 2) !== 0 || 
        testData(id, 5) !== 0))
     {
@@ -1240,8 +1371,21 @@ app.post('/api/students/signIn', (req, res) => {
 // sign in fro admin - returns admin object
 app.post('/api/admins/signIn', (req, res) => {
     const id = req.body.id;
+    console.log("res: " + testData(id, 5));
+    if(testData(id, 5) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid id!");
+        return;
+    }
     const password = req.body.password;
-
+    console.log("res" + testData(password, 2));
+    if(testData(password, 2) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid password!");
+        return;
+    }
     console.log("id: " + id + " password: " + password);
     signInAdmin(res, id, password);
 });
@@ -1250,13 +1394,40 @@ app.post('/api/admins/signIn', (req, res) => {
 app.post('/api/admins', (req, res) => {
     // add student code
     const id = req.body.id; 
+    console.log("res" + testData(id, 5));
+    if(testData(id, 5) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid id!");
+        return;
+    }
     const firstname = req.body.firstname;
     const lastname = req.body.lastname; 
     const pswd = req.body.pswd; 
+    console.log("res" + testData(pswd, 2));
+    if(testData(pswd, 2) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid pswd!");
+        return;
+    }
     const school = req.body.school;
     const phone = req.body.phone;
+    console.log("res" + testData(phone, 4));
+    if(testData(phone, 4) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid phone!");
+        return;
+    }
     const email = req.body.email;
-
+    console.log("res" + testData(email, 6));
+    if(testData(email, 6) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid email!");
+        return;
+    }
     createAdmin(res, id, firstname, lastname, pswd, school, phone, email);
 });
 
@@ -1268,15 +1439,57 @@ app.post('/api/findTutors/', authJwt, (req, res) => {
         res.end("You are not allowed to do this action!");
     } 
 
-    const subject = req.body.subject; // The lesson's requested subject (must pass)
+    const subjectNum = req.body.subjectNum; // The lesson's requested subject (must pass)
     const date = req.body.date;       // The requested date of the lesson (must pass)
+    console.log("res" + testData(date, 10));
+    if(testData(date, 10) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid date!");
+        return;
+    }
     const grade1 = req.body.grade1 || undefined;     //The tutor's preferred grade - 10 / 11 / 12 (optional pass)
+    console.log("res" + testData(garde, 7));
+    if(testData(grade, 7) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid grade!");
+        return;
+    }
     const grade2 = req.body.grade2 || undefined;     //The tutor's preferred grade - 10 / 11 / 12 (optional pass) 
+    console.log("res" + testData(garde, 7));
+    if(testData(grade, 7) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid grade!");
+        return;
+    }
     const studentGender = req.tokenData.gender;   // The learner's gender - male or female (must pass)
+    console.log("res" + testData(gender, 8));
+    if(testData(gender, 8) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid gender!");
+        return;
+    }
     const tutorGender = req.body.tutorGender || undefined;   // The tutor's preferred gender - male or female (optional pass)
+    console.log("res" + testData(gender, 8));
+    if(testData(gender, 8) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid gender!");
+        return;
+    }
     const rate = req.body.rate;
+    console.log("res" + testData(rate, 12));
+    if(testData(rate, 12) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid rate!");
+        return;
+    }
     console.log(`${subject}, ${date}, ${studentGender}, Tutor: ${tutorGender}, ${grade1}, ${grade2}, ${rate}`);
-    searchTeacher(res, subject, date, studentGender, tutorGender, grade1, grade2, rate);
+    searchTeacher(res, subjectNum, date, studentGender, tutorGender, grade1, grade2, rate);
 });
 
 
@@ -1307,6 +1520,13 @@ app.post('/api/addlesson', authJwt, (req, res) => {
     const subject = req.body.subject;
     const points = req.body.points;
     const grade = req.tokenData.grade;
+    console.log("res" + testData(grade, 7));
+    if(testData(grade, 7) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid grade!");
+        return;
+    }
     scheduleLesson(res, pupilId, tutorId, calendarId, subject, points, grade);
 });
 
@@ -1410,7 +1630,21 @@ app.post('/api/tutoringHours', authJwt, (req, res) => {
 // reset password using email 
 app.post('/api/sendToken/', (req, res) => {
     const email = req.body.email;
+    console.log("res" + testData(email, 6));
+    if(testData(email, 6) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid email!");
+        return;
+    }
     const studentId = req.body.studentId;
+    console.log("res" + testData(id, 5));
+    if(testData(id, 5) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid id!");
+        return;
+    }
     findStudent(email, studentId, (result) => {sendToken(res, result)});
 });
  
@@ -1437,6 +1671,13 @@ app.post("/api/changePassword/", authJwt, (req, res) => {
     else{
         const studentId = req.tokenData.id;
         const newPass = req.body.newPass;
+        console.log("res" + testData(pswd, 2));
+        if(testData(pswd, 2) !== 0)
+        {
+            res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+            res.end("Invalid password!");
+            return;
+        }
         console.log(newPass);
         changePassword(res, studentId, newPass);
     }
@@ -1452,6 +1693,13 @@ app.post('/api/rates', authJwt, (req, res) => {
     const tutorId = req.body.tutorId;
     const lessonId = req.body.lessonId;
     const rate = req.body.rate;
+    console.log("res" + testData(rate, 12));
+    if(testData(rate, 12) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid rate!");
+        return;
+    }
     
     rateLesson(res, tutorId, lessonId, rate)
 });
@@ -1499,11 +1747,17 @@ app.post('/api/students/changeUsername', authJwt, (req, res) => {
     }
 
     const newUsername = req.body.newUsername;
+    console.log("res" + testData(username, 3));
+    if(testData(username, 3) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid username!");
+        return;
+    }
     const id = req.tokenData.id;
     console.log("params: " + req.body.params);
     changeProperty(req, res, 1, newUsername, id)
 });
-
 // change Email
 app.post('/api/students/changeEmail', authJwt, (req, res) => {
     if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) {
@@ -1512,6 +1766,13 @@ app.post('/api/students/changeEmail', authJwt, (req, res) => {
     }
 
     const newEmail = req.body.newEmail;
+    console.log("res" + testData(email, 6));
+    if(testData(email, 6) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid email!");
+        return;
+    }
     const id = req.tokenData.id;
     
     changeProperty(req, res, 2, newEmail, id);
@@ -1525,6 +1786,13 @@ app.post('/api/students/changePhone', authJwt, (req, res) => {
     }
     
     const newPhone = req.body.newPhone;
+    console.log("res" + testData(phone, 4));
+    if(testData(phone, 4) !== 0)
+    {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("Invalid phone number!");
+        return;
+    }
     const id = req.tokenData.id;
     
     changeProperty(req, res, 3, newPhone, id);
