@@ -1,0 +1,103 @@
+.nav_pfp {
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+}
+.nav_username {
+    font-size: 30px;
+    font-weight: 700;
+}
+.nav_profile_arrow {
+    font-size: 25px;
+}
+#nav_profile_arrow_up {
+    color: rgb(66, 168, 66);
+}
+.nav_profile {
+    left: -30px;
+    list-style-type: none;
+    position: absolute;
+    top: -5px;
+}
+.nav_profile li {
+    display: inline;
+    vertical-align: middle;
+}
+.nav_profile_username_li {
+    margin-left: 15px;
+}
+.nav_profile_arrow_li {
+    margin-left: 6px;
+    top: 5px;
+    position: relative;
+}
+.profile_popup_icons {
+    font-size: 25px;
+    padding-top: 10px;
+    cursor: pointer;
+}
+.profile_popup_titles {
+    font-size: 20px;
+    padding-right: 15px;
+    text-decoration: none;
+    color: #000;
+    font-weight: 600;
+    cursor: pointer;
+}
+.nav_profile_popup {
+    width: 185px;
+    height: 225px;
+    padding-right: 15px;
+    padding-top: 15px;
+    z-index: 8;
+    background-color: rgb(248, 241, 241);
+    border: solid 1px #000;
+    position: absolute;
+    left: 0.5%;
+    top: 85px;
+    display: none;
+}
+.profile_popup_close {
+    font-size: 30px;
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    z-index: 9;
+}
+.profile_popup_close:hover {
+    color:rgb(66, 168, 66);
+}
+.profile_popup_menu {
+    position: relative;
+    text-align: right;
+    display: grid;
+    justify-items: right;
+}
+.profile_hr {
+    width: 70%;
+    height: 1px;
+    background-color: #000;
+    border: none;
+    margin-right: 0;
+    margin-top: 5px;
+}
+.profile_title {
+    font-weight: 700;
+    font-size: 16px;
+}
+@media screen and (max-width: 720px) {
+    .nav_profile {
+        top: -12.5px;
+    }
+}
+.nav_profile_popup_wrapper {
+    z-index: 7;
+    width: 100%;
+    height: 100%;
+    position:fixed;
+    top: 0;
+    display: none;
+}
+.navlogin_secondfield {
+    margin-right: 25px;
+}
