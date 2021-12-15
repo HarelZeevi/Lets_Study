@@ -29,6 +29,11 @@ INSERT INTO students
             (
 						studentCode,
                         id,
+<<<<<<< HEAD
+                        userType,
+                        profile_img,
+=======
+>>>>>>> deb8acd5f816875114b04b24e6dcee5cc36eb24f
                         fullname,
                         username,
                         school,
@@ -43,6 +48,11 @@ INSERT INTO students
             (
 						"QLtSMX6ECSFURJ3",
                         "987654321",
+<<<<<<< HEAD
+                        'P',
+                        null,
+=======
+>>>>>>> deb8acd5f816875114b04b24e6dcee5cc36eb24f
                         "John Adams",
                         "johnie123",
                         "571109",
@@ -59,6 +69,11 @@ INSERT INTO students
             (
 						studentCode,
                         id,
+<<<<<<< HEAD
+                        userType,
+                        profile_img,
+=======
+>>>>>>> deb8acd5f816875114b04b24e6dcee5cc36eb24f
                         fullname,
                         username,
                         school,
@@ -73,6 +88,11 @@ INSERT INTO students
             (
 						"QeQ6M>6E23U._3",
                         "123456789",
+<<<<<<< HEAD
+                        'T', 
+                        null,
+=======
+>>>>>>> deb8acd5f816875114b04b24e6dcee5cc36eb24f
                         "Ori",
                         "Granevich",
                         #school = schoolId
@@ -88,6 +108,10 @@ INSERT INTO students
 INSERT INTO tutors
             (
                         studentid,
+<<<<<<< HEAD
+                        bio,
+=======
+>>>>>>> deb8acd5f816875114b04b24e6dcee5cc36eb24f
                         isapproved,
                         rate,
 						tutoringHours, 
@@ -96,6 +120,10 @@ INSERT INTO tutors
             VALUES
             (
                         "123456789",
+<<<<<<< HEAD
+                        'physics and math 5 points',
+=======
+>>>>>>> deb8acd5f816875114b04b24e6dcee5cc36eb24f
                         true,
                         5,
 						0,
@@ -108,7 +136,13 @@ INSERT INTO admins
                         firstname,
                         lastname,
                         pswd,
+<<<<<<< HEAD
+                        school,
+                        phone,
+                        email
+=======
                         school
+>>>>>>> deb8acd5f816875114b04b24e6dcee5cc36eb24f
                         
             )
             VALUES
@@ -117,7 +151,13 @@ INSERT INTO admins
                         "Avi",
                         "Yaakovi",
                         "1234",
+<<<<<<< HEAD
+                        "571109",
+                        "0567893425",
+                        "aviYaak@gmail.com"
+=======
                         "571109"
+>>>>>>> deb8acd5f816875114b04b24e6dcee5cc36eb24f
             );
 
 INSERT INTO languages
@@ -133,7 +173,11 @@ INSERT INTO languages
 
 INSERT INTO subjects
             (
+<<<<<<< HEAD
+						studentid,
+=======
 			studentid,
+>>>>>>> deb8acd5f816875114b04b24e6dcee5cc36eb24f
                         subjectname ,
                         points,
                         grade
