@@ -4,7 +4,6 @@
     height: 40px;
     background-image: linear-gradient(to left, rgb(71,127,228), rgb(100, 146, 231));
     margin-top: 10px;
-    left: 438px;
     line-height: 40px;
     padding-right: 40px;
     font-size: 20px;
@@ -13,6 +12,11 @@
     color: #ffedec;
     border-radius: 20px;
     top: -10px;
+}
+.subjectLabels {
+    width: 100%;
+    direction: rtl;
+    user-select: none;
 }
 .TeacherSettings_SubDiv_SubIcon {
     position: absolute;
@@ -37,6 +41,8 @@
     color: blue;
     text-decoration: none;
     font-size: 17px;
+    width: 110px;
+    cursor: pointer;
 }
 .TeacherSettings_AddSubjectButton:hover {
     text-decoration: underline;

@@ -78,7 +78,7 @@ function ProfileSettings(props) {
     const oldPhone = props.placeholder_phone;
     const oldEmail = props.placeholder_email;
     const oldPfp = props.user_image;
-    const isTeacher = props.isTeacher;
+    const isTeacher = true;
     const form_image_input = useRef();
     const ps_userImg = useRef();
     const [ps_height, setPsHeight] = useState(300);
@@ -198,7 +198,9 @@ function ProfileSettings(props) {
                             {oldUsername}
                         </div>
                     </div>
-                    <TeacherSettings isTeacher={isTeacher} setPSHeight={setPsHeight}></TeacherSettings>
+                    {
+                        isTeacher ? <TeacherSettings setPSHeight={setPsHeight}></TeacherSettings> : <div></div>
+                    }
                 </form>
             </div>
         </div>

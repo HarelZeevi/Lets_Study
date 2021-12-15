@@ -5,6 +5,7 @@
     z-index: 10;
     text-align: right;
     display: none;
+    top: -25px;
 }
 .ProfileSettings_DarkBG {
     width: 100%;

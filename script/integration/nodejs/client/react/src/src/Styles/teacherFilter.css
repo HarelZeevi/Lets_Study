@@ -1,0 +1,107 @@
+.filter1-containter,.filter2-containter{
+    font-size: xx-large;
+    font-weight: bold;
+    border: 1px solid black;
+    position: absolute;
+    width: 220px;
+    height: 50px;
+    z-index: 10;
+}
+.filter2-containter{
+    width: 180px;
+}
+.sort-filter-container{
+    position: absolute;
+    top: 15%;
+    right: 12.5%;
+    z-index: 11;
+}
+.subject-filter-container{
+    position: absolute;
+    top: 15%;
+    left: 78%;
+}
+.sort-icons{
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    right: 2%;
+}
+
+.filter-angle-down, .filter-angle-up{
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    left: 5%;
+}
+
+.filter-angle-down{
+display: none;
+}
+
+.subject-filter-popup{
+    position: absolute;
+    z-index: 15;
+    top: 51px;
+
+}
+.subject-filter-popup, .filter1-containter{
+    margin-right: 30px;
+}
+.subject-input{
+    display: none;
+    width: 214px;
+    height: 30px;
+}
+#sort-form-container{
+    display:none;
+    height: 420px;
+    width: 250px;
+    position: absolute;
+    top: 65px;
+    text-align: right;
+    border: solid 1px #000;
+    background-color: #fff;
+    /* clip-path: polygon(0 100%, 100% 100%, 100% 21%, 86% 21%, 76% 0, 63% 21%, 0 21%); */
+}
+.filter2-paragraph-container-inputs{
+    top: 32%;
+    position: absolute;
+    right: 87px; 
+}
+.filter2-paragraph-container, .filter2-paragraph-container2, .filter2-paragraph-container3, .date-time-continer-sort, .filter2-paragraph-container-inputs2, .tf_genderDiv {
+    position: relative;
+    right: 15px;
+}
+.date-time-continer-sort, .filter2-paragraph-container-inputs2, .tf_genderDiv {
+    margin-top: -10px;
+}
+#FiX-sort {
+    display: none;
+}
+#teacherfilters_bgdiv2, #teacherfilters_bgdiv1 {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 90px;
+    left: 0px;
+    display: none;
+    z-index: 11;
+    /* z-index: 10; */
+}
+.TF_FilterSubmitBtn {
+    width: 150px;
+    height: 35px;
+    background-color: rgb(32, 145, 211);
+    border-radius: 25px;
+    border: solid 1px #000;
+    color: white;
+    font-size: 20px;
+    position: relative;
+    transition: 0.2s all;
+    right: 50px;
+}
+.TF_FilterSubmitBtn:hover {
+    background-color: rgb(32, 190, 211);
+    transition: 0.2s all;
+}

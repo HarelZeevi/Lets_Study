@@ -16,7 +16,7 @@ import "../src/Styles/app.css";
 import NavLogin from './Components/NavLogin.jsx';
 import ProtectedRoute from './Components/ProtectedRoutes.jsx';
 import NotFound from './Pages/NotFound.jsx';
-
+import JitsiMeet from './Components/JitsiMeet.jsx';
 export function App() {
   return (
     <div className="app">
@@ -34,6 +34,7 @@ export function App() {
     <Route component={Home} exact path="/"/>
 
     {/*TEST SECTION*/}
+    <Route component={JitsiMeet} path='/meeting'/>
     <Route component={NotFound} path='/404'/>
     </Switch>
     </div>
