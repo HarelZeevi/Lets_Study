@@ -42,7 +42,6 @@ async function fetchTeachers(params, callback){
   xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
   xhr.send(urlEncodedDataPairs.join("&"));
 }
-
 async function fetchAcvailability(params, callback){
     var xhr = new XMLHttpRequest();
     const url = 'http://localhost:1234/api/findTutors/'; 
@@ -77,33 +76,33 @@ async function fetchAcvailability(params, callback){
     let tf_gradeYudBeit = true;
     let isOpen1 = false;
     const [resReturn, setResReturn] = useState([])
-    const [res,setRes] =  useState([]);
-    const renderTeachers = async ()=>{
-        setRes(await axios.get(`/MatchedTeachers.json`));
-        setTeachersData(res.data);
-     }
-    useEffect(() => {
-      let mount = true;
 
+    let tc_reveal = useRef();
+    useEffect(() => {
+        let mount = true;
+        document.getElementById('tc_reveal').style.display = 'none';
+        const renderTeachers = async ()=>{
+            const data=await axios.get(`/MatchedTeachers.json`);
+            setTeachersData(data.data);
+         }
          if(mount) renderTeachers();
          return ()=>{mount = false}
+         
+    
+    }, [resReturn])
 
     
-    }, [teachersData])
 
-
-
+    const [teacherCard, setteacherCard] = useState({});
     const getTeacherById = (id)=>{
-      document.getElementById('tc_div').style.display = 'block';
-      let result;
-
+      let result = null;
       teachersData.map(teacher => {
-        if (teacher.teacherid === id) result = teacher;
-        return teacher; 
-      })
-      setResReturn(result);
-      if (result !== undefined) return result;
-      return console.error("NO TEACHER IN DB");
+        if (teacher.teacherid === id) {
+            result = teacher;
+        }
+        });
+        setteacherCard(result);
+        document.getElementById('tc_reveal').style.display = 'block';
     }
     
     const onFilter1Click = ()=>{
@@ -227,37 +226,30 @@ async function fetchAcvailability(params, callback){
         var newteachers = localhost.send(event.target.value) beeep boop port 1234;
         jsonfile.update(newteachers);
         */
-        console.log('res: ', resReturn);
         let subject;
-        alert(event.target.value)
         switch (event.target.value)
         {
-            case 1: subject = "math";
+            case "מתמטיקה": subject = "math";
             // Add here more cases for each Hebrew subject
             // The idea is to use the English subjects Instead
             default: subject =  null
         }
+        alert(subject);
 
         // IMPORTANT!!! The format of the Date String match this pattern: "YYYY/MM/DD" (YEAR/Month/DAY)
         fetchTeachers(
             {
-                "subject": "1",
-                "date":"2022-09-04",
+                "subjectNum": 1,
+                "grade1":10,
+                "grade2":12, 
+                "date":"2021-05-11",
                 "tutorGender": "M",
-                "rate": 5
+                "rate": 1
             },
-            (res) => 
-            {
-                setResReturn(JSON.parse(res))
-                console.log('res: ',JSON.parse(res));
-                setTeachersData(JSON.parse(res));
-                console.log(teachersData);
-                if (res != "Not found")
-                {
-                    console.error('NO DATA')
-                }
-            }
-       )
+            (res) => setTeachersData(res)
+            
+        )
+        console.log(teachersData);
     }
     const increase = async ()=>{
       // const data=await axios.get(`/resultExample.json/${currentPage+1}`);
@@ -271,7 +263,7 @@ async function fetchAcvailability(params, callback){
 
     return (
     <div dir="rtl">
-    <TeacherCard teacher={resReturn}/>
+        <div id="tc_reveal" ref={tc_reveal}><TeacherCard teacher={teacherCard}/></div>
      <div id="teacherfilters_bgdiv1" onClick={onFilter1Click}></div>
         <div id="teacherfilters_bgdiv2" onClick={onFilter2Click}></div>
 
@@ -289,7 +281,7 @@ async function fetchAcvailability(params, callback){
                     <option value="מדעי החברה" className="tf-option-subject-fields"></option>
                 </datalist>  	
                 </div>
-        </div>
+        </div>A
         <div className="sort-filter-container">
         <div className="filter2-containter nonselective" onClick={onFilter2Click}>
             <FiX id='FiX-sort' className='sort-icons'/>
@@ -337,8 +329,9 @@ async function fetchAcvailability(params, callback){
           teachersData.map
           (
               teacher=>(
+                  
            <div className="teacher-container">
-          <img className='tc_teacherimage' alt="the teacher's profile picture" src="https://i.stack.imgur.com/34AD2.jpg"/>
+          <img className='tc_teacherimage' alt="the teacher's profile picture" src="https://upload.wikimedia.org/wikipedia/commons/f/f4/%D7%92%27_%D7%99%D7%A4%D7%99%D7%AA.jpg"/>
           <div>
           <h1 className='tc_name'> {teacher.fullname}</h1>
           <p dir='rtl' className='tc_bio'>{teacher.bio}</p>

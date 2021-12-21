@@ -1281,32 +1281,32 @@ app.post('/api/findTutors/', authJwt, (req, res) => {
         return;
     }
     const grade1 = req.body.grade1 || undefined;     //The tutor's preferred grade - 10 / 11 / 12 (optional pass)
-    console.log("res" + testData(garde, 7));
-    if(testData(grade, 7) !== 0)
+    console.log("res" + testData(grade1, 7));
+    if(testData(grade1, 7) !== 0)
     {
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
         res.end("Invalid grade!");
         return;
     }
     const grade2 = req.body.grade2 || undefined;     //The tutor's preferred grade - 10 / 11 / 12 (optional pass) 
-    console.log("res" + testData(garde, 7));
-    if(testData(grade, 7) !== 0)
+    console.log("res" + testData(grade2, 7));
+    if(testData(grade2, 7) !== 0)
     {
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
         res.end("Invalid grade!");
         return;
     }
     const studentGender = req.tokenData.gender;   // The learner's gender - male or female (must pass)
-    console.log("res" + testData(gender, 8));
-    if(testData(gender, 8) !== 0)
+    console.log("res" + testData(studentGender, 8));
+    if(testData(studentGender, 8) !== 0)
     {
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
         res.end("Invalid gender!");
         return;
     }
     const tutorGender = req.body.tutorGender || undefined;   // The tutor's preferred gender - male or female (optional pass)
-    console.log("res" + testData(gender, 8));
-    if(testData(gender, 8) !== 0)
+    console.log("res" + testData(tutorGender, 8));
+    if(testData(tutorGender, 8) !== 0)
     {
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
         res.end("Invalid gender!");
@@ -1320,7 +1320,7 @@ app.post('/api/findTutors/', authJwt, (req, res) => {
         res.end("Invalid rate!");
         return;
     }
-    console.log(`${subject}, ${date}, ${studentGender}, Tutor: ${tutorGender}, ${grade1}, ${grade2}, ${rate}`);
+    console.log(subjectNum, date, studentGender, tutorGender, grade1, grade2, rate);
     searchTeacher(res, subjectNum, date, studentGender, tutorGender, grade1, grade2, rate);
 });
 

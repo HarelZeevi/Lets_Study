@@ -12,9 +12,7 @@
     position: relative;
     text-align: right;
 }
-#tc_div{
-    display: none;
-}
+
 .tc_name {
     font-size: 25px;
 }

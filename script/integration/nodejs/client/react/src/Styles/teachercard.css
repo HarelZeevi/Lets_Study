@@ -12,7 +12,6 @@
 
 .fc_button {
     border-radius: 25px;
-    /* background-color: transparent; */
     background-color:#38761D ;
     transition: 0.3s all;
     width: 180px;
@@ -24,10 +23,81 @@
 
   .fc-Container-Content{
     border-radius: 20px;
-    background-color: #F9CB9C;
+    background-color: #f9f0f1;
     margin: auto;
     padding: 20px;
     border: 3px solid #888;
     height: 550px;
     width: 800px;
   }
+
+  .tc_user-details{
+    position: absolute;
+    width: 150px;
+    height: 150px;
+  }
+.tc_user-details_img{
+  position: relative;
+  top: 65px;
+}
+.tc_user-details_name{
+  position: relative;
+  top: -115px;
+  right: 180px;
+  width: 250px;
+}
+.tc_user-details_bio{
+  position: relative;
+  top: -115px;
+  right: 210px;
+  width: 300px;
+}
+.tc_user-details_grade {
+  position: relative;
+  background-color: #ffe599;
+  top: -90px;
+  right: 350px;
+  border: 1px solid #000;
+  height: 35px;
+}
+.tc_user-details_subject {
+  position: relative;
+  background-color: #ea9999;
+  top: -128.1px;
+  right: 180px;
+  border: 1px solid #000;
+  height: 35px;
+}
+
+.tc_email-phonenumber{
+  position: absolute;
+  width: 100px;
+  height: 60px;
+  top: 38%;
+}
+.tc_icons{
+  width: 25px;
+  height: 25px;
+}
+
+.tc_email{
+  position: relative;
+  right: 290px;
+  bottom: 120px;
+}
+.tc_mdmail{
+  position: relative;
+  right: 440px;
+  bottom: 70px;
+}
+.tc_phone{
+  width: 200px;
+  position: relative;
+  right: 317px;
+  top: 10px;
+}
+.tc_mdphone{
+  position: relative;
+  right: 440px;
+  top: 58px;
+}

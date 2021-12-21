@@ -46,8 +46,6 @@ function MyLessons()
     fetchTeachers((res) => {
         
         objData = JSON.parse(res);
-    
-
         objData.forEach((item) => {
             let current = new Date();
             if (new Date(item.availabledate.substring(0, 10)) > current || (item.availabledate === current && current.getTime() > item.endtime))
@@ -57,9 +55,9 @@ function MyLessons()
         })
         if (res != null)       
         { 
-            console.table(objData);
-            console.table(upcomming);
-            console.table(tookPlace);
+            console.log(objData);
+            console.log(upcomming);
+            console.log(tookPlace);
         }
     });
 
