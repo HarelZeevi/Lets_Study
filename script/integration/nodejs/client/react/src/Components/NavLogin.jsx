@@ -146,6 +146,7 @@ function NavLogin() {
     }
     const disconnect = () => {
         localStorage.setItem("token", "");
+        localStorage.setItem("isAuthenticated", "false");
         window.location.reload();
     }
     const showPS = () => {

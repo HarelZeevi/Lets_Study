@@ -8,10 +8,10 @@ import { BiWindows } from 'react-icons/bi';
 
 const JitsiMeet = () => {
 
-  const [room, setRoom] = useState('') // "LetsStudy_biology_194z72d83D72DF"
-  const [name, setName] = useState('') // "Ido Abrahami"
-  const [password, setPassword] = useState('') // "1928"
-  const [call, setCall] = useState(false) // the code "setCall(true) to start the meeting (ONLY AFTER ROOM, NAME AND PASSWORD ARE UPDATED!)"
+  const [room, setRoom] = useState('LetsStudy_biology_194z72d83D72DF') // "LetsStudy_biology_194z72d83D72DF"
+  const [name, setName] = useState('ישראל ישראלי') // "Ido Abrahami"
+  const [password, setPassword] = useState('pa$$word') // "1928"
+  const [call, setCall] = useState(true) // the code "setCall(true) to start the meeting (ONLY AFTER ROOM, NAME AND PASSWORD ARE UPDATED!)"
 
   async function getJitsiDetails(params, callback) {
     var xhr = new XMLHttpRequest();
@@ -36,25 +36,32 @@ const JitsiMeet = () => {
     xhr.send(urlEncodedDataPairs.join("&"));
   }
   
+  function setDetails(res){
+    let resObj = JSON.parse(res)[0];
+    console.log("room: " + resObj.room + ", name: " + resObj.fullname + ", pswd: " + resObj.roomPswd);
+    console.log(resObj.room);
+    setRoom(resObj.room)
+    setName(resObj.fullname);
+    setPassword(resObj.roomPswd);
+    console.log("room: " + resObj.room + ", name: " + resObj.fullname + ", pswd: " + resObj.roomPswd);
+    //console.log("Params inside of function:");
+
+  }
  
   useEffect(() => {
-    getJitsiDetails({ lessonId: 3 }, (res) => {
-      if (res === "1") {
+    getJitsiDetails({ lessonId: 3}, (res) => {
+      if (res === "Not found") {
         alert("No lesson was found for this user...")
       }
       else {
-        let resObj = JSON.parse(res)[0];
-        console.log(resObj.room);
-        setRoom(resObj.room);
-        setName(resObj.fullname);
-        setPassword(resObj.roomPswd);
-        setCall(true)
-        //console.log("Params inside of function:");
-        console.log("room: " + room + ", name: " + name + ", pswd: " + password);
+        setDetails(res);
+        setCall(true);
       }
     });
-    
-  }, );
+  }, []);
+כת
+
+
   //console.log("Params out of function:")
   //console.log("room: " + room + ", name: " + name + ", pswd: " + password);
   /*

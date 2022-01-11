@@ -27,7 +27,6 @@ function updateTeachingSubjects(params, callback) {
     for (name in params) {
         urlEncodedDataPairs.push(encodeURIComponent(name) + '=' + encodeURIComponent(params[name]));
     }
-    alert(urlEncodedDataPairs.join("&"));
     xhr.send(urlEncodedDataPairs.join("&"));
 }
 
@@ -46,7 +45,7 @@ function getTeachingSubjects(callback) {
     }
     xhr.send(null);
 }
-let subjects = [null, null, null, null];
+var subjects = [null, null, null, null];
 function TeacherSettings(props) {
      // "LetsStudy_biology_194z72d83D72DF"
     const subjectNames = [
@@ -80,32 +79,27 @@ function TeacherSettings(props) {
     const [sub3_name, setSub3_name] = useState(subjectNames[subjects[2]]);
     const [sub4_name, setSub4_name] = useState(subjectNames[subjects[3]]);
     const [subMenu_visibility, setSubMenu_visibility] = useState('none');
-    
+
     useEffect(() => {
         // Get the subject array here and update it! Example: subject = [1,2,3,null];
-        getTeachingSubjects((res) => {
-            let nsubjects = [null, null, null, null]
-            if (!(res == "Not found")) {
-                console.log("Found")
-                let resObject = JSON.parse(res)[0];
-                //console.log(resObject.subject1, resObject.subject2, resObject.subject3, resObject.subject4);
-                let subjects = new Array(resObject.subject1, resObject.subject2, resObject.subject3, resObject.subject4);
-                //console.log("in function: ");
-                //console.log(subjects);  
-                updateSubjects(subjects); 
-                //setSubjects(nsubjects);
-                
-            }
-        })   
+        if (localStorage.getItem("isAuthenticated") == "true") {
+            getTeachingSubjects((res) => {
+                let nsubjects = [null, null, null, null]
+                if (!(res == "Not found")) {
+                    let resObject = JSON.parse(res)[0];
+                    subjects = new Array(resObject.subject1, resObject.subject2, resObject.subject3, resObject.subject4);
+                    updateSubjects(subjects);
+
+                }
+            })
         }
-    , []);
-    
+    }
+        , []);
+
     function updateSubjects(subjects)
     {
         let subIndex = 0;
         let isIncludingNull = false;
-        console.log("in map: ");
-        console.log(subjects);
         subjects.map(sub => {
             switch(subIndex)
             {
@@ -165,10 +159,7 @@ function TeacherSettings(props) {
         // Harel - update the subjects in your database. (The array "subject" is updated at this point)
         console.log("Updating...");
         console.log(subjects);
-        updateTeachingSubjects({subjects: [1, 2, null , 6]}, (res) => {
-            console.log(subjects);
-            alert(res);
-        })
+        
     }
     function closeSubject(e) {
         const sub_closed_index = parseInt(e.currentTarget.id[8]);
@@ -191,7 +182,12 @@ function TeacherSettings(props) {
                 break;
         }
         setSubTitle('block');
+        console.log(subjects);
+        updateSubjects(subjects);
         // HAREL - UPDATE AFTER THE REMOVAL OF A SPECIFIC SUBJECT HERE (the array's name is subjects[])
+        console.log(subjects);
+        updateTeachingSubjects({subjects: subjects}, (res) => {
+        })
     }
     const searchSubjects = () => {
         
@@ -211,8 +207,12 @@ function TeacherSettings(props) {
         if(!subjects.includes(newSub))
         {
             subjects[subjects.indexOf(null)] = newSub;
-            updateSubjects();
+            updateSubjects(subjects);
             // Harel - here you update the subject array in the DB.
+
+            updateTeachingSubjects({subjects: subjects}, (res) => {
+                console.log(subjects);
+            })
         }
         SubMenuToggle();
     }

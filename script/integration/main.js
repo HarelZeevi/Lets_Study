@@ -706,8 +706,8 @@ function  updateTeachingSubjects(res, tutorId, subject1, subject2, subject3, sub
                     subject1 = ${mysql.escape(subject1)},
                     subject2 = ${mysql.escape(subject2)},
                     subject3 = ${mysql.escape(subject3)},
-                    subject4 = ${mysql.escape(subject4)},
-                    WHERE studentId =${mysql.escape(tutorId)};`;
+                    subject4 = ${mysql.escape(subject4)}
+                    WHERE studentId = ${mysql.escape(tutorId)};`;
 
     con.query(sqlQuery, function(err, result){
         checkActionDone(result, err, res);
@@ -978,9 +978,21 @@ function uploadProfileImage(res, studentId, profileImg)
 }
 
 // function for getting jitsi room name by lesson id
-function getRoomName(res, lessonId)
+function getJitsiDetails(res, lessonId, isTeacher)
 {
-    let sqlQuery = `SELECT room FROM lessons WHERE id = ${mysql.escape(lessonId)}`;
+    console.log("Fetching jitsi details");
+    console.log("Lesson Id: " + lessonId);
+    let sqlQuery;
+    if (isTeacher)
+        sqlQuery = `SELECT lessons.room, lessons.roomPswd, students.fullname 
+                    FROM lessons
+                    INNER JOIN students ON lessons.tutorid = students.id
+                    WHERE lessons.id = ${mysql.escape(lessonId)}`;
+    else
+        sqlQuery = `SELECT lessons.room, lessons.roomPswd, students.fullname 
+                    FROM lessons
+                    INNER JOIN students ON lessons.pupilid = students.id
+                    WHERE lessons.id = ${mysql.escape(lessonId)}`;
     con.query(sqlQuery, function(err, result){
         getResultObject(result, err, res);
     });   
@@ -1403,12 +1415,13 @@ app.post('/api/tutors/updateTeachingSubjects', authJwt, (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
     const tutorId = req.tokenData.id;
-    const subjects = req.subjects; // an array of 4 subject the user have chosen
-    const subject1 = subjects[0];
-    const subject2 = subjects[1];
-    const subject3 = subjects[2];
-    const subject4 = subjects[3];
-    updateTeachingSubjects(res, tutorId);
+    const subjects = req.body.subjects.split(","); // an array of 4 subject the user have chosen
+    console.log(subjects);
+    const subject1 = subjects[0] == "" ? null: subjects[0];
+    const subject2 = subjects[1] == "" ? null: subjects[1]; 
+    const subject3 = subjects[2] == "" ? null: subjects[2];
+    const subject4 = subjects[3] == "" ? null: subjects[3];
+    updateTeachingSubjects(res, tutorId, subject1, subject2, subject3, subject4)
 });
 
 // subjects are no more stored in a differnt table but in as a field of tutor
@@ -1589,9 +1602,14 @@ app.post('/api/tutors/changeBio', authJwt, (req, res) => {
 });
 
 // getting jitsi room name
-app.get('/api/lessonRoom/:lessonId', (req, res) => {
-    const lessonId = req.params.lessonId;
-    getRoomName(res, lessonId)
+app.post('/api/getJitsiDetails', authJwt, (req, res) => {
+    if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) {
+        res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
+        res.end("You are not allowed to do this action!");
+    }
+    const lessonId = req.body.lessonId;
+    const isTeacher = req.tokenData.isTeacher;
+    getJitsiDetails(res, lessonId, isTeacher)
 });
 
 
