@@ -281,7 +281,7 @@ async function fetchAcvailability(params, callback){
                     <option value="מדעי החברה" className="tf-option-subject-fields"></option>
                 </datalist>  	
                 </div>
-        </div>A
+        </div>
         <div className="sort-filter-container">
         <div className="filter2-containter nonselective" onClick={onFilter2Click}>
             <FiX id='FiX-sort' className='sort-icons'/>
@@ -341,9 +341,7 @@ async function fetchAcvailability(params, callback){
          <div className='teacher_infofields tc_subject'>{teacher.subjectname}</div>
             </div>
         </div>
-        <button className='lessons_deeplinker' onClick={()=>getTeacherById(teacher.teacherid)}/*HAREL*/>
-
-            קבע שיעור</button>
+        <button className='lessons_deeplinker' onClick={()=>getTeacherById(teacher.teacherid)}/*HAREL*/>קבע שיעור</button>
           </div>
           ))}
       

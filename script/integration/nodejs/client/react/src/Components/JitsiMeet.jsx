@@ -59,8 +59,6 @@ const JitsiMeet = () => {
       }
     });
   }, []);
-כת
-
 
   //console.log("Params out of function:")
   //console.log("room: " + room + ", name: " + name + ", pswd: " + password);
