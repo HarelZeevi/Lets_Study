@@ -60,10 +60,7 @@ function MyLessons() {
             }
         })
 
-    return (
-
-
-        
+    return (        
         <div dir="rtl">
             <FirstLoginCta />
             {
