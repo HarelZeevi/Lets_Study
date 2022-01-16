@@ -1,7 +1,7 @@
 # Rules:
 1. Pull Before Push - It's simple. Don't push or work on an outdated version of the project.
 2. Don't Change the configuration.
-4. <h1>Remember to pull every few days to stay updated.</h1>
+4. <strong>Remember to pull every few days to stay updated.</strong>
 
 # What should I put In each folder?
 The answer is very simple:
