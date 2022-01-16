@@ -71,7 +71,7 @@ function MyLessons() {
                         <div className='teacher-container'>
                           <img className='tc_teacherimage' alt="the teacher's profile picture" src="https://upload.wikimedia.org/wikipedia/commons/f/f4/%D7%92%27_%D7%99%D7%A4%D7%99%D7%AA.jpg"/>  
                         <h1 className='tc_name'> {lesson.fullname}</h1>
-                        <div dir='rtl' className=''>{lesson.subkectname}</div>
+                        <div dir='rtl' className=''>{lesson.subjectname}</div>
                         <div className='teacher_infofields tc_grade'>{lesson.grade}</div>
                         <button className='lessons_deeplinker' onClick={()=>{}}/*HAREL*/> עריכת שיעור </button>
                         </div>
