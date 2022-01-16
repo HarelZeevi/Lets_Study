@@ -331,7 +331,7 @@ async function fetchAcvailability(params, callback){
               teacher=>(
                   
            <div className="teacher-container">
-          <img className='tc_teacherimage' alt="the teacher's profile picture" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.wired.co.uk%2Farticle%2Fnft-memes-2010s&psig=AOvVaw0y0pqId-k1kg5Pgij6-u48&ust=1642449196513000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLDC5ZqGt_UCFQAAAAAdAAAAABAD"/>
+          <img className='tc_teacherimage' alt="the teacher's profile picture" src="https://media.wired.co.uk/photos/607d91994d40fbb952b6ad64/4:3/w_2664,h_1998,c_limit/wired-meme-nft-brian.jpg"/>
           <div>
           <h1 className='tc_name'> {teacher.fullname}</h1>
           <p dir='rtl' className='tc_bio'>{teacher.bio}</p>
