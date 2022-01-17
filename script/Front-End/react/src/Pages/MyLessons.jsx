@@ -8,8 +8,10 @@ import { AiFillStar } from 'react-icons/ai';
 import { useRouteMatch } from 'react-router';
 import { GiConsoleController } from 'react-icons/gi';
 
-
-async function fetchTeachers(callback) {
+// this function doesn't get ny parameters. it will change the two arrays:
+// upcoming - contain the upcoming lessons of the user 
+// tookPlace - contain the lessons of the user which have already took place in the past.
+async function fetchLessons(callback) {
     var xhr = new XMLHttpRequest();
     const url = 'http://localhost:1234/api/lessons/';
 
@@ -35,7 +37,7 @@ function MyLessons() {
             const data = await axios.get(`/TeacherService.json`);
             setTeachersData(data.data);
         }
-        fetchTeachers(teachersData)
+
         if (mount) renderTeachers();
         return () => { mount = false }
 
@@ -43,7 +45,10 @@ function MyLessons() {
     let objData;
     let upcomming = [];
     let tookPlace = [];
-        fetchTeachers((res) => {
+
+    // only if the user is authneticated fetch the t
+    if (localStorage.getItem("isAuthenticated") == "true") { 
+        fetchLessons((res) => {
 
             objData = JSON.parse(res);
             objData.forEach((item) => {
