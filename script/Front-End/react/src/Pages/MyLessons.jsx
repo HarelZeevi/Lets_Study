@@ -64,7 +64,7 @@ function MyLessons() {
                 console.log(tookPlace);
             }
         })
-
+    }
     return (        
         <div dir="rtl">
             <FirstLoginCta />

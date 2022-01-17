@@ -18,7 +18,7 @@ import "../Styles/teacherFilter.css";
 // BsArrowLeft
 // BsArrowRight
 
-
+///// fetch list of teachers from the server
 async function fetchTeachers(params, callback){
   var xhr = new XMLHttpRequest();
   const url = 'http://localhost:1234/api/findTutors/'; 
@@ -42,9 +42,12 @@ async function fetchTeachers(params, callback){
   xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
   xhr.send(urlEncodedDataPairs.join("&"));
 }
-async function fetchAcvailability(params, callback){
+
+
+/// fetch  tutor's availability
+async function fetchAvailability(params, callback){
     var xhr = new XMLHttpRequest();
-    const url = 'http://localhost:1234/api/findTutors/'; 
+    const url = 'http://localhost:1234/api/getAvailability/'; 
         
     xhr.open("POST", url);
     let token = localStorage.getItem("token");
@@ -65,6 +68,32 @@ async function fetchAcvailability(params, callback){
     xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
     xhr.send(urlEncodedDataPairs.join("&"));
   }
+
+///// fetch list of teachers from the server
+async function scheduleLesson(params, callback){
+    var xhr = new XMLHttpRequest();
+    const url = 'http://localhost:1234/api/addlesson/'; 
+        
+    xhr.open("POST", url);
+    let token = localStorage.getItem("token");
+    
+    xhr.onreadystatechange = function() { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            callback(xhr.responseText)
+        }
+    }
+    
+  
+    // CONVERTING OBJECT PARAMS TO ENCODED STRING
+    let urlEncodedData = "", urlEncodedDataPairs = [], name;
+    for(name in params) {
+    urlEncodedDataPairs.push(encodeURIComponent(name)+'='+encodeURIComponent(params[name]));
+    }
+    xhr.setRequestHeader("authorization", token);
+    xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+    xhr.send(urlEncodedDataPairs.join("&"));
+  }
+
  function Lessons() {
     const [currentPage, setCurrentPage] = useState(1);
     const [teachersData,setTeachersData] = useState([]);
@@ -237,6 +266,8 @@ async function fetchAcvailability(params, callback){
         alert(subject);
 
         // IMPORTANT!!! The format of the Date String match this pattern: "YYYY/MM/DD" (YEAR/Month/DAY)
+        
+        // here we get the available teachers
         fetchTeachers(
             {
                 "subjectNum": 1,
@@ -250,6 +281,40 @@ async function fetchAcvailability(params, callback){
             
         )
         console.log(teachersData);
+
+        /*
+        // here we get the avilable time of a specific teacher
+        fetchAvailability(
+            {
+                "tutorId": "254638563",    
+            },
+            (res) =>
+            {
+                console.log("Finished fetching availability");
+                // Ori here you call the function that updates the availability of the teacher 
+                // with res - the result object of the availability
+                console.table(res);
+            }
+        )
+        */
+        // here we schedule a lesson with a gotten calendar Id, tutorId, subject and points amount.
+        scheduleLesson(
+            {
+                "tutorId":"254638563",
+                "calendarId":42, 
+                "subject": 1,
+                "points": 5
+            }, 
+            (res) =>
+            {
+                console.log("Finished fetching availability");
+                // Ori here you call the function that updates the availability of the teacher 
+                // with res - the result object of the availability
+                console.log(res);
+            }
+            )
+
+
     }
     const increase = async ()=>{
       // const data=await axios.get(`/resultExample.json/${currentPage+1}`);

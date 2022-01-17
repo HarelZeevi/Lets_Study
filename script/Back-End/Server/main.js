@@ -399,7 +399,7 @@ function signJwt(result, err, res)
             else    
                 result[0].isTeacher = false;
             user = Object.values(JSON.parse(JSON.stringify(result)))[0];
-            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "1y"})
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
             console.log(accessToken);
             res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
             res.end(JSON.stringify({accessToken:accessToken}))
@@ -523,6 +523,7 @@ function searchTeacher(res, subjectNum, date, studentGender, tutorGender, grade1
 // show available hours of tutor 
 function showAvailableHours(res, tutorId)
 {
+    console.log(tutorId);
     var sqlQuery = `SELECT id, studentid, availabledate, starttime, endtime FROM calendar
                     WHERE calendar.studentId = ${mysql.escape(tutorId)};`;
     con.query(sqlQuery,  function(err, result){
@@ -551,9 +552,10 @@ function showStudents(res)
 function scheduleLesson(res, pupilId, tutorId, calendarId, subject, points, grade)
 {
     const room = "LetsStudy/" + subject + "/" +  generateStudentCode(11);
-    var sqlQuery = `INSERT INTO lessons(pupilId, tutorId, tutorcalid, subjectName, points, grade, tookplace, room) VALUES ( ${mysql.escape(pupilId)},  ${mysql.escape(tutorId)},  ${mysql.escape(calendarId)}, ${mysql.escape(subject)},${mysql.escape(points)}, ${mysql.escape(grade)}, 0, ${mysql.escape(room)})`;
+    var sqlQuery = `INSERT INTO lessons(pupilId, tutorId, tutorcalid, points, grade, tookPlace, room, roomPswd, subjectNum) VALUES 
+                    ( ${mysql.escape(pupilId)},  ${mysql.escape(tutorId)},  ${mysql.escape(calendarId)}, ${mysql.escape(points)}, ${mysql.escape(grade)}, 0, ${generateStudentCode(5)}, ${mysql.escape(room)}, ${mysql.escape(subject)})`;
     con.query(sqlQuery,function(err, result){
-        getResultObject(result, err, res);
+        checkActionDone(result, err, res);
     });
 }
 
@@ -567,7 +569,7 @@ function showLessons(res, studentid)
                             calendar.availabledate, 
                             calendar.starttime, 
                             calendar.endtime, 
-                            lessons.subjectName, 
+                            lessons.subjectNum, 
                             lessons.points, 
                             lessons.grade
                     FROM lessons
@@ -1376,10 +1378,10 @@ app.post('/api/lessons/', authJwt, (req, res) => {
 });
 
 // show available hours
-app.get('/api/getAvailability/:tutorId', authJwt, (req, res) => {
+app.post('/api/getAvailability/', authJwt, (req, res) => {
     if (req.tokenData.userType == 'T') return res.status(401).send("You are Not allowed to do this action.")
     
-    const tutorId = req.params.tutorId;
+    const tutorId = req.body.tutorId;
     showAvailableHours(res, tutorId);
 });
 
