@@ -8,10 +8,10 @@ import { BiWindows } from 'react-icons/bi';
 
 const JitsiMeet = () => {
 
-  const [room, setRoom] = useState('LetsStudy_biology_194z72d83D72DF') // "LetsStudy_biology_194z72d83D72DF"
-  const [name, setName] = useState('ישראל ישראלי') // "Ido Abrahami"
-  const [password, setPassword] = useState('pa$$word') // "1928"
-  const [call, setCall] = useState(true) // the code "setCall(true) to start the meeting (ONLY AFTER ROOM, NAME AND PASSWORD ARE UPDATED!)"
+  const [room, setRoom] = useState('[ROOM ID]') // "LetsStudy_biology_194z72d83D72DF"
+  const [name, setName] = useState('הכנס שם') // "Ido Abrahami"
+  const [password, setPassword] = useState('') // "1928"
+  const [call, setCall] = useState(false) // the code "setCall(true) to start the meeting (ONLY AFTER ROOM, NAME AND PASSWORD ARE UPDATED!)"
 
   async function getJitsiDetails(params, callback) {
     var xhr = new XMLHttpRequest();
@@ -49,7 +49,7 @@ const JitsiMeet = () => {
   }
  
   useEffect(() => {
-    getJitsiDetails({ lessonId: 3}, (res) => {
+    getJitsiDetails({ lessonId: 27}, (res) => {
       if (res === "Not found") {
         alert("No lesson was found for this user...")
       }
