@@ -73,12 +73,28 @@ function uploadImage(image, callback)
 
 }
 
+function getIsTeacher(callback)
+{
+    var xhr = new XMLHttpRequest();
+    const url = 'http://localhost:1234/api/api/isTeacher/';
+
+    xhr.open("GET", url);
+    let token = localStorage.getItem("token");
+
+    xhr.onreadystatechange = function () { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            callback(xhr.responseText)
+        }
+    }
+}
+
+
 function ProfileSettings(props) {
     const oldUsername = props.placeholder_username;
     const oldPhone = props.placeholder_phone;
     const oldEmail = props.placeholder_email;
     const oldPfp = props.user_image;
-    const isTeacher = true;
+    const isTeacher = props.isTeacher;
     const form_image_input = useRef();
     const ps_userImg = useRef();
     const [ps_height, setPsHeight] = useState(300);
@@ -97,6 +113,12 @@ function ProfileSettings(props) {
         const newBio = "Hi this is my new Bio"; // Ido here you put the input form the user
         changeProperty(4, {newUsername :newBio}, (res) => alert(res))
     }
+
+    getIsTeacher((res) =>
+    {
+        console.log(res);
+        isTeacher = res["isTeacher"];
+    })
     const sbmtChangeImg = () => {
         let PS_oFReader = new FileReader();
         PS_oFReader.readAsDataURL(form_image_input.current.files[0]);

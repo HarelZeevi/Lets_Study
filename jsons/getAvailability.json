@@ -1,0 +1,163 @@
+[{
+    "id": 4,
+    "studentid": "254638563",
+    "availabledate": "2021-05-10T21:00:00.000Z",
+    "starttime": "12:00:00",
+    "endtime": "15:00:00"
+}, {
+    "id": 26,
+    "studentid": "254638563",
+    "availabledate": "2021-11-24T22:00:00.000Z",
+    "starttime": "08:00:00",
+    "endtime": "09:00:00"
+}, {
+    "id": 27,
+    "studentid": "254638563",
+    "availabledate": "2021-05-05T21:00:00.000Z",
+    "starttime": "18:00:00",
+    "endtime": "19:00:00"
+}, {
+    "id": 28,
+    "studentid": "254638563",
+    "availabledate": "2021-11-24T22:00:00.000Z",
+    "starttime": "08:00:00",
+    "endtime": "09:00:00"
+}, {
+    "id": 32,
+    "studentid": "254638563",
+    "availabledate": "2021-05-05T21:00:00.000Z",
+    "starttime": "18:00:00",
+    "endtime": "19:00:00"
+}, {
+    "id": 33,
+    "studentid": "254638563",
+    "availabledate": "2021-12-29T22:00:00.000Z",
+    "starttime": "12:00:00",
+    "endtime": "13:00:00"
+}, {
+    "id": 34,
+    "studentid": "254638563",
+    "availabledate": "2021-11-24T22:00:00.000Z",
+    "starttime": "08:00:00",
+    "endtime": "09:00:00"
+}, {
+    "id": 35,
+    "studentid": "254638563",
+    "availabledate": "2021-05-05T21:00:00.000Z",
+    "starttime": "18:00:00",
+    "endtime": "19:00:00"
+}, {
+    "id": 36,
+    "studentid": "254638563",
+    "availabledate": "2021-12-29T22:00:00.000Z",
+    "starttime": "12:00:00",
+    "endtime": "13:00:00"
+}, {
+    "id": 37,
+    "studentid": "254638563",
+    "availabledate": "2021-11-24T22:00:00.000Z",
+    "starttime": "08:00:00",
+    "endtime": "09:00:00"
+}, {
+    "id": 38,
+    "studentid": "254638563",
+    "availabledate": "2021-05-05T21:00:00.000Z",
+    "starttime": "18:00:00",
+    "endtime": "19:00:00"
+}, {
+    "id": 39,
+    "studentid": "254638563",
+    "availabledate": "2021-12-29T22:00:00.000Z",
+    "starttime": "12:00:00",
+    "endtime": "13:00:00"
+}, {
+    "id": 40,
+    "studentid": "254638563",
+    "availabledate": "2021-11-24T22:00:00.000Z",
+    "starttime": "08:00:00",
+    "endtime": "09:00:00"
+}, {
+    "id": 41,
+    "studentid": "254638563",
+    "availabledate": "2021-05-05T21:00:00.000Z",
+    "starttime": "18:00:00",
+    "endtime": "19:00:00"
+}, {
+    "id": 42,
+    "studentid": "254638563",
+    "availabledate": "2021-12-29T22:00:00.000Z",
+    "starttime": "12:00:00",
+    "endtime": "13:00:00"
+}, {
+    "id": 43,
+    "studentid": "254638563",
+    "availabledate": "2021-11-24T22:00:00.000Z",
+    "starttime": "08:00:00",
+    "endtime": "09:00:00"
+}, {
+    "id": 44,
+    "studentid": "254638563",
+    "availabledate": "2021-05-05T21:00:00.000Z",
+    "starttime": "18:00:00",
+    "endtime": "19:00:00"
+}, {
+    "id": 45,
+    "studentid": "254638563",
+    "availabledate": "2021-12-29T22:00:00.000Z",
+    "starttime": "12:00:00",
+    "endtime": "13:00:00"
+}, {
+    "id": 46,
+    "studentid": "254638563",
+    "availabledate": "2021-11-24T22:00:00.000Z",
+    "starttime": "08:00:00",
+    "endtime": "09:00:00"
+}, {
+    "id": 47,
+    "studentid": "254638563",
+    "availabledate": "2021-05-05T21:00:00.000Z",
+    "starttime": "18:00:00",
+    "endtime": "19:00:00"
+}, {
+    "id": 48,
+    "studentid": "254638563",
+    "availabledate": "2021-12-29T22:00:00.000Z",
+    "starttime": "12:00:00",
+    "endtime": "13:00:00"
+}, {
+    "id": 49,
+    "studentid": "254638563",
+    "availabledate": "2021-11-24T22:00:00.000Z",
+    "starttime": "08:00:00",
+    "endtime": "09:00:00"
+}, {
+    "id": 50,
+    "studentid": "254638563",
+    "availabledate": "2021-05-05T21:00:00.000Z",
+    "starttime": "18:00:00",
+    "endtime": "19:00:00"
+}, {
+    "id": 51,
+    "studentid": "254638563",
+    "availabledate": "2021-12-29T22:00:00.000Z",
+    "starttime": "12:00:00",
+    "endtime": "13:00:00"
+}, {
+    "id": 71,
+    "studentid": "254638563",
+    "availabledate": "2021-12-31T22:00:00.000Z",
+    "starttime": "12:00:00",
+    "endtime": "13:00:00"
+}, {
+    "id": 72,
+    "studentid": "254638563",
+    "availabledate": "2021-12-31T22:00:00.000Z",
+    "starttime": "08:00:00",
+    "endtime": "09:00:00"
+}, {
+    "id": 73,
+    "studentid": "254638563",
+    "availabledate": "2021-12-31T22:00:00.000Z",
+    "starttime": "18:00:00",
+    "endtime": "19:00:00"
+}]

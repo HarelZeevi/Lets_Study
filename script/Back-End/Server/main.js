@@ -19,6 +19,7 @@ app.use(express.static(__dirname + "/client/"));
 var bodyParser = require('body-parser');
 const { application } = require("express");
 const e = require("express");
+const { table } = require("console");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(cors());
@@ -419,6 +420,7 @@ function authJwt(req, res, next)
 {
 
     const token = req.headers.authorization.split(' ')[1]
+    console.log(token);
     if (token == null){ 
         console.log("unauthorized")
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
@@ -1154,6 +1156,13 @@ app.post('/api/students/isSignedIn', authJwt, (req, res) => {
     })
 });
 
+// check if user is teacher
+app.get('/api/isTeacher', authJwt, (req, res) => {
+    let isTeacher = false;
+    if (req.tokenData.userType == 'T')
+        isTeacher = true;
+    res.send({"isTeacher":isTeacher});
+});
 
 // show students
 app.get('/api/students', authJwt, (req, res) =>{
@@ -1379,9 +1388,12 @@ app.post('/api/lessons/', authJwt, (req, res) => {
 
 // show available hours
 app.post('/api/getAvailability/', authJwt, (req, res) => {
-    if (req.tokenData.userType == 'T') return res.status(401).send("You are Not allowed to do this action.")
-    
-    const tutorId = req.body.tutorId;
+    let tutorId;
+    if (req.tokenData.userType == 'P')
+        tutorId = req.body.tutorId;
+    else 
+        tutorId = req.tokenData.id;
+    console.log(tutorId);
     showAvailableHours(res, tutorId);
 });
 
@@ -1391,7 +1403,9 @@ app.post('/api/addAvailability/', authJwt, (req, res) => {
 
     const tutorId = req.tokenData.id;
     const listTimes = req.body.listTimes;
-    AddAvailableTime(res, listTimes, tutorId);
+    console.log("List times: ");
+    console.log(JSON.parse(listTimes));
+    AddAvailableTime(res, JSON.parse(listTimes), tutorId);
 });
 
 // remove available date and hour from tutor's schedule
@@ -1399,8 +1413,8 @@ app.post('/api/deleteAvailability/', authJwt, (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
     const tutorId = req.tokenData.id;
-    const calIdlist = req.body.calendarIdDelete;
-    console.log(tutorId);
+    const calIdlist = req.body.calendarIdDelete.split(",").map(x => parseInt(x));
+    console.log(calIdlist);
     removeAvailableTime(res, tutorId, calIdlist);
 });
 

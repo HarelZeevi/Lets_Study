@@ -59,9 +59,9 @@ function MyLessons() {
                     tookPlace.push(item);
             })
             if (res != null) {
-                console.log(objData);
-                console.log(upcomming);
-                console.log(tookPlace);
+                console.table(objData);
+                console.table(upcomming);
+                console.table(tookPlace);
             }
         })
     }

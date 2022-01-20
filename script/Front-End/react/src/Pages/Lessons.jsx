@@ -277,12 +277,15 @@ async function scheduleLesson(params, callback){
                 "tutorGender": "M",
                 "rate": 1
             },
-            (res) => setTeachersData(res)
-            
+            (res) =>
+            {
+                console.log(res);
+                setTeachersData(res)
+            }
         )
-        console.log(teachersData);
 
-        /*
+
+        
         // here we get the avilable time of a specific teacher
         fetchAvailability(
             {
@@ -293,10 +296,10 @@ async function scheduleLesson(params, callback){
                 console.log("Finished fetching availability");
                 // Ori here you call the function that updates the availability of the teacher 
                 // with res - the result object of the availability
-                console.table(res);
+                console.log(res);
             }
         )
-        */
+        
         // here we schedule a lesson with a gotten calendar Id, tutorId, subject and points amount.
         scheduleLesson(
             {
