@@ -555,7 +555,7 @@ function scheduleLesson(res, pupilId, tutorId, calendarId, subject, points, grad
 {
     const room = "LetsStudy/" + subject + "/" +  generateStudentCode(11);
     var sqlQuery = `INSERT INTO lessons(pupilId, tutorId, tutorcalid, points, grade, tookPlace, room, roomPswd, subjectNum) VALUES 
-                    ( ${mysql.escape(pupilId)},  ${mysql.escape(tutorId)},  ${mysql.escape(calendarId)}, ${mysql.escape(points)}, ${mysql.escape(grade)}, 0, ${generateStudentCode(5)}, ${mysql.escape(room)}, ${mysql.escape(subject)})`;
+                    ( ${mysql.escape(pupilId)},  ${mysql.escape(tutorId)},  ${mysql.escape(calendarId)}, ${mysql.escape(points)}, ${mysql.escape(grade)}, 0, ${mysql.escape(room)}, ${generateStudentCode(5)}, ${mysql.escape(subject)})`;
     con.query(sqlQuery,function(err, result){
         checkActionDone(result, err, res);
     });
