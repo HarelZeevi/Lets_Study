@@ -49,7 +49,7 @@ display: none;
     margin-right: 30px;
 }
 .subject-input{
-    display: none;
+    display: block;
     width: 214px;
     height: 30px;
 }
