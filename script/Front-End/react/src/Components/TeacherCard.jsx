@@ -1,7 +1,6 @@
 
 import React, {useState, useRef, useEffect } from 'react';
 import '../Styles/teachercard.css'
-import axios from 'axios';
 import {IoMdMail, IoMdCall } from 'react-icons/io';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -66,6 +65,7 @@ export default function TeacherCard(props) {
 
                     <div className="tc_DatePicker">
                     <DatePicker
+              wrapperClassName="datePicker"
               selected={new Date().getTime()}
               onChange={(date) => setStartDate(date)}
               showTimeSelect

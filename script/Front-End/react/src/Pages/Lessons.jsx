@@ -98,27 +98,15 @@ async function scheduleLesson(params, callback){
     const [currentPage, setCurrentPage] = useState(1);
     const [teachersData,setTeachersData] = useState([]);
     const school_subs = useRef();
-    const angelDown = useRef();
     const angelUp = useRef();
     let tf_gradeYud = true;
     let tf_gradeYudAleph = true;
     let tf_gradeYudBeit = true;
     let isOpen1 = false;
-    const [resReturn, setResReturn] = useState([])
-
     let tc_reveal = useRef();
     useEffect(() => {
-        let mount = true;
         document.getElementById('tc_reveal').style.display = 'none';
-        const renderTeachers = async ()=>{
-            const data=await axios.get(`/MatchedTeachers.json`);
-            setTeachersData(data.data);
-         }
-         if(mount) renderTeachers();
-         return ()=>{mount = false}
-         
-    
-    }, [resReturn])
+    }, [])
 
     
 
@@ -280,7 +268,7 @@ async function scheduleLesson(params, callback){
             (res) =>
             {
                 console.log(res);
-                setTeachersData(res)
+                setTeachersData(res);
             }
         )
 
@@ -332,15 +320,13 @@ async function scheduleLesson(params, callback){
     return (
     <div dir="rtl">
         <div id="tc_reveal" ref={tc_reveal}><TeacherCard teacher={teacherCard}/></div>
-     <div id="teacherfilters_bgdiv1" onClick={onFilter1Click}></div>
         <div id="teacherfilters_bgdiv2" onClick={onFilter2Click}></div>
-
-        <div className="subject-filter-container" >
-            <div className="filter1-containter nonselective" onClick={onFilter1Click}>
-       <FaAngleUp className="filter-angle-up" id="filter-angle-up" useRef={angelUp}>	
-           </FaAngleUp><FaAngleDown className="filter-angle-down"id="filter-angle-down" useRef={angelDown}></FaAngleDown> מקצוע  <FaGraduationCap className="sort-icons"> </FaGraduationCap>
-        </div>
-        <div className="subject-filter-popup">
+        <div className="sort-filter-container">
+        <div className="filter2-containter nonselective" onClick={onFilter2Click}>
+            <FiX id='FiX-sort' className='sort-icons'/>
+            <GiHamburgerMenu id="hamburger-sort" className="sort-icons"></GiHamburgerMenu>סינון</div>
+            <div id="sort-form-container">
+            <div className="subject-filter-popup">
             <input className="subject-input"list="school-subjects"ref={school_subs} onChange={filter_subject}/>
                 <datalist id="school-subjects">
                     <option value="מתמטיקה" className="tf-option-subject-fields"></option>
@@ -349,12 +335,6 @@ async function scheduleLesson(params, callback){
                     <option value="מדעי החברה" className="tf-option-subject-fields"></option>
                 </datalist>  	
                 </div>
-        </div>
-        <div className="sort-filter-container">
-        <div className="filter2-containter nonselective" onClick={onFilter2Click}>
-            <FiX id='FiX-sort' className='sort-icons'/>
-            <GiHamburgerMenu id="hamburger-sort" className="sort-icons"></GiHamburgerMenu>סינון</div>
-            <div id="sort-form-container">
                 <form className="sort-form">
                     <h3 className="filter2-paragraph-container"> מגדר: </h3>
                     <div className='tf_genderDiv'>
@@ -415,9 +395,9 @@ async function scheduleLesson(params, callback){
       
       </div>
       <div className="Pagination-container">
-        <button onClick={increase}>---)</button>
+        {/* <button onClick={increase}>---)</button>
         <p>{currentPage}</p>
-        <button onClick={reduce}>(---</button>
+        <button onClick={reduce}>(---</button> */}
       </div>
       <Footer footertop='1350'/>
     </div>

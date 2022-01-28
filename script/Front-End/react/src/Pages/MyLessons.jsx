@@ -7,6 +7,7 @@ import "../Styles/mylessons.css"
 import { AiFillStar } from 'react-icons/ai';
 import { useRouteMatch } from 'react-router';
 import { GiConsoleController } from 'react-icons/gi';
+import allLessons from '../JSON/allLessons.json';
 
 // this function doesn't get ny parameters. it will change the two arrays:
 // upcoming - contain the upcoming lessons of the user 
@@ -23,7 +24,7 @@ async function fetchLessons(callback) {
             callback(xhr.responseText)
         }
     }
-
+//harel
     xhr.setRequestHeader("authorization", token);
     xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
     xhr.send(null);
@@ -31,26 +32,24 @@ async function fetchLessons(callback) {
 
 function MyLessons() {
     const [teachersData, setTeachersData] = useState([]);
-    useEffect(() => {
-        let mount = true;
-        const renderTeachers = async () => {
-            const data = await axios.get(`/TeacherService.json`);
-            setTeachersData(data.data);
-        }
-
-        if (mount) renderTeachers();
-        return () => { mount = false }
-
-    }, [])
-    let objData;
+    const [objData, setObjData] = useState([]);
     let upcomming = [];
     let tookPlace = [];
 
-    // only if the user is authneticated fetch the t
-    if (localStorage.getItem("isAuthenticated") == "true") { 
-        fetchLessons((res) => {
+    useEffect(() => {
+        let mount = true;
+        
 
-            objData = JSON.parse(res);
+        if (mount) fetchLessons(objData);
+        return () => { mount = false }
+
+    }, [objData])
+    
+
+    // only if the user is authneticated fetch the t
+        const fetchLessons = (res) => {
+
+            setObjData(JSON.parse(res));
             objData.forEach((item) => {
                 let current = new Date();
                 if (new Date(item.availabledate.substring(0, 10)) > current || (item.availabledate === current && current.getTime() > item.endtime))
@@ -63,8 +62,12 @@ function MyLessons() {
                 console.table(upcomming);
                 console.table(tookPlace);
             }
-        })
-    }
+            console.table(objData);
+            console.table(upcomming);
+            console.table(tookPlace);
+        }
+        
+
     return (        
         <div dir="rtl">
             <FirstLoginCta />
