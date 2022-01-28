@@ -44,28 +44,27 @@ function MyLessons() {
         return () => { mount = false }
 
     }, [objData])
-    
+
 
     // only if the user is authneticated fetch the t
-        const fetchLessons = (res) => {
-
-            setObjData(JSON.parse(res));
-            objData.forEach((item) => {
-                let current = new Date();
-                if (new Date(item.availabledate.substring(0, 10)) > current || (item.availabledate === current && current.getTime() > item.endtime))
-                    upcomming.push(item);
-                else
-                    tookPlace.push(item);
+    if (localStorage.getItem("isAuthenticated") == "true") { 
+            fetchLessons((res) => {
+                setObjData(JSON.parse(res));
+                objData.forEach((item) => {
+                    let current = new Date();
+                    if (new Date(item.availabledate.substring(0, 10)) > current || (item.availabledate === current && current.getTime() > item.endtime))
+                        upcomming.push(item);
+                    else
+                        tookPlace.push(item);
+                })
+                if (res != null) {
+                    console.table(objData);
+                    console.table(upcomming);
+                    console.table(tookPlace);
+                }
             })
-            if (res != null) {
-                console.table(objData);
-                console.table(upcomming);
-                console.table(tookPlace);
-            }
-            console.table(objData);
-            console.table(upcomming);
-            console.table(tookPlace);
-        }
+        
+    }
         
 
     return (        
