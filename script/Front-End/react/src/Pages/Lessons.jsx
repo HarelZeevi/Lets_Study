@@ -96,6 +96,7 @@ async function scheduleLesson(params, callback){
 
  function Lessons() {
     const [currentPage, setCurrentPage] = useState(1);
+    const [offset, setOffset] = useState(1);
     const [teachersData,setTeachersData] = useState([]);
     const school_subs = useRef();
     const angelUp = useRef();
@@ -263,10 +264,12 @@ async function scheduleLesson(params, callback){
                 "grade2":12, 
                 "date":"2021-05-11",
                 "tutorGender": "M",
-                "rate": 1
+                "rate": 1,
+                "offset": offset
             },
             (res) =>
             {
+                setOffset(offset + 5); // setting s new offset
                 console.log(res);
                 setTeachersData(res);
             }
