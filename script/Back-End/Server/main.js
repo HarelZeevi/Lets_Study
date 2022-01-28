@@ -20,6 +20,7 @@ var bodyParser = require('body-parser');
 const { application } = require("express");
 const e = require("express");
 const { table } = require("console");
+const { constants } = require("buffer");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(cors());
@@ -562,9 +563,10 @@ function scheduleLesson(res, pupilId, tutorId, calendarId, subject, points, grad
 }
 
 // show all the future lessons of a student
-function showLessons(res, studentid)
+function showLessons(res, studentid, utype)
 {
     var sqlQuery = `SELECT 	lessons.id, 
+                            students.fullname,
                             lessons.pupilid, 
                             lessons.tutorid, 
                             lessons.tutorcalid, 
@@ -575,8 +577,13 @@ function showLessons(res, studentid)
                             lessons.points, 
                             lessons.grade
                     FROM lessons
-                    INNER JOIN calendar ON lessons.tutorcalid  = calendar.id
-                    WHERE (pupilid = ${mysql.escape(studentid)} OR tutorid = ${mysql.escape(studentid)});`;
+                    INNER JOIN calendar ON lessons.tutorcalid  = calendar.id`
+                    if (utype === 'P')
+                        sqlQuery += `\n INNER JOIN students ON lessons.tutorid = students.id`;
+                    else 
+                        sqlQuery += `\n INNER JOIN students ON lessons.pupilid = students.id`;
+
+                    sqlQuery += `\n WHERE (pupilid = ${mysql.escape(studentid)} OR tutorid = ${mysql.escape(studentid)});`;
     con.query(sqlQuery,function(err, result){
         getResultObject(result, err, res);
     });
@@ -1383,7 +1390,8 @@ app.post('/api/lessons/', authJwt, (req, res) => {
     if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
     
     const studentId = req.tokenData.id;
-    showLessons(res, studentId);
+    const utype = req.tokenData.userType;
+    showLessons(res, studentId, utype);
 });
 
 // show available hours
