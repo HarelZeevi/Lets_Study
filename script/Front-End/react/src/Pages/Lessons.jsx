@@ -4,12 +4,12 @@
 /* eslint-disable default-case */
 import React, { useState, useRef,useEffect } from 'react';
 // import { Link } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 // import Pagination from '../Components/Pagination';
 import "../Styles/lessons.css"
 import { AiFillStar } from 'react-icons/ai';
-import { FaAngleDown, FaGraduationCap, FaAngleUp, FaSearch } from 'react-icons/fa';
-import FirstLoginCta from '../Components/FirstLoginCta';
+// import { FaAngleDown, FaGraduationCap, FaAngleUp, FaSearch } from 'react-icons/fa';
+// import FirstLoginCta from '../Components/FirstLoginCta';
 import { FiX } from 'react-icons/fi';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import TeacherCard from '../Components/TeacherCard';
@@ -17,6 +17,8 @@ import Footer from '../Components/Footer.jsx';
 import "../Styles/teacherFilter.css"; 
 // BsArrowLeft
 // BsArrowRight
+import { matchedTeachers } from '../localdb/matchedTeachers'
+
 
 ///// fetch list of teachers from the server
 async function fetchTeachers(params, callback){
@@ -106,7 +108,15 @@ async function scheduleLesson(params, callback){
     let isOpen1 = false;
     let tc_reveal = useRef();
     useEffect(() => {
-        document.getElementById('tc_reveal').style.display = 'none';
+        let mount = true;
+        if(mount){
+            setTeachersData(matchedTeachers);
+            document.getElementById('tc_reveal').style.display = 'none';    
+        }
+        
+        return ()=>{
+            mount = false;
+        }
     }, [])
 
     
