@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 // import Pagination from '../Components/Pagination';
 import FirstLoginCta from '../Components/FirstLoginCta';
 import "../Styles/mylessons.css"
-import { AiFillStar } from 'react-icons/ai';
-import { useRouteMatch } from 'react-router';
-import { GiConsoleController } from 'react-icons/gi';
-import allLessons from '../JSON/allLessons.json';
+// import { AiFillStar } from 'react-icons/ai';
+// import { useRouteMatch } from 'react-router';
+// import { GiConsoleController } from 'react-icons/gi';
+import { allLessons } from '../localdb/allLessons';
 
 // this function doesn't get ny parameters. it will change the two arrays:
 // upcoming - contain the upcoming lessons of the user 
@@ -38,8 +38,6 @@ function MyLessons() {
 
     useEffect(() => {
         let mount = true;
-        
-
         if (mount) fetchLessons(objData);
         return () => { mount = false }
 
@@ -62,9 +60,6 @@ function MyLessons() {
                 console.table(upcomming);
                 console.table(tookPlace);
             }
-            console.table(objData);
-            console.table(upcomming);
-            console.table(tookPlace);
         }
         
 
