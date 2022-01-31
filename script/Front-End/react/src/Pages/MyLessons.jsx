@@ -11,7 +11,7 @@ import { allLessons } from "../localdb/allLessons";
 import moment from "moment";
 import { Doughnut } from "react-chartjs-2";
 import { chartColors } from "../localdb/color";
-import {Chart, ArcElement} from 'chart.js'
+import { Chart, ArcElement } from "chart.js";
 Chart.register(ArcElement);
 // this function doesn't get ny parameters. it will change the two arrays:
 // upcoming - contain the upcoming lessons of the user
@@ -67,8 +67,6 @@ function MyLessons() {
     ],
   };
 
-
-
   const sortingLessons = () => {
     if (localStorage.getItem("isAuthenticated") === "true" || true) {
       //true is untill the local storage will work
@@ -108,7 +106,7 @@ function MyLessons() {
             {lesson.grade}
             <AiFillStar className="mylessons_star"></AiFillStar>
           </div>
-          <button className="mylessons_deeplinker" onClick={() => {}}>
+          <button className="mylessons_deeplinker" onClick={() => { }}>
             {" "}
             עריכת שיעור{" "}
           </button>
@@ -135,7 +133,7 @@ function MyLessons() {
             {lesson.grade}
             <AiFillStar className="mylessons_star"></AiFillStar>
           </div>
-          <button className="mylessons_deeplinker2" onClick={() => {}}>
+          <button className="mylessons_deeplinker2" onClick={() => { }}>
             {" "}
             קבע שיעור נוסף{" "}
           </button>
@@ -147,9 +145,8 @@ function MyLessons() {
         </div>
         <div className="mylessons-chart-container"></div>
         <Doughnut data={data} options={options} className="mylessons-chart" />
-      <div id="legend" />
+        <div id="legend" />
       </div>
-
     </div>
   );
 }
