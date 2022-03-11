@@ -162,7 +162,7 @@ function NavLogin() {
     }
     navbarSubmit()
     //setisloggedin = navbarSubmit(); 
-    if(isloggedin) {
+    if(isloggedin || true) {
         return (
             <div className="navbar">
             <ul className='nav_profile' onMouseOver={profile_hover} onMouseOut={profile_outhover}>

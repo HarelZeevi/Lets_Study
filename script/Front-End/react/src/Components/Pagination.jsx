@@ -8,6 +8,7 @@ export default function Pagination({data, cureentPage, increase, reduce}) {
         <div>
             <button onClick={increase}>---)</button>
             <button onClick={reduce}>(---</button>
+            <div></div>
         </div>
     )
 }
