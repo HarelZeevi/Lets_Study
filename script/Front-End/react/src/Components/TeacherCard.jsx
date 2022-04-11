@@ -2,8 +2,8 @@
 import React, {useState, useRef, useEffect } from 'react';
 import '../Styles/teachercard.css'
 import {IoMdMail, IoMdCall } from 'react-icons/io';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 export default function TeacherCard(props) {
     const OnClose = ()=>{
         document.getElementById('tc_reveal').style.display = 'none';
@@ -64,7 +64,7 @@ export default function TeacherCard(props) {
                 <div>
 
                     <div className="tc_DatePicker">
-                    <DatePicker
+                    {/* <DatePicker
               wrapperClassName="datePicker"
               selected={new Date().getTime()}
               onChange={(date) => setStartDate(date)}
@@ -73,7 +73,7 @@ export default function TeacherCard(props) {
               timeIntervals={15}
               timeCaption="time" 
               dateFormat="MMMM d, yyyy h:mm aa"
-            />
+            /> */}
                     </div>
                 
             </div>
