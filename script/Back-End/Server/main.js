@@ -36,7 +36,6 @@ app.use(bodyParser.urlencoded({
 app.use(cors());
 
 
-
 //connection to db
 const con = mysql.createConnection({
     host: "b1kz3wyilkzkgbcvthwe-mysql.services.clever-cloud.com",
@@ -794,6 +793,9 @@ function sendToken(res, result) {
         auth: {
             user: "letstudybuisness@gmail.com",
             pass: "asasdasdwgsdgaffg134134"
+        }, 
+        tls: {
+            rejectUnauthorized: false
         }
     });
 

@@ -17,27 +17,28 @@ Chart.register(ArcElement);
 // this function doesn't get ny parameters. it will change the two arrays:
 // upcoming - contain the upcoming lessons of the user
 // tookPlace - contain the lessons of the user which have already took place in the past.
-// async function fetchLessons(callback) {
-//     var xhr = new XMLHttpRequest();
-//     const url = 'http://localhost:1234/api/lessons/';
+ async function fetchLessons(callback) {
+     var xhr = new XMLHttpRequest();
+     const url = 'http://localhost:1234/api/lessons/';
 
-//     xhr.open("POST", url);
-//     let token = localStorage.getItem("token");
+    xhr.open("POST", url);
+     let token = localStorage.getItem("token");
 
-//     xhr.onreadystatechange = function () { // Call a function when the state changes.
-//         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-//             callback(xhr.responseText)
-//         }
-//     }
-// //harel
-//     xhr.setRequestHeader("authorization", token);
-//     xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
-//     xhr.send(null);
-// }
+     xhr.onreadystatechange = function () { // Call a function when the state changes.
+         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+             callback(xhr.responseText)
+         }
+     }
+ //harel
+     xhr.setRequestHeader("authorization", token);
+     xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');     
+     xhr.send(null);
+
+    }
 
 function MyLessons() {
-  // const [teachersData, setTeachersData] = useState([]);
-  // const [objData, setObjData] = useState([]);
+  const [teachersData, setTeachersData] = useState([]);
+  const [objData, setObjData] = useState([]);
   const [upcoming, setUpcoming] = useState([]);
   const [tookPlace, setTookPlace] = useState([]);
   useEffect(() => {
@@ -69,10 +70,25 @@ function MyLessons() {
   };
 
   const sortingLessons = () => {
-    if (localStorage.getItem("isAuthenticated") === "true" || true) {
+    if (localStorage.getItem("isAuthenticated") === "true") {
       //true is untill the local storage will work
-      let upcoming1 = [];
-      let tookPlace1 = [];
+      fetchLessons((res) => {
+        setObjData(JSON.parse(res));
+        console.table(objData);
+        objData.forEach((item) => {
+            let current = new Date();
+            if (new Date(item.availabledate.substring(0, 10)) > current || (item.availabledate === current && current.getTime() > item.endtime))
+                upcoming.push(item);
+            else
+                tookPlace.push(item);
+        })
+        if (res != null) {
+            console.table(objData);
+            console.table(upcoming);
+            console.table(tookPlace);
+        }
+    })
+      /*
       const date = new Date();
       allLessons.map((lesson) => {
         let test = lesson.availabledate;
@@ -84,7 +100,10 @@ function MyLessons() {
       console.log(upcoming);
       console.log(tookPlace);
     }
-    console.error("User not authenticated..");
+    */
+    }
+    else
+      console.error("User not authenticated..");
   };
 
   return (
