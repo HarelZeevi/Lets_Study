@@ -132,8 +132,8 @@ function MyLessons() {
             {lesson.subjectname}
           </div>
           <div className="myteacher_infofields">
-            {lesson.starttime} <br/> {lesson.availabledate.slice(lesson.availabledate.indexOf('-') + 1, lesson.availabledate.indexOf('T')).replace('-', '/')}
-        <AiFillStar className="mylessons_star"></AiFillStar> 
+            {lesson.starttime.replace("00:00", "00")} <br/> 
+            {new Date(lesson.availabledate).toLocaleString('he', {year:"2-digit", month:'2-digit', day: '2-digit'}).replace(',', '').replaceAll('.', '/')} 
           </div>
           <button className="mylessons_deeplinker" onClick={() => {}}>
             {" "}
@@ -141,10 +141,12 @@ function MyLessons() {
           </button>
         </div>
       ))}
+      
       <br />
       <br />
       <br />
       <br />
+
       {tookPlace.map((lesson) => (
         <div className="myteacher-container">
           <img
@@ -157,8 +159,8 @@ function MyLessons() {
             {lesson.subjectname}
           </div>
           <div className="myteacher_infofields">
-          {lesson.starttime} <br/> {lesson.availabledate.slice(lesson.availabledate.indexOf('-') + 1, lesson.availabledate.indexOf('T')).replace('-', '/')}
-            <AiFillStar className="mylessons_star"></AiFillStar>
+            {lesson.starttime.replace("00:00", "00")} <br/> 
+            {new Date(lesson.availabledate).toLocaleString('he', {year:"2-digit", month:'2-digit', day: '2-digit'}).replace(',', '').replaceAll('.', '/')} 
           </div>
           <button className="mylessons_deeplinker2" onClick={() => {}}>
             {" "}

@@ -16,7 +16,6 @@ function forgotPswd3(params, callback){
         }
     }
     
-
     // CONVERTING OBJECT PARAMS TO ENCODED STRING
     let urlEncodedData = "", urlEncodedDataPairs = [], name;
     for(name in params) {
