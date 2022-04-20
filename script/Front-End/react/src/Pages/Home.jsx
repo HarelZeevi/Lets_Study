@@ -40,7 +40,7 @@ export default function Home() {
                     </p>
                 </div>
                 <div className='homepage_header_3'>
-                    <img className='homepage_header_illustrations' alt="envelope icon" src='https://image.flaticon.com/icons/png/512/3617/3617143.png'></img>
+                    <img className='homepage_header_illustrations' alt="envelope icon" src='https://www.freeiconspng.com/images/calendar-image-png'></img>
                     <h1>נרשמים</h1>
                     <hr className='header_box_hr'></hr>
                     <p>

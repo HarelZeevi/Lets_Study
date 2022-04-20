@@ -222,4 +222,4 @@ function NavLogin() {
     }
 }
 
-export default NavLogin
+export default NavLogin;

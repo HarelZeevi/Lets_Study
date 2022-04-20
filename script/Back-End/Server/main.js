@@ -28,6 +28,10 @@ app.use(
 );
 app.use(cors());
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0cd2ae441bfe5910159abe9e6b3c6328c836e7b2
 //connection to db
 const con = mysql.createConnection({
   host: "b1kz3wyilkzkgbcvthwe-mysql.services.clever-cloud.com",
@@ -821,11 +825,63 @@ function findStudent(email, studentId, callback) {
 }
 
 function sendToken(res, result) {
+<<<<<<< HEAD
   console.log(result[0] == null);
   if (result[0] == null) {
     // User couldn't be found by email or id
     res.writeHead(200, {
       "Access-Control-Allow-Origin": "http://localhost:3000",
+=======
+    console.log(result[0] == null);
+    if (result[0] == null) // User couldn't be found by email or id
+    {
+        res.writeHead(200, {
+            'Access-Control-Allow-Origin': 'http://localhost:3000'
+        });
+        res.end("Email was not found!");
+        return;
+    }
+    var email = result[0].email;
+    console.log("email:" + email);
+    var studentId = result[0].id;
+    console.log("id:" + studentId);
+    var token = generateStudentCode(6);
+    const smtpTransport = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: "letstudybuisness@gmail.com",
+            pass: "asasdasdwgsdgaffg134134"
+        }, 
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+
+    var mailOptions = {
+        from: "letstudybuisness@gmail.com",
+        to: email,
+        subject: 'Password Change Token',
+        html: `:Please use this token to reset your password<br><b>${token}</b>`
+    };
+    smtpTransport.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log("error")
+            console.log(error);
+            res.writeHead(200, {
+                'Access-Control-Allow-Origin': 'http://localhost:3000'
+            });
+            res.end(error);
+        } else {
+            //res.redirect('/');
+            let expiration = new Date(); // current time
+            expiration.setTime(expiration.getTime() + 5 * 60 * 1000); // adding 5 min to expiration
+            sqlQuery = `UPDATE students SET token = ${mysql.escape(token)}, expiration = ${mysql.escape(expiration)} WHERE id = ${mysql.escape(studentId)};`;
+            console.log('Email sent: ' + info.response);
+            con.query(sqlQuery, function (err, result) {
+                getResultObject(result, err, res)
+            });
+        }
+>>>>>>> 0cd2ae441bfe5910159abe9e6b3c6328c836e7b2
     });
     res.end("Email was not found!");
     return;
