@@ -17,18 +17,20 @@ import NavLogin from './Components/NavLogin.jsx';
 import ProtectedRoute from './Components/ProtectedRoutes.jsx';
 import NotFound from './Pages/NotFound.jsx';
 import JitsiMeet from './Components/JitsiMeet.jsx';
+import Pagination from './Components/Pagination.jsx';
 export function App() {
   return (
     <div className="app">
     <NavLogin />
     <Switch>
+    
     <Route component={Login} path="/login" />
     <Route component={SignupAuth} path="/sign-up-authentication" />
     <Route component={Signup} path="/sign-up" />
     <Route component={ForgotPassword1} path="/forgot-password-email" /> {/*1*/ }
     <Route component={ForgotPassword2} path="/forgot-password-verify" />{/*2*/ }
     <Route component={ForgotPassword3} path="/forgot-password-new-password" /> {/*3*/ }
-    {/* <ProtectedRoute component={Lessons} path="/lessons" /> */}
+    {/*<ProtectedRoute component={Lessons} path="/lessons" /> */}
     <Route component={Lessons} path='/lessons'/>
     <Route component={MyLessons} path='/my-lessons'/>
     <Route component={Home} exact path="/"/>
@@ -37,6 +39,7 @@ export function App() {
     <Route component={JitsiMeet} path='/meeting'/>
     <Route component={NotFound} path='/404'/>
     </Switch>
+    <Pagination />
     </div>
   )
 }

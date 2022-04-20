@@ -5,6 +5,7 @@ import Aos from 'aos';
 import 'aos/dist/aos.css';
 import '../Styles/home.css';
 import Footer from '../Components/Footer.jsx';
+
 export default function Home() {
     useEffect(() => {
         Aos.init({ duration: 1000 });
