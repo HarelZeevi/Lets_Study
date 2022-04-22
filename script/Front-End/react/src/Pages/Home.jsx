@@ -5,7 +5,6 @@ import Aos from 'aos';
 import 'aos/dist/aos.css';
 import '../Styles/home.css';
 import Footer from '../Components/Footer.jsx';
-
 export default function Home() {
     useEffect(() => {
         Aos.init({ duration: 1000 });
@@ -13,6 +12,7 @@ export default function Home() {
     return(
         <div className="homepage" dir="rtl">
             <div className="homepage_header">
+                
                 <div data-aos='zoom-in' className='homepage_header_textfield' dir='rtl'>
                     <h1 className='header_title'>נמאס לכם לשלם על שיעורים פרטיים?</h1>
                     <h3 className='header_text'>
@@ -32,7 +32,7 @@ export default function Home() {
                     </p>
                 </div>
                 <div className='homepage_header_2'>
-                    <img className='homepage_header_illustrations' alt="calendar icon" src='https://image.flaticon.com/icons/png/512/470/470326.png'></img>
+                    <img className='homepage_header_illustrations' alt="calendar icon" src='https://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/calendar-icon.png'></img>
                     <h1>קובעים שיעור</h1>
                     <hr className='header_box_hr'></hr>
                     <p>
@@ -40,7 +40,7 @@ export default function Home() {
                     </p>
                 </div>
                 <div className='homepage_header_3'>
-                    <img className='homepage_header_illustrations' alt="envelope icon" src='https://www.freeiconspng.com/images/calendar-image-png'></img>
+                    <img className='homepage_header_illustrations' alt="envelope icon" src='https://icon-library.com/images/rules-icon/rules-icon-10.jpg'></img>
                     <h1>נרשמים</h1>
                     <hr className='header_box_hr'></hr>
                     <p>
