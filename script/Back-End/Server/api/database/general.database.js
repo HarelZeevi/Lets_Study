@@ -302,7 +302,7 @@ function scheduleLesson(
       subject
     )})`;
     con.query(sqlQuery, function (err, result) {
-        checkActionDone(result, err, res);
+        service.checkActionDone(result, err, res);
     });
 }
 
@@ -481,7 +481,7 @@ function updateTeachingSubjects(
                       WHERE studentId = ${mysql.escape(tutorId)};`;
 
     con.query(sqlQuery, function (err, result) {
-        checkActionDone(result, err, res);
+        service.checkActionDone(result, err, res);
     });
 }
 // no more needed because tutor has 4 subjects
@@ -642,7 +642,7 @@ function changeProperty(req, res, propNum, val, id) {
 
     console.log(sqlQuery);
     con.query(sqlQuery, function (err, result) {
-        //checkActionDone(result, err, res);
+        //service.checkActionDone(result, err, res);
     });
     console.log(req.tokenData);
     console.log(val);
@@ -669,7 +669,7 @@ function changePassword(res, studentId, newPass) {
     )} WHERE id = ${mysql.escape(studentId)};`;
     console.log(sqlQuery);
     con.query(sqlQuery, function (err, result) {
-        checkActionDone(result, err, res);
+        service.checkActionDone(result, err, res);
     });
 }
 

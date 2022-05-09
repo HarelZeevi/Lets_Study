@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken")
+
 // register middleware testing 
 function testProperty(res, prop, name) {
     let checkQuery;

@@ -1,4 +1,5 @@
 const db = require('./../database/general.database')
+const helpers = require('./../helpers/general.helpers')
 
 const getJitsiDetails = (req, res) => {
     if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) {
@@ -12,8 +13,23 @@ const getJitsiDetails = (req, res) => {
     db.getJitsiDetails(res, lessonId, isTeacher)
 }
 
+// students Sign in function
+const signIn =  (req, res) => {
+    const id = req.body.id;
+    const username = req.body.username;
+    const password = req.body.password;
+    if (false && (testData(password, 2) !== 0 || testData(id, 5) !== 0)) {
+      res.writeHead(200, {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+      });
+      res.end("Invalid Username!");
+      return;
+    }
+    db.signIn(res, id, username, password);
+}
 
-const controller = (req, res) => {
+const isSignedIn = (req, res) => {
+    console.log(req.username)
     const username = undefined || req.tokenData.username;
     var profile_img = "";
     const isTeacher = req.tokenData.isTeacher;
@@ -137,7 +153,7 @@ const register = (req, res) => {
     db.register(res, id, studentCode, fullname, username, gender, phone, email, pswd);
 }
 
-const isSignedIn = (req, res) => {
+const signInAdmin = (req, res) => {
     const id = req.body.id;
     const password = req.body.password;
 
@@ -227,4 +243,21 @@ const findTutors = (req, res) => {
 
     const offset = req.body.offset;
     db.searchTeacher(res, subjectNum, date, studentGender, tutorGender, grade1, grade2, rate, offset);
+}
+
+
+
+module.exports = {
+    getJitsiDetails,
+    isTeahcer,
+    students, 
+    signIn,
+    addStudent,
+    signInAdmin, 
+    registerAuth,
+    testProperty,
+    register,
+    isSignedIn,
+    addAdmin,
+    findTutors
 }

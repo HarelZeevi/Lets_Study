@@ -180,6 +180,5 @@ module.exports = {
     checkActionDone,
     checkError,
     checkAuth,
-    signJwt,
-    authJwt
+    signJwt
 }

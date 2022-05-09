@@ -28,38 +28,38 @@ module.exports = (app) => {
 
 
     // check weather a user is logged in, if true return his name and image.
-    app.post('/api/students/isSignedIn', middleware.authJwt, controller.isSignedIn);
+    app.post('/api/students/isSignedIn', middleware.authJwt, (req, res) => controller.isSignedIn(req, res));
 
     // check if user is teacher
-    app.get('/api/isTeacher', middleware.authJwt, controller.isTeacher);
+    app.get('/api/isTeacher', middleware.authJwt, (req, res) => controller.isTeacher(req, res));
 
     // show students
-    app.get('/api/students', middleware.authJwt, controller.students);
+    app.get('/api/students', middleware.authJwt, (req, res) => controller.students(req, res));
 
 
     // add student - admin, returns student-code
-    app.post('/api/students', middleware.authJwt, controller.addStudent);
+    app.post('/api/students', middleware.authJwt, (req, res) => controller.addStudent(req, res));
 
     // pre registration authentication 
-    app.get('/api/students/registerAuth/:id/:studentCode', controller.registerAuth);
+    app.get('/api/students/registerAuth/:id/:studentCode', (req, res) => controller.registerAuth(req, res));
 
     // checking wether a property (email / username / phone) is already in the users table.
-    app.post('/api/students/register/propTest', controller.testProperty);
+    app.post('/api/students/register/propTest', (req, res) => controller.testProperty(req, res));
 
     // register 
-    app.post('/api/students/register', controller.register);
+    app.post('/api/students/register', (req, res) => controller.register(req, res));
 
     // sign in - returns student object
-    app.post('/api/students/signIn', controller.signIn);
+    app.post('/api/students/signIn', (req, res) => controller.signIn(req, res));
 
     // sign in fro admin - returns admin object
-    app.post('/api/admins/signIn', controller.isSignedIn);
+    app.post('/api/admins/signIn', (req, res) => controller.isSignedIn(req, res));
 
     // create school admin 
-    app.post('/api/admins', controller.addAdmin);
+    app.post('/api/admins', (req, res) => controller.addAdmin(req, res));
 
     // look for a teacher
-    app.post('/api/findTutors/', middleware.authJwt, controller.findTutors);
+    app.post('/api/findTutors/', middleware.authJwt, (req, res) => controller.findTutors(req, res));
 
 
     // cancel lesson and delete it from db
@@ -347,6 +347,6 @@ module.exports = (app) => {
     });
 
     // getting jitsi room name
-    app.post('/api/getJitsiDetails', middleware.authJwt, controller.getJitsiDetails);
+    app.post('/api/getJitsiDetails', middleware.authJwt, (req, res) => controller.getJitsiDetails(req, res));
 
 }
