@@ -102,6 +102,7 @@ async function scheduleLesson(params, callback){
     const [teachersData,setTeachersData] = useState([]);
     const school_subs = useRef();
     const angelUp = useRef();
+    const [selectedDate, setSelectedDate] = useState(null);
     let tf_gradeYud = true;
     let tf_gradeYudAleph = true;
     let tf_gradeYudBeit = true;
@@ -237,7 +238,7 @@ async function scheduleLesson(params, callback){
                 break;
         }
     }
-    const confirm_filter_submit = () => {
+    const confirm_filter_submit = (event) => {
         // current_gender is a variable that holds the current value of the gender section in the filters the user inputs.
         // current_gender = 1 means both genders (hakol)
         // current_gender = 2 means the user only wants male teachers
@@ -378,10 +379,10 @@ async function scheduleLesson(params, callback){
                     </div>
                     <h3 className="filter2-paragraph-container3">תאריך:</h3> 
                     <div className="date-time-continer-sort">
-                        <input type="datetime-local"/>
+                        <input type="datetime-local" onChange={(date)=>{setSelectedDate(date.target.valueAsDate)}}/>
                     </div>
                     <br/><hr/>
-                    <button type='button'  className='TF_FilterSubmitBtn'>סינון</button>
+                    <button type='submit'  className='TF_FilterSubmitBtn'>סינון</button>
                 </form>
             </div>
         </div>
