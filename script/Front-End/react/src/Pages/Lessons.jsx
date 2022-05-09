@@ -348,7 +348,7 @@ async function scheduleLesson(params, callback){
                     <option value="מדעי החברה" className="tf-option-subject-fields"></option>
                 </datalist>  	
                 </div>
-                <form className="sort-form">
+                <form className="sort-form" onSubmit={confirm_filter_submit}>
                     <h3 className="filter2-paragraph-container"> מגדר: </h3>
                     <div className='tf_genderDiv'>
                         <input type="radio" name="gender" id='tf_gender1' defaultChecked onChange={updateGender}/>
@@ -381,7 +381,7 @@ async function scheduleLesson(params, callback){
                         <input type="datetime-local"/>
                     </div>
                     <br/><hr/>
-                    <button type='button' onClick={confirm_filter_submit} className='TF_FilterSubmitBtn'>סינון</button>
+                    <button type='button'  className='TF_FilterSubmitBtn'>סינון</button>
                 </form>
             </div>
         </div>
