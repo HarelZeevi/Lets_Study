@@ -77,8 +77,8 @@ function Signup() { //  fullname, username, gender, phone, email, pswd
         else
             disable_submit();
     }
-    const registerForm = () => {
-        var params = {
+    const registerForm = (event) => {
+      var params = {
             id: localStorage.getItem("id"),
             studentCode: localStorage.getItem("studentCode"),
             fullname: submit_fullname.current.value,

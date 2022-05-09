@@ -1,6 +1,6 @@
 const express = require("express");
 const db = require("./../database/general.database")
-const service = require('./../services/general.service')
+const middleware = require('./../middlewares/general.middleware')
 const validator = require('./../validations/general.validation')
 const helpers = require('./../helpers/general.helpers')
 const controller = require('./../controller/general.controler');
@@ -28,17 +28,17 @@ module.exports = (app) => {
 
 
     // check weather a user is logged in, if true return his name and image.
-    app.post('/api/students/isSignedIn', service.authJwt, controller.isSignedIn);
+    app.post('/api/students/isSignedIn', middleware.authJwt, controller.isSignedIn);
 
     // check if user is teacher
-    app.get('/api/isTeacher', service.authJwt, controller.isTeacher);
+    app.get('/api/isTeacher', middleware.authJwt, controller.isTeacher);
 
     // show students
-    app.get('/api/students', service.authJwt, controller.students);
+    app.get('/api/students', middleware.authJwt, controller.students);
 
 
     // add student - admin, returns student-code
-    app.post('/api/students', service.authJwt, controller.addStudent);
+    app.post('/api/students', middleware.authJwt, controller.addStudent);
 
     // pre registration authentication 
     app.get('/api/students/registerAuth/:id/:studentCode', controller.registerAuth);
@@ -59,79 +59,11 @@ module.exports = (app) => {
     app.post('/api/admins', controller.addAdmin);
 
     // look for a teacher
-    app.post('/api/findTutors/', service.authJwt, (req, res) => {
-        console.log("Starting teacher");
-        if (!(req.tokenData.userType === 'P')) {
-            res.writeHead(200, {
-                'Access-Control-Allow-Origin': 'http://localhost:3000'
-            });
-            res.end("You are not allowed to do this action!");
-        }
-
-        const subjectNum = req.body.subjectNum; // The lesson's requested subject (must pass)
-        const date = req.body.date; // The requested date of the lesson (must pass)
-        console.log("res" + testData(date, 10));
-        if (testData(date, 10) !== 0) {
-            res.writeHead(200, {
-                'Access-Control-Allow-Origin': 'http://localhost:3000'
-            });
-            res.end("Invalid date!");
-            return;
-        }
-        const grade1 = req.body.grade1 || undefined; //The tutor's preferred grade - 10 / 11 / 12 (optional pass)
-        console.log("res" + testData(grade1, 7));
-        if (testData(grade1, 7) !== 0) {
-            res.writeHead(200, {
-                'Access-Control-Allow-Origin': 'http://localhost:3000'
-            });
-            res.end("Invalid grade!");
-            return;
-        }
-        const grade2 = req.body.grade2 || undefined; //The tutor's preferred grade - 10 / 11 / 12 (optional pass) 
-        console.log("res" + testData(grade2, 7));
-        if (testData(grade2, 7) !== 0) {
-            res.writeHead(200, {
-                'Access-Control-Allow-Origin': 'http://localhost:3000'
-            });
-            res.end("Invalid grade!");
-            return;
-        }
-        const studentGender = req.tokenData.gender; // The learner's gender - male or female (must pass)
-        console.log("res" + testData(studentGender, 8));
-        if (testData(studentGender, 8) !== 0) {
-            res.writeHead(200, {
-                'Access-Control-Allow-Origin': 'http://localhost:3000'
-            });
-            res.end("Invalid gender!");
-            return;
-        }
-        const tutorGender = req.body.tutorGender || undefined; // The tutor's preferred gender - male or female (optional pass)
-        console.log("res" + testData(tutorGender, 8));
-        if (testData(tutorGender, 8) !== 0) {
-            res.writeHead(200, {
-                'Access-Control-Allow-Origin': 'http://localhost:3000'
-            });
-            res.end("Invalid gender!");
-            return;
-        }
-        const rate = req.body.rate;
-        console.log("res" + testData(rate, 12));
-        if (testData(rate, 12) !== 0) {
-            res.writeHead(200, {
-                'Access-Control-Allow-Origin': 'http://localhost:3000'
-            });
-            res.end("Invalid rate!");
-            return;
-        }
-        console.log(subjectNum, date, studentGender, tutorGender, grade1, grade2, rate);
-
-        const offset = req.body.offset;
-        db.searchTeacher(res, subjectNum, date, studentGender, tutorGender, grade1, grade2, rate, offset);
-    });
+    app.post('/api/findTutors/', middleware.authJwt, controller.findTutors);
 
 
     // cancel lesson and delete it from db
-    app.delete('/api/lessons/:lessonId', service.authJwt, (req, res) => {
+    app.delete('/api/lessons/:lessonId', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
         const lessonId = req.params.lessonId;
@@ -140,7 +72,7 @@ module.exports = (app) => {
     });
 
     // approve tutor function
-    app.put('/api/approveTutor/:tutorId', service.authJwt, (req, res) => {
+    app.put('/api/approveTutor/:tutorId', middleware.authJwt, (req, res) => {
         if (req.tokenData.userType === 'P' || req.tokenData.userType === 'T') return res.status(401).send("You are Not allowed to do this action.")
 
         const tutorId = req.params.tutorId;
@@ -148,7 +80,7 @@ module.exports = (app) => {
     });
 
     // add lesson and shedule it
-    app.post('/api/addlesson', service.authJwt, (req, res) => {
+    app.post('/api/addlesson', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'P')) return res.status(401).send("You are Not allowed to do this action.")
 
         const pupilId = req.tokenData.id;
@@ -161,7 +93,7 @@ module.exports = (app) => {
     });
 
     // show upcoming lessons of a student / tutor by its id
-    app.post('/api/lessons/', service.authJwt, (req, res) => {
+    app.post('/api/lessons/', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
         const studentId = req.tokenData.id;
@@ -170,7 +102,7 @@ module.exports = (app) => {
     });
 
     // show available hours
-    app.post('/api/getAvailability/', service.authJwt, (req, res) => {
+    app.post('/api/getAvailability/', middleware.authJwt, (req, res) => {
         let tutorId;
         if (req.tokenData.userType == 'P')
             tutorId = req.body.tutorId;
@@ -181,7 +113,7 @@ module.exports = (app) => {
     });
 
     // add available date and hour to tutor's schedule
-    app.post('/api/addAvailability/', service.authJwt, (req, res) => {
+    app.post('/api/addAvailability/', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
         const tutorId = req.tokenData.id;
@@ -192,7 +124,7 @@ module.exports = (app) => {
     });
 
     // remove available date and hour from tutor's schedule
-    app.post('/api/deleteAvailability/', service.authJwt, (req, res) => {
+    app.post('/api/deleteAvailability/', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
         const tutorId = req.tokenData.id;
@@ -203,14 +135,14 @@ module.exports = (app) => {
 
 
     // get tutors subject1, subject2, subject3, subject4 
-    app.post('/api/tutors/getTeachingSubjects', service.authJwt, (req, res) => {
+    app.post('/api/tutors/getTeachingSubjects', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
         console.log("Get Subject called");
         const tutorId = req.tokenData.id;
         db.getTeachingSubjects(res, tutorId);
     });
 
-    app.post('/api/tutors/updateTeachingSubjects', service.authJwt, (req, res) => {
+    app.post('/api/tutors/updateTeachingSubjects', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
         const tutorId = req.tokenData.id;
@@ -226,7 +158,7 @@ module.exports = (app) => {
     // subjects are no more stored in a differnt table but in as a field of tutor
     /*
     // add taching subject to tutor
-    app.post('/api/tutors/UpdateTeachingSubjects/', service.authJwt, (req, res) => {
+    app.post('/api/tutors/UpdateTeachingSubjects/', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
         const stSubjects = req.stSubjects;
         const subject = req.body.subject;
@@ -237,7 +169,7 @@ module.exports = (app) => {
     });
 
     // remove teaching subject of tutor
-    app.post('/api/teachingSubjects/:subject/:grade/:points', service.authJwt, (req, res) => {
+    app.post('/api/teachingSubjects/:subject/:grade/:points', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
         const subject = req.params.subject;
@@ -249,7 +181,7 @@ module.exports = (app) => {
     */
 
     // get tutoring hours of a specific tutor
-    app.get('/api/tutoringHours/:tutorId', service.authJwt, (req, res) => {
+    app.get('/api/tutoringHours/:tutorId', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
         const tutorId = req.tokenData.id;
@@ -257,7 +189,7 @@ module.exports = (app) => {
     });
 
     // add tutoring hour to tutor
-    app.post('/api/tutoringHours', service.authJwt, (req, res) => {
+    app.post('/api/tutoringHours', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
         const tutorId = req.tokenData.id;
@@ -290,7 +222,7 @@ module.exports = (app) => {
 
 
     // change password 
-    app.post("/api/changePassword/", service.authJwt, (req, res) => {
+    app.post("/api/changePassword/", middleware.authJwt, (req, res) => {
         if (req.tokenData.userType != 'P' && req.tokenData.userType != 'T') {
             return res.end("You are not allowed to do this action!");
         } else {
@@ -302,7 +234,7 @@ module.exports = (app) => {
     });
 
     // rate lesson
-    app.post('/api/rates', service.authJwt, (req, res) => {
+    app.post('/api/rates', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'P')) {
             res.writeHead(200, {
                 'Access-Control-Allow-Origin': 'http://localhost:3000'
@@ -318,7 +250,7 @@ module.exports = (app) => {
     });
 
 
-    app.get('/api/stats/:cityid/:subject', service.authJwt, (req, res) => {
+    app.get('/api/stats/:cityid/:subject', middleware.authJwt, (req, res) => {
         if (req.tokenData.userType === 'P' || req.tokenData.userType === 'T') {
             res.writeHead(200, {
                 'Access-Control-Allow-Origin': 'http://localhost:3000'
@@ -334,7 +266,7 @@ module.exports = (app) => {
     // userr account settings update below
 
     // upload profile image
-    app.post('/api/students/uploadProfileImg/', service.authJwt, (req, res) => {
+    app.post('/api/students/uploadProfileImg/', middleware.authJwt, (req, res) => {
 
         if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) {
             res.writeHead(200, {
@@ -355,7 +287,7 @@ module.exports = (app) => {
     });
 
     // change username
-    app.post('/api/students/changeUsername', service.authJwt, (req, res) => {
+    app.post('/api/students/changeUsername', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) {
             res.writeHead(200, {
                 'Access-Control-Allow-Origin': 'http://localhost:3000'
@@ -370,7 +302,7 @@ module.exports = (app) => {
     });
 
     // change Email
-    app.post('/api/students/changeEmail', service.authJwt, (req, res) => {
+    app.post('/api/students/changeEmail', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) {
             res.writeHead(200, {
                 'Access-Control-Allow-Origin': 'http://localhost:3000'
@@ -385,7 +317,7 @@ module.exports = (app) => {
     });
 
     // change phone number
-    app.post('/api/students/changePhone', service.authJwt, (req, res) => {
+    app.post('/api/students/changePhone', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) {
             res.writeHead(200, {
                 'Access-Control-Allow-Origin': 'http://localhost:3000'
@@ -400,7 +332,7 @@ module.exports = (app) => {
     });
 
     // change tutor's bio info
-    app.post('/api/tutors/changeBio', service.authJwt, (req, res) => {
+    app.post('/api/tutors/changeBio', middleware.authJwt, (req, res) => {
         if (!(req.tokenData.userType === 'T')) {
             res.writeHead(200, {
                 'Access-Control-Allow-Origin': 'http://localhost:3000'
@@ -415,6 +347,6 @@ module.exports = (app) => {
     });
 
     // getting jitsi room name
-    app.post('/api/getJitsiDetails', service.authJwt, controller.getJitsiDetails);
+    app.post('/api/getJitsiDetails', middleware.authJwt, controller.getJitsiDetails);
 
 }

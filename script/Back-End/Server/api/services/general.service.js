@@ -173,30 +173,6 @@ function signJwt(result, err, res) {
     return result;
 }
 
- 
-// authenticate token function to convert token to user object
-function authJwt(req, res, next) {
-    const token = req.headers.authorization.split(" ")[1];
-    console.log(token);
-    if (token == null) {
-        console.log("unauthorized");
-        res.writeHead(200, {
-            "Access-Control-Allow-Origin": "http://localhost:3000",
-        });
-        return res.end("unauthorized");
-    }
-    try {
-        let decodeToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        req.tokenData = decodeToken;
-        next();
-    } catch (err) {
-        console.log(err);
-        res.writeHead(200, {
-            "Access-Control-Allow-Origin": "http://localhost:3000",
-        });
-        return res.end("unauthorized");
-    }
-}  
 
 module.exports = {
     getResultObject,

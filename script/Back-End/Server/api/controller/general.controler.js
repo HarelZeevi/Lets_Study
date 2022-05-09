@@ -157,3 +157,74 @@ const addAdmin = (req, res) => {
 
     db.createAdmin(res, id, firstname, lastname, pswd, school, phone, email);
 }
+
+
+const findTutors = (req, res) => {
+    console.log("Starting teacher");
+    if (!(req.tokenData.userType === 'P')) {
+        res.writeHead(200, {
+            'Access-Control-Allow-Origin': 'http://localhost:3000'
+        });
+        res.end("You are not allowed to do this action!");
+    }
+
+    const subjectNum = req.body.subjectNum; // The lesson's requested subject (must pass)
+    const date = req.body.date; // The requested date of the lesson (must pass)
+    console.log("res" + testData(date, 10));
+    if (testData(date, 10) !== 0) {
+        res.writeHead(200, {
+            'Access-Control-Allow-Origin': 'http://localhost:3000'
+        });
+        res.end("Invalid date!");
+        return;
+    }
+    const grade1 = req.body.grade1 || undefined; //The tutor's preferred grade - 10 / 11 / 12 (optional pass)
+    console.log("res" + testData(grade1, 7));
+    if (testData(grade1, 7) !== 0) {
+        res.writeHead(200, {
+            'Access-Control-Allow-Origin': 'http://localhost:3000'
+        });
+        res.end("Invalid grade!");
+        return;
+    }
+    const grade2 = req.body.grade2 || undefined; //The tutor's preferred grade - 10 / 11 / 12 (optional pass) 
+    console.log("res" + testData(grade2, 7));
+    if (testData(grade2, 7) !== 0) {
+        res.writeHead(200, {
+            'Access-Control-Allow-Origin': 'http://localhost:3000'
+        });
+        res.end("Invalid grade!");
+        return;
+    }
+    const studentGender = req.tokenData.gender; // The learner's gender - male or female (must pass)
+    console.log("res" + testData(studentGender, 8));
+    if (testData(studentGender, 8) !== 0) {
+        res.writeHead(200, {
+            'Access-Control-Allow-Origin': 'http://localhost:3000'
+        });
+        res.end("Invalid gender!");
+        return;
+    }
+    const tutorGender = req.body.tutorGender || undefined; // The tutor's preferred gender - male or female (optional pass)
+    console.log("res" + testData(tutorGender, 8));
+    if (testData(tutorGender, 8) !== 0) {
+        res.writeHead(200, {
+            'Access-Control-Allow-Origin': 'http://localhost:3000'
+        });
+        res.end("Invalid gender!");
+        return;
+    }
+    const rate = req.body.rate;
+    console.log("res" + testData(rate, 12));
+    if (testData(rate, 12) !== 0) {
+        res.writeHead(200, {
+            'Access-Control-Allow-Origin': 'http://localhost:3000'
+        });
+        res.end("Invalid rate!");
+        return;
+    }
+    console.log(subjectNum, date, studentGender, tutorGender, grade1, grade2, rate);
+
+    const offset = req.body.offset;
+    db.searchTeacher(res, subjectNum, date, studentGender, tutorGender, grade1, grade2, rate, offset);
+}

@@ -100,8 +100,17 @@ async function scheduleLesson(params, callback){
     const [currentPage, setCurrentPage] = useState(1);
     const [offset, setOffset] = useState(1);
     const [teachersData,setTeachersData] = useState([]);
+    const [g1, setG1] = useState(null);
+    const [g2, setG2] = useState(null);
+    const [subject, setSubject] = useState(null);
+    
+    // input variables for request to server 
+    const date = null;
+    let tutorGender = null;
+    
     const school_subs = useRef();
     const angelUp = useRef();
+    const [selectedDate, setSelectedDate] = useState(null);
     let tf_gradeYud = true;
     let tf_gradeYudAleph = true;
     let tf_gradeYudBeit = true;
@@ -199,6 +208,7 @@ async function scheduleLesson(params, callback){
                     tf_gradeYud = false;
                     tf_gradeYudAleph = false;
                     tf_gradeYudBeit = false;
+
                     document.getElementById('tf_grade1').checked = false;
                     document.getElementById('tf_grade2').checked = false;
                     document.getElementById('tf_grade3').checked = false;
@@ -236,73 +246,91 @@ async function scheduleLesson(params, callback){
                 }
                 break;
         }
+
+        let grade1 = null;
+        let grade2 = null;
+
+        alert(tf_gradeYud + ", " + tf_gradeYudAleph + ", " + tf_gradeYudBeit)
+        // init grade1,
+
+        if (tf_gradeYud == true)
+        {
+            grade1 = 10;
+            
+            if (tf_gradeYudAleph == true && tf_gradeYudBeit == true)
+            {
+                grade1 = null;
+                grade2 = null;
+            }
+            else if (tf_gradeYudAleph == true)
+            {
+                grade2 = 11;
+            }
+            else if (tf_gradeYudBeit == true)
+            {
+                grade2 = 12;
+            }
+        }
+        else if (tf_gradeYudAleph == true)
+        {
+            grade1 = 11;
+            
+            if (tf_gradeYudBeit == true)
+            {
+                grade2 = 12;
+            }
+        }
+        else if(tf_gradeYudBeit == true){
+            grade1 = 12;
+        }
+        alert("grade1: " + grade1 + "grade2: " + grade2) ;
+        setG1(grade1);
+        setG2(grade2);
     }
-    const confirm_filter_submit = () => {
+    const confirm_filter_submit = (event) => {
         // current_gender is a variable that holds the current value of the gender section in the filters the user inputs.
         // current_gender = 1 means both genders (hakol)
         // current_gender = 2 means the user only wants male teachers
         // current_gender = 3 means the user only wants female teachers.
         // if you want to change it from numbers to strings (for example "both", "female", "male") tell me and I can change it within 15 seconds.
+        event.preventDefault();
 
-
-        // tf_gradeYud, tf_gradeYudAleph and tf_gradeYudBeit are boolean variables that represent the grades the user WANTED to be his/her teachers.
-    }
-    const filter_subject = (event) => {
-        // event.target.value is the value of the subject the user chose.
-        // for example, if the user chose מתמטיקה, event.target.value will be the string "מתמטיקה".
-        /* example function for your integration:
-        var newteachers = localhost.send(event.target.value) beeep boop port 1234;
-        jsonfile.update(newteachers);
-        */
-        let subject;
-        switch (event.target.value)
+        let tutorGender; // inner scope variable 
+        if (tf_current_gender == 1)
         {
-            case "מתמטיקה": subject = "math";
-            // Add here more cases for each Hebrew subject
-            // The idea is to use the English subjects Instead
-            default: subject =  null
+            tutorGender = null;
         }
-        alert(subject);
-
-        // IMPORTANT!!! The format of the Date String match this pattern: "YYYY/MM/DD" (YEAR/Month/DAY)
+        else if (tf_current_gender == 2)
+        {
+            tutorGender = 'M';
+        }
+        else if (tf_current_gender == 3)
+        {
+            tutorGender = 'F'
+        }
         
-        // here we get the available teachers
-        fetchTeachers(
-            {
-                "subjectNum": 1,
-                "grade1":10,
-                "grade2":12, 
-                "date":"2021-05-11",
-                "tutorGender": "M",
-                "rate": 1,
-                "offset": offset
-            },
+        let dataObj = {
+            "subjectNum": subject,
+            "grade1":g1,
+            "grade2":g2, 
+            "date": selectedDate,
+            "tutorGender": tutorGender,
+            "rate": 1,
+            "offset": offset
+        };
+        alert(g1)
+        fetchTeachers(dataObj,
             (res) =>
             {
                 setOffset(offset + 5); // setting s new offset
                 console.log(res);
                 setTeachersData(res);
-            }
-        )
-
-
-        
-        // here we get the avilable time of a specific teacher
-        fetchAvailability(
-            {
-                "tutorId": "254638563",    
-            },
-            (res) =>
-            {
-                console.log("Finished fetching availability");
-                // Ori here you call the function that updates the availability of the teacher 
-                // with res - the result object of the availability
-                console.log(res);
-            }
-        )
+            })
+        // tf_gradeYud, tf_gradeYudAleph and tf_gradeYudBeit are boolean variables that represent the grades the user WANTED to be his/her teachers.
+    }
         
         // here we schedule a lesson with a gotten calendar Id, tutorId, subject and points amount.
-        scheduleLesson(
+        /* scheduleLesson(
             {
                 "tutorId":"254638563",
                 "calendarId":42, 
@@ -316,10 +344,8 @@ async function scheduleLesson(params, callback){
                 // with res - the result object of the availability
                 console.log(res);
             }
-            )
+        ) */
 
-
-    }
     const increase = async ()=>{
       // const data=await axios.get(`/resultExample.json/${currentPage+1}`);
       setCurrentPage(currentPage+1);
@@ -339,16 +365,28 @@ async function scheduleLesson(params, callback){
             <FiX id='FiX-sort' className='sort-icons'/>
             <GiHamburgerMenu id="hamburger-sort" className="sort-icons"></GiHamburgerMenu>סינון</div>
             <div id="sort-form-container">
-            <div className="subject-filter-popup">
-            <input className="subject-input"list="school-subjects"ref={school_subs} onChange={filter_subject}/>
-                <datalist id="school-subjects">
-                    <option value="מתמטיקה" className="tf-option-subject-fields"></option>
-                    <option value="אנגלית" className="tf-option-subject-fields"></option>
-                    <option value="מדעי המחשב" className="tf-option-subject-fields"></option>
-                    <option value="מדעי החברה" className="tf-option-subject-fields"></option>
-                </datalist>  	
-                </div>
-                <form className="sort-form">
+                <form className="sort-form" onSubmit={confirm_filter_submit}>
+                    <select onChange={(e) => setSubject(e.target.value)}>
+                        <option value="1" className="tf-option-subject-fields">בחר מקצוע</option>
+                        <option value="1" className="tf-option-subject-fields">אזרחות</option>
+                        <option value="2" className="tf-option-subject-fields">ביולוגיה</option>
+                        <option value="3" className="tf-option-subject-fields">דינים</option>
+                        <option value="4" className="tf-option-subject-fields">היסטוריה</option>
+                        <option value="5" className="tf-option-subject-fields">אנגלית</option>
+                        <option value="6" className="tf-option-subject-fields">הנדסת תוכנה - אנדרואיד</option>
+                        <option value="7" className="tf-option-subject-fields">הנדסת תוכנה - סייבר</option>
+                        <option value="8" className="tf-option-subject-fields">הנדסת תוכנה - שירותי רשת</option>
+                        <option value="9" className="tf-option-subject-fields">כימיה</option>
+                        <option value="10" className="tf-option-subject-fields">לשון</option>
+                        <option value="11" className="tf-option-subject-fields">מדעי המחשב</option>
+                        <option value="12" className="tf-option-subject-fields">מחשבת ישראל</option>
+                        <option value="13" className="tf-option-subject-fields">מתמטיקה</option>
+                        <option value="14" className="tf-option-subject-fields">ספרות</option>
+                        <option value="15" className="tf-option-subject-fields">ערבית</option>
+                        <option value="16" className="tf-option-subject-fields">פיזיקה</option>
+                        <option value="17" className="tf-option-subject-fields">תלמוד</option>
+                        <option value="18" className="tf-option-subject-fields">תנ"ך</option>
+                    </select>
                     <h3 className="filter2-paragraph-container"> מגדר: </h3>
                     <div className='tf_genderDiv'>
                         <input type="radio" name="gender" id='tf_gender1' defaultChecked onChange={updateGender}/>
@@ -378,10 +416,10 @@ async function scheduleLesson(params, callback){
                     </div>
                     <h3 className="filter2-paragraph-container3">תאריך:</h3> 
                     <div className="date-time-continer-sort">
-                        <input type="datetime-local"/>
+                        <input type="date" onChange={(date)=>{setSelectedDate(date.target.valueAsDate); alert(selectedDate)}}/>
                     </div>
                     <br/><hr/>
-                    <button type='button' onClick={confirm_filter_submit} className='TF_FilterSubmitBtn'>סינון</button>
+                    <button type='submit' className='TF_FilterSubmitBtn'>סינון</button>
                 </form>
             </div>
         </div>
