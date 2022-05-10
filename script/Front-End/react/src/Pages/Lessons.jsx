@@ -98,7 +98,7 @@ async function scheduleLesson(params, callback){
 
  function Lessons() {
     const [currentPage, setCurrentPage] = useState(1);
-    const [offset, setOffset] = useState(1);
+    const [offset, setOffset] = useState(0);
     const [teachersData,setTeachersData] = useState([]);
     const [g1, setG1] = useState(null);
     const [g2, setG2] = useState(null);
@@ -313,7 +313,7 @@ async function scheduleLesson(params, callback){
             "subjectNum": subject,
             "grade1":g1,
             "grade2":g2, 
-            "date": selectedDate,
+            "date": new Date(selectedDate).toISOString().split('T')[0],
             "tutorGender": tutorGender,
             "rate": 1,
             "offset": offset

@@ -213,7 +213,7 @@ function searchTeacher(
     rate,
     offset
 ) {
-    var sqlQuery = `SELECT tutors.studentid, tutors.subject1, tutors.subject2, tutors.subject3, tutors.subject4, students.fullname, tutors.bio, students.imgFileExt, students.grade, students.gender, tutors.rate, tutors.pupilGender
+    var sqlQuery = `SELECT distinct tutors.studentid, tutors.subject1, tutors.subject2, tutors.subject3, tutors.subject4, students.fullname, tutors.bio, students.imgFileExt, students.grade, students.gender, tutors.rate, tutors.pupilGender
                       FROM tutors 
                       INNER JOIN students ON tutors.studentid = students.id
                       INNER JOIN calendar ON tutors.studentid = calendar.studentid
@@ -228,27 +228,29 @@ function searchTeacher(
                               OR tutors.pupilGender IS NULL)
                           AND (tutors.rate >= ${mysql.escape(parseInt(rate))})`;
 
+
     // student's gender preferences
-    if (tutorGender)
-        sqlQuery += `AND (students.gender = ${mysql.escape(tutorGender)})`;
+    if (tutorGender != "null")
+        sqlQuery += ` AND (students.gender = ${mysql.escape(tutorGender)})`;
+
     // Adding grade preferences accordingly
     // sending without grades preferences
-    if (grade2 === undefined && grade1 != undefined) {
-        grade2 = grade1; // repeating the same checking
+    if (grade1 != "null" || grade2 != "null")
+    {
+        if (grade2 == "null" && grade1 != "null") {
+            grade2 = grade1; // repeating the same checking
+        } 
+        var gradesPrefs = ` AND (students.grade = ${mysql.escape(grade1)}
+                            OR students.grade = ${mysql.escape(grade2)})`
+        sqlQuery += gradesPrefs;
     }
 
-    var gradesPrefs = `AND (students.grade = ${mysql.escape(
-      grade1
-    )} OR students.grade = ${mysql.escape(grade2)})`;
+    var limit = ` LIMIT ${mysql.escape(parseInt(offset))}, 5 `;
 
-    var limit = `GROUP BY(tutors.studentid) LIMIT ${mysql.escape(
-      parseInt(offset)
-    )}, 5 `;
-    if (grade1 === undefined)
-        // No grade preferences
-        sqlQuery += limit + ";";
-    else sqlQuery += gradesPrefs + limit + ";";
+    sqlQuery += limit + ";";
 
+
+    console.log("sql query: " + sqlQuery);
     con.query(sqlQuery, function (err, result) {
         service.getResultObject(result, err, res);
     });
@@ -819,36 +821,34 @@ function getJitsiDetails(res, lessonId, isTeacher) {
 
 
 module.exports = {
-	addStudent,
-	registerAuth,
-	testProperty,
-	register,
-	signIn,
-	signInAdmin,
-	createAdmin,
-	searchTeacher,
-	showAvailableHours,
-	cancelLesson,
-	showStudents,
-	scheduleLesson,
-	showLessons,
-	showStats,
-	approveTutor,
-	AddAvailableTime,
-	removeAvailableTime,
-	getTeachingSubjects,
-	updateTeachingSubjects,
-	getTutoringHours,
-	addTutoringHour,
-	findStudent,
-	sendToken,
-	changeProperty,
-	checkToken,
-	changePassword,
-	rateLesson,
-	get_profile_img,
-	uploadProfileImage,
-	getJitsiDetails
+    addStudent,
+    registerAuth,
+    testProperty,
+    register,
+    signIn,
+    signInAdmin,
+    createAdmin,
+    searchTeacher,
+    showAvailableHours,
+    cancelLesson,
+    showStudents,
+    scheduleLesson,
+    showLessons,
+    showStats,
+    approveTutor,
+    AddAvailableTime,
+    removeAvailableTime,
+    getTeachingSubjects,
+    updateTeachingSubjects,
+    getTutoringHours,
+    addTutoringHour,
+    findStudent,
+    sendToken,
+    changeProperty,
+    checkToken,
+    changePassword,
+    rateLesson,
+    get_profile_img,
+    uploadProfileImage,
+    getJitsiDetails
 }
-
-

@@ -1,5 +1,6 @@
 const db = require('./../database/general.database')
 const helpers = require('./../helpers/general.helpers')
+const validator = require('./../validations/general.validation')
 
 const getJitsiDetails = (req, res) => {
     if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) {
@@ -18,7 +19,7 @@ const signIn =  (req, res) => {
     const id = req.body.id;
     const username = req.body.username;
     const password = req.body.password;
-    if (false && (testData(password, 2) !== 0 || testData(id, 5) !== 0)) {
+    if (false && (validator.testData(password, 2) !== 0 || validator.testData(id, 5) !== 0)) {
       res.writeHead(200, {
         "Access-Control-Allow-Origin": "http://localhost:3000",
       });
@@ -89,8 +90,8 @@ const addStudent = (req, res) => {
     const classnum = req.body.classnum; // admin enters info
     const pupilGender = req.body.pupilGender || undefined; // admin enters info
 
-    console.log("res" + validator.testData(id, 5));
-    if (testData(id, 5) !== 0) {
+    console.log("res" + validator.validator.testData(id, 5));
+    if (validator.testData(id, 5) !== 0) {
         res.writeHead(200, {
             'Access-Control-Allow-Origin': 'http://localhost:3000'
         });
@@ -106,7 +107,7 @@ const registerAuth = (req, res) => {
     const id = req.params.id;
     const studentCode = req.params.studentCode;
 
-    if (testData(id, 5) !== 0) {
+    if (validator.testData(id, 5) !== 0) {
         res.writeHead(200, {
             'Access-Control-Allow-Origin': 'http://localhost:3000'
         });
@@ -139,11 +140,11 @@ const register = (req, res) => {
     const email = req.body.email;
     const pswd = req.body.pswd;
 
-    /*if(testData(username, 3) !== 0 ||
-       testData(fullname, 1) !== 0 || 
-       testData(id, 5) !== 0 ||
-       testData(phone, 4) !== 0 ||
-       testData(email, 6) !== 0)
+    /*if(validator.testData(username, 3) !== 0 ||
+       validator.testData(fullname, 1) !== 0 || 
+       validator.testData(id, 5) !== 0 ||
+       validator.testData(phone, 4) !== 0 ||
+       validator.testData(email, 6) !== 0)
     {
         res.writeHead(200, {'Access-Control-Allow-Origin': 'http://localhost:3000'});
         res.end("Invalid input!");
@@ -174,7 +175,100 @@ const addAdmin = (req, res) => {
     db.createAdmin(res, id, firstname, lastname, pswd, school, phone, email);
 }
 
+const deletelesson = (req,res)=>{
+    if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
+    const lessonId = req.params.lessonId;
+    const pupilId = req.tokenData.id;
+    db.cancelLesson(res, lessonId, pupilId);
+};
+const approveTutor = (req,res)=>{
+    if (req.tokenData.userType === 'P' || req.tokenData.userType === 'T') return res.status(401).send("You are Not allowed to do this action.")
+
+    const tutorId = req.params.tutorId;
+    db.approveTutor(res, tutorId);
+};
+const addLesson = (req,res)=> {
+    if (!(req.tokenData.userType === 'P')) return res.status(401).send("You are Not allowed to do this action.")
+
+    const pupilId = req.tokenData.id;
+    const tutorId = req.body.tutorId;
+    const calendarId = req.body.calendarId;
+    const subject = req.body.subject;
+    const points = req.body.points;
+    const grade = req.tokenData.grade;
+    db.scheduleLesson(res, pupilId, tutorId, calendarId, subject, points, grade);
+};
+const showLesson =(req,rea)=> {
+    if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
+
+    const studentId = req.tokenData.id;
+    const utype = req.tokenData.userType;
+    db.showLessons(res, studentId, utype);
+};
+const getAvailability =(req,rea)=> {
+    let tutorId;
+    if (req.tokenData.userType == 'P')
+        tutorId = req.body.tutorId;
+    else
+        tutorId = req.tokenData.id;
+    console.log(tutorId);
+    db.showAvailableHours(res, tutorId);
+};
+const addAvailability  =(req,rea)=> {
+    if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
+
+    const tutorId = req.tokenData.id;
+    const listTimes = req.body.listTimes;
+    console.log("List times: ");
+    console.log(JSON.parse(listTimes));
+    db.AddAvailableTime(res, JSON.parse(listTimes), tutorId);
+};
+const deleteAvailability  =(req,rea)=> {
+    if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
+
+    const tutorId = req.tokenData.id;
+    const calIdlist = req.body.calendarIdDelete.split(",").map(x => parseInt(x));
+    console.log(calIdlist);
+    db.removeAvailableTime(res, tutorId, calIdlist);
+};
+const getTeachingSubjects =(req,rea)=>  {
+    if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
+    console.log("Get Subject called");
+    const tutorId = req.tokenData.id;
+    db.getTeachingSubjects(res, tutorId);
+};
+const updateTeachingSubjects = (req,rea)=> {
+    if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
+
+    const tutorId = req.tokenData.id;
+    const subjects = req.body.subjects.split(","); // an array of 4 subject the user have chosen
+    console.log(subjects);
+    const subject1 = subjects[0] == "" ? null : subjects[0];
+    const subject2 = subjects[1] == "" ? null : subjects[1];
+    const subject3 = subjects[2] == "" ? null : subjects[2];
+    const subject4 = subjects[3] == "" ? null : subjects[3];
+    db.updateTeachingSubjects(res, tutorId, subject1, subject2, subject3, subject4)
+};
+const getTutoringHours = (req,rea)=> {
+    if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
+
+    const tutorId = req.tokenData.id;
+    db.getTutoringHours(res, tutorId);
+};
+const addTutoringHour = (req,rea)=> {
+    if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
+
+    const tutorId = req.tokenData.id;
+    db.addTutoringHour(res, tutorId);
+};
+const resetPassword = (req,rea)=>  {
+    const email = req.body.email;
+    const studentId = req.body.studentId;
+    db.findStudent(email, studentId, (result) => {
+        db.sendToken(res, result)
+    });
+};
 const findTutors = (req, res) => {
     console.log("Starting teacher");
     if (!(req.tokenData.userType === 'P')) {
@@ -186,8 +280,8 @@ const findTutors = (req, res) => {
 
     const subjectNum = req.body.subjectNum; // The lesson's requested subject (must pass)
     const date = req.body.date; // The requested date of the lesson (must pass)
-    console.log("res" + testData(date, 10));
-    if (testData(date, 10) !== 0) {
+    console.log("res" + validator.testData(date, 10));
+    if (validator.testData(date, 10) !== 0) {
         res.writeHead(200, {
             'Access-Control-Allow-Origin': 'http://localhost:3000'
         });
@@ -195,8 +289,8 @@ const findTutors = (req, res) => {
         return;
     }
     const grade1 = req.body.grade1 || undefined; //The tutor's preferred grade - 10 / 11 / 12 (optional pass)
-    console.log("res" + testData(grade1, 7));
-    if (testData(grade1, 7) !== 0) {
+    console.log("res" + validator.testData(grade1, 7));
+    if (validator.testData(grade1, 7) !== 0) {
         res.writeHead(200, {
             'Access-Control-Allow-Origin': 'http://localhost:3000'
         });
@@ -204,8 +298,8 @@ const findTutors = (req, res) => {
         return;
     }
     const grade2 = req.body.grade2 || undefined; //The tutor's preferred grade - 10 / 11 / 12 (optional pass) 
-    console.log("res" + testData(grade2, 7));
-    if (testData(grade2, 7) !== 0) {
+    console.log("res" + validator.testData(grade2, 7));
+    if (validator.testData(grade2, 7) !== 0) {
         res.writeHead(200, {
             'Access-Control-Allow-Origin': 'http://localhost:3000'
         });
@@ -213,8 +307,8 @@ const findTutors = (req, res) => {
         return;
     }
     const studentGender = req.tokenData.gender; // The learner's gender - male or female (must pass)
-    console.log("res" + testData(studentGender, 8));
-    if (testData(studentGender, 8) !== 0) {
+    console.log("res" + validator.testData(studentGender, 8));
+    if (validator.testData(studentGender, 8) !== 0) {
         res.writeHead(200, {
             'Access-Control-Allow-Origin': 'http://localhost:3000'
         });
@@ -222,8 +316,8 @@ const findTutors = (req, res) => {
         return;
     }
     const tutorGender = req.body.tutorGender || undefined; // The tutor's preferred gender - male or female (optional pass)
-    console.log("res" + testData(tutorGender, 8));
-    if (testData(tutorGender, 8) !== 0) {
+    console.log("res" + validator.testData(tutorGender, 8));
+    if (validator.testData(tutorGender, 8) !== 0) {
         res.writeHead(200, {
             'Access-Control-Allow-Origin': 'http://localhost:3000'
         });
@@ -231,8 +325,8 @@ const findTutors = (req, res) => {
         return;
     }
     const rate = req.body.rate;
-    console.log("res" + testData(rate, 12));
-    if (testData(rate, 12) !== 0) {
+    console.log("res" + validator.testData(rate, 12));
+    if (validator.testData(rate, 12) !== 0) {
         res.writeHead(200, {
             'Access-Control-Allow-Origin': 'http://localhost:3000'
         });
@@ -259,5 +353,17 @@ module.exports = {
     register,
     isSignedIn,
     addAdmin,
-    findTutors
+    findTutors,
+    deletelesson,
+    approveTutor,
+    addLesson,
+    showLesson,
+    getAvailability,
+    addAvailability,
+    deleteAvailability,
+    getTeachingSubjects,
+    updateTeachingSubjects,
+    getTutoringHours,
+    addTutoringHour,
+    resetPassword
 }

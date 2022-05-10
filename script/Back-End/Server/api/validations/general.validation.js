@@ -204,52 +204,51 @@ module.exports = {
         } else {
             return false
         }
-    }
-}
+    },
 
-
-function testData(value, inputType) {
-    return 0;
-    switch (inputType) {
-        case 1: // name
-        {
-            if (!(tests.validateName(value)))
-                return 1;
+    testData: (value, inputType) => {
+        return 0;
+        switch (inputType) {
+            case 1: // name
+            {
+                if (!(tests.validateName(value)))
+                    return 1;
+            }
+            case 2: // pswd
+            {
+                if (!(tests.validatePswd(value)))
+                    return 2;
+                break;
+            }
+            case 3: // username
+            {
+                if (!(tests.validateUsername(value)))
+                    return 3;
+                break;
+            }
+            case 4: //phone
+            {
+                if (!(tests.validatePhone(value)))
+                    return 4;
+                break;
+            }
+            case 5: // id
+            {
+                if (!(tests.validateId(value)))
+                    return 5;
+                break;
+            }
+            case 6: // email
+            {
+                if (!(tests.validateEmail(value)))
+                    return 6;
+                break;
+            }
+            case 7: //
+            {
+                // check here
+            }
         }
-        case 2: // pswd
-        {
-            if (!(tests.validatePswd(value)))
-                return 2;
-            break;
-        }
-        case 3: // username
-        {
-            if (!(tests.validateUsername(value)))
-                return 3;
-            break;
-        }
-        case 4: //phone
-        {
-            if (!(tests.validatePhone(value)))
-                return 4;
-            break;
-        }
-        case 5: // id
-        {
-            if (!(tests.validateId(value)))
-                return 5;
-            break;
-        }
-        case 6: // email
-        {
-            if (!(tests.validateEmail(value)))
-                return 6;
-            break;
-        }
-        case 7: //
-        {
-            // check here
-        }
+        return 0;
     }
-    return 0;
 }
