@@ -367,7 +367,7 @@ async function scheduleLesson(params, callback){
             <div id="sort-form-container">
                 <form className="sort-form" onSubmit={confirm_filter_submit}>
                     <select onChange={(e) => setSubject(e.target.value)}>
-                        <option value="1" className="tf-option-subject-fields">בחר מקצוע</option>
+                        <option value="0" className="tf-option-subject-fields">בחר מקצוע</option>
                         <option value="1" className="tf-option-subject-fields">אזרחות</option>
                         <option value="2" className="tf-option-subject-fields">ביולוגיה</option>
                         <option value="3" className="tf-option-subject-fields">דינים</option>
