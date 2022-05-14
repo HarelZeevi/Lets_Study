@@ -132,16 +132,23 @@ function MyLessons() {
             {lesson.subjectname}
           </div>
           <div className="myteacher_infofields">
-            {lesson.starttime.replace("00:00", "00")} <br/> 
-            {new Date(lesson.availabledate).toLocaleString('he', {year:"2-digit", month:'2-digit', day: '2-digit'}).replace(',', '').replaceAll('.', '/')} 
+            {lesson.starttime.replace("00:00", "00")} <br />
+            {new Date(lesson.availabledate)
+              .toLocaleString("he", {
+                year: "2-digit",
+                month: "2-digit",
+                day: "2-digit",
+              })
+              .replace(",", "")
+              .replaceAll(".", "/")}
           </div>
-          <button className="mylessons_deeplinker" onClick={() => {}}>
+          <button className="mylessons_deeplinker" onClick={() => { }}>
             {" "}
             עריכת שיעור{" "}
           </button>
         </div>
       ))}
-      
+
       <br />
       <br />
       <br />
@@ -159,10 +166,17 @@ function MyLessons() {
             {lesson.subjectname}
           </div>
           <div className="myteacher_infofields">
-            {lesson.starttime.replace("00:00", "00")} <br/> 
-            {new Date(lesson.availabledate).toLocaleString('he', {year:"2-digit", month:'2-digit', day: '2-digit'}).replace(',', '').replaceAll('.', '/')} 
+            {lesson.starttime.replace("00:00", "00")} <br />
+            {new Date(lesson.availabledate)
+              .toLocaleString("he", {
+                year: "2-digit",
+                month: "2-digit",
+                day: "2-digit",
+              })
+              .replace(",", "")
+              .replaceAll(".", "/")}
           </div>
-          <button className="mylessons_deeplinker2" onClick={() => {}}>
+          <button className="mylessons_deeplinker2" onClick={() => { }}>
             {" "}
             קבע שיעור נוסף{" "}
           </button>

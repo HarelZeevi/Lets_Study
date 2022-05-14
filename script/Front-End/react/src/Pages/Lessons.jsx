@@ -17,8 +17,7 @@ import Footer from '../Components/Footer.jsx';
 import "../Styles/teacherFilter.css"; 
 // BsArrowLeft
 // BsArrowRight
-import { matchedTeachers } from '../localdb/matchedTeachers'
-
+import { LessonsList } from '../Components/LessonsList'
 
 ///// fetch list of teachers from the server
 async function fetchTeachers(params, callback){
@@ -98,6 +97,7 @@ async function scheduleLesson(params, callback){
 
  function Lessons() {
     const [currentPage, setCurrentPage] = useState(1);
+    const [warn, setWarn] = useState([]);
     const [offset, setOffset] = useState(0);
     const [teachersData,setTeachersData] = useState([]);
     const [g1, setG1] = useState(null);
@@ -119,10 +119,12 @@ async function scheduleLesson(params, callback){
     useEffect(() => {
         let mount = true;
         if(mount){
-            setTeachersData(matchedTeachers);
+            const notFoundAlert = document.getElementById('NotFoundAlert')
+            notFoundAlert.style.display = 'none';
+            notFoundAlert.style.position = 'absolute'; 
+            notFoundAlert.style.left = '1000px'
             document.getElementById('tc_reveal').style.display = 'none';    
         }
-        
         return ()=>{
             mount = false;
         }
@@ -131,16 +133,6 @@ async function scheduleLesson(params, callback){
     
 
     const [teacherCard, setteacherCard] = useState({});
-    const getTeacherById = (id)=>{
-      let result = null;
-      teachersData.map(teacher => {
-        if (teacher.teacherid === id) {
-            result = teacher;
-        }
-        });
-        setteacherCard(result);
-        document.getElementById('tc_reveal').style.display = 'block';
-    }
     
     const onFilter1Click = ()=>{
         if(isOpen1){
@@ -283,7 +275,7 @@ async function scheduleLesson(params, callback){
         else if(tf_gradeYudBeit == true){
             grade1 = 12;
         }
-        alert("grade1: " + grade1 + "grade2: " + grade2) ;
+        // alert("grade1: " + grade1 + "grade2: " + grade2) ;
         setG1(grade1);
         setG2(grade2);
     }
@@ -318,13 +310,22 @@ async function scheduleLesson(params, callback){
             "rate": 1,
             "offset": offset
         };
-        alert(g1)
         fetchTeachers(dataObj,
             (res) =>
             {
-                setOffset(offset + 5); // setting s new offset
+                console.log(dataObj);
                 console.log(res);
-                setTeachersData(res);
+                setOffset(offset + 5); // setting s new offset
+                if(res === "unauthorized" || res === "Not found"){
+                    setTeachersData([]);
+                    document.getElementById('NotFoundAlert').style.display = 'block';
+                } 
+                else {
+                    console.log('jsonparse',JSON.parse(res));
+                    const notFoundAlert = document.getElementById('NotFoundAlert')
+                    notFoundAlert.style.display = 'none';
+                    setTeachersData(JSON.parse(res));
+                }
             })
         // tf_gradeYud, tf_gradeYudAleph and tf_gradeYudBeit are boolean variables that represent the grades the user WANTED to be his/her teachers.
     }
@@ -346,19 +347,11 @@ async function scheduleLesson(params, callback){
             }
         ) */
 
-    const increase = async ()=>{
-      // const data=await axios.get(`/resultExample.json/${currentPage+1}`);
-      setCurrentPage(currentPage+1);
-      // setTeachersData(data.data);
-    }
-
-    const reduce = async ()=>{
-      setCurrentPage(currentPage-1);
-    }
 
     return (
     <div dir="rtl">
         <div id="tc_reveal" ref={tc_reveal}><TeacherCard teacher={teacherCard}/></div>
+        
         <div id="teacherfilters_bgdiv2" onClick={onFilter2Click}></div>
         <div className="sort-filter-container">
         <div className="filter2-containter nonselective" onClick={onFilter2Click}>
@@ -416,40 +409,25 @@ async function scheduleLesson(params, callback){
                     </div>
                     <h3 className="filter2-paragraph-container3">תאריך:</h3> 
                     <div className="date-time-continer-sort">
-                        <input type="date" onChange={(date)=>{setSelectedDate(date.target.valueAsDate); alert(selectedDate)}}/>
+                        <input type="date" onChange={(date)=>{setSelectedDate(date.target.valueAsDate);}}/>
                     </div>
                     <br/><hr/>
                     <button type='submit' className='TF_FilterSubmitBtn'>סינון</button>
                 </form>
             </div>
         </div>
-        <div className="teachersTable">
-          {
-          teachersData.map
-          (
-              teacher=>(
-                  
-           <div className="teacher-container">
-          <img className='tc_teacherimage' alt="the teacher's profile picture" src="https://media.wired.co.uk/photos/607d91994d40fbb952b6ad64/4:3/w_2664,h_1998,c_limit/wired-meme-nft-brian.jpg"/>
-          <div>
-          <h1 className='tc_name'> {teacher.fullname}</h1>
-          <p dir='rtl' className='tc_bio'>{teacher.bio}</p>
-        <div>
-          <div className='teacher_infofields tc_rate'><AiFillStar className='tc_ratestar'/>{teacher.rate}</div>
-          <div className='teacher_infofields tc_grade'>{teacher.grade}</div>
-         <div className='teacher_infofields tc_subject'>{teacher.subjectname}</div>
-            </div>
+        {teachersData.map(
+            teacher=>(
+                console.log('Ori',teacher, teachersData),
+                <LessonsList teacher={teacher} teachersData={teachersData} />
+            )
+            
+        )}
+        <div id='NotFoundAlert'>
+            <br /> <br /> <br /> <br /><br /> <br /> <br /> <br /><br /> <br /> <br /> <br /><br /> <br /> <br /> <br /><br /> <br /> <br /> <br /> <br /> <br />
+            <h1>לא נמצאו תוצאות. נסה/י לסנן שנית!</h1>
         </div>
-        <button className='lessons_deeplinker' onClick={()=>getTeacherById(teacher.teacherid)}/*HAREL*/>קבע שיעור</button>
-          </div>
-          ))}
-      
-      </div>
-      <div className="Pagination-container">
-        {/* <button onClick={increase}>---)</button>
-        <p>{currentPage}</p>
-        <button onClick={reduce}>(---</button> */}
-      </div>
+        
       <Footer footertop='1350'/>
     </div>
 
