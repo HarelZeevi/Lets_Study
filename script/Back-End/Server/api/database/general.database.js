@@ -245,11 +245,6 @@ function searchTeacher(
         sqlQuery += gradesPrefs;
     }
 
-    var limit = ` LIMIT ${mysql.escape(parseInt(offset))}, 5 `;
-
-    sqlQuery += limit + ";";
-
-
     console.log("sql query: " + sqlQuery);
     con.query(sqlQuery, function (err, result) {
         service.getResultObject(result, err, res);
