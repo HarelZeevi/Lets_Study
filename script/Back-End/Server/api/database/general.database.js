@@ -1,7 +1,9 @@
 const nodemailer = require('nodemailer');
 const mysql = require('mysql');
 const con = require('./connect.database')
+const helpers = require('./../helpers/general.helpers')
 const service = require('./../services/general.service')
+const bcrypt = require('bcrypt');
 
 
 // add student to database
@@ -86,7 +88,7 @@ function registerAuth(res, id, studentCode) {
       id
     )} AND StudentCode = ${mysql.escape(studentCode)};`;
     con.query(sqlQuery, function (err, result) {
-        checkAuth(result, err, res);
+        service.checkAuth(result, err, res);
     });
 }
 
@@ -114,17 +116,7 @@ function testProperty(res, prop, name) {
 }
 
 // Register function
-function register(
-    res,
-    id,
-    studentCode,
-    fullname,
-    username,
-    gender,
-    phone,
-    email,
-    pswd
-) {
+function register(res, id, studentCode, fullname, username, gender, phone, email, pswd) {
     //const testRes = testRegister(res, username, phone, email, next);
     // console.log("Test result: " + testRes);
     //if (1 == 1 || testRes)
@@ -135,14 +127,25 @@ function register(
                               username = ${mysql.escape(username)}, 
                               gender = ${mysql.escape(gender)}, 
                               phone =  ${mysql.escape(phone)}, 
-                              email =  ${mysql.escape(email)}, 
-                              pswd =  ${mysql.escape(pswd)}
+                              email =  ${mysql.escape(email)}
                           WHERE 
                               id = ${mysql.escape(id)} AND
                               StudentCode = ${mysql.escape(studentCode)};`;
     console.log(sqlQuery);
     con.query(sqlQuery, function (err, result) {
-        service.checkSignUp(result, err, res, id, username, pswd);
+
+        const resultObj = result;
+        const registerErr = err;
+
+        setPassword(id, pswd, (result, err) => {
+            // callback 
+            if (err) {
+                service.checkActionDone(result, err, res)
+            } else {
+                service.checkSignUp(resultObj, registerErr, res, id, username, pswd);
+            }
+        });
+
     });
     //}
 }
@@ -150,15 +153,27 @@ function register(
 // students Sign in function
 function signIn(res, id, username, password) {
     // creating jwt
-    var sqlQuery = `SELECT id, userType, fullname, username, pswd, school, gender, grade, phone, email, classnum
+    var sqlQuery1 = `SELECT id, userType, fullname, username, pswd, school, gender, grade, phone, email, classnum
                       FROM students 
-                      WHERE (id = ${mysql.escape(
-                        id
-                      )} OR username = ${mysql.escape(
-      username
-    )}) AND pswd = ${mysql.escape(password)};`;
-    con.query(sqlQuery, function (err, result) {
-        service.signJwt(result, err, res);
+                      WHERE (id = ${mysql.escape(id)}
+                      OR username = ${mysql.escape(username)})`;
+
+    con.query(sqlQuery1, (err, result) => {
+
+        if (err || Object.keys(result).length === 0) // error / user was not found
+            service.checkActionDone(result, err, res);
+
+        // valid user was found and it matches the given username 
+        else {
+            // compare the hash on the db with the given password
+            const hash = result[0].pswd;
+            const resultObj = result;
+
+            bcrypt.compare(password, hash, (err, result) => {
+                service.signJwt(result, resultObj, err, res);
+            });
+        }
+
     });
 }
 
@@ -235,11 +250,10 @@ function searchTeacher(
 
     // Adding grade preferences accordingly
     // sending without grades preferences
-    if (grade1 != "null" || grade2 != "null")
-    {
+    if (grade1 != "null" || grade2 != "null") {
         if (grade2 == "null" && grade1 != "null") {
             grade2 = grade1; // repeating the same checking
-        } 
+        }
         var gradesPrefs = ` AND (students.grade = ${mysql.escape(grade1)}
                             OR students.grade = ${mysql.escape(grade2)})`
         sqlQuery += gradesPrefs;
@@ -660,7 +674,25 @@ function checkToken(token, callback) {
 // password change using confirm password and password. uses:
 //    1. logged in
 //    2. reset password after token authentication
-function changePassword(res, studentId, newPass) {
+
+// has a callback - fits to register 
+function changePassword(studentId, newPass, callback) {
+
+
+    const saltRounds = 10;
+    bcrypt.hash(newPass, saltRounds, (err, hash) => {
+        sqlQuery = `UPDATE students set pswd = ${mysql.escape(hash)} 
+                    WHERE id = ${mysql.escape(studentId)};`;
+        
+        console.log(sqlQuery);
+        con.query(sqlQuery, function (err, result) {
+            callback(err, result)
+        });
+    });
+}
+
+// no callback - only for changing password
+function setPassword(res, studentId, newPass) {
     sqlQuery = `UPDATE students set pswd = ${mysql.escape(
       newPass
     )} WHERE id = ${mysql.escape(studentId)};`;
@@ -771,7 +803,7 @@ function uploadProfileImage(res, studentId, profileImg) {
 
     uploadPath += imgType;
 
-    status = moderator(uploadPath, (status) => {
+    status = helpers.moderator(uploadPath, (status) => {
         if (false && JSON.parse(status).Result === true) {
             console.log(status.Result);
             res.writeHead(200, {

@@ -15,16 +15,16 @@ const getJitsiDetails = (req, res) => {
 }
 
 // students Sign in function
-const signIn =  (req, res) => {
+const signIn = (req, res) => {
     const id = req.body.id;
     const username = req.body.username;
     const password = req.body.password;
     if (false && (validator.testData(password, 2) !== 0 || validator.testData(id, 5) !== 0)) {
-      res.writeHead(200, {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-      });
-      res.end("Invalid Username!");
-      return;
+        res.writeHead(200, {
+            "Access-Control-Allow-Origin": "http://localhost:3000",
+        });
+        res.end("Invalid Username!");
+        return;
     }
     db.signIn(res, id, username, password);
 }
@@ -175,20 +175,20 @@ const addAdmin = (req, res) => {
     db.createAdmin(res, id, firstname, lastname, pswd, school, phone, email);
 }
 
-const deletelesson = (req,res)=>{
+const deletelesson = (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
     const lessonId = req.params.lessonId;
     const pupilId = req.tokenData.id;
     db.cancelLesson(res, lessonId, pupilId);
 };
-const approveTutor = (req,res)=>{
+const approveTutor = (req, res) => {
     if (req.tokenData.userType === 'P' || req.tokenData.userType === 'T') return res.status(401).send("You are Not allowed to do this action.")
 
     const tutorId = req.params.tutorId;
     db.approveTutor(res, tutorId);
 };
-const addLesson = (req,res)=> {
+const addLesson = (req, res) => {
     if (!(req.tokenData.userType === 'P')) return res.status(401).send("You are Not allowed to do this action.")
 
     const pupilId = req.tokenData.id;
@@ -199,14 +199,14 @@ const addLesson = (req,res)=> {
     const grade = req.tokenData.grade;
     db.scheduleLesson(res, pupilId, tutorId, calendarId, subject, points, grade);
 };
-const showLesson =(req,rea)=> {
+const showLesson = (req, res) => {
     if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
     const studentId = req.tokenData.id;
     const utype = req.tokenData.userType;
     db.showLessons(res, studentId, utype);
 };
-const getAvailability =(req,rea)=> {
+const getAvailability = (req, res) => {
     let tutorId;
     if (req.tokenData.userType == 'P')
         tutorId = req.body.tutorId;
@@ -215,7 +215,7 @@ const getAvailability =(req,rea)=> {
     console.log(tutorId);
     db.showAvailableHours(res, tutorId);
 };
-const addAvailability  =(req,rea)=> {
+const addAvailability = (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
     const tutorId = req.tokenData.id;
@@ -224,7 +224,7 @@ const addAvailability  =(req,rea)=> {
     console.log(JSON.parse(listTimes));
     db.AddAvailableTime(res, JSON.parse(listTimes), tutorId);
 };
-const deleteAvailability  =(req,rea)=> {
+const deleteAvailability = (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
     const tutorId = req.tokenData.id;
@@ -232,13 +232,13 @@ const deleteAvailability  =(req,rea)=> {
     console.log(calIdlist);
     db.removeAvailableTime(res, tutorId, calIdlist);
 };
-const getTeachingSubjects =(req,rea)=>  {
+const getTeachingSubjects = (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
     console.log("Get Subject called");
     const tutorId = req.tokenData.id;
     db.getTeachingSubjects(res, tutorId);
 };
-const updateTeachingSubjects = (req,rea)=> {
+const updateTeachingSubjects = (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
     const tutorId = req.tokenData.id;
@@ -250,25 +250,40 @@ const updateTeachingSubjects = (req,rea)=> {
     const subject4 = subjects[3] == "" ? null : subjects[3];
     db.updateTeachingSubjects(res, tutorId, subject1, subject2, subject3, subject4)
 };
-const getTutoringHours = (req,rea)=> {
+const getTutoringHours = (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
     const tutorId = req.tokenData.id;
     db.getTutoringHours(res, tutorId);
 };
-const addTutoringHour = (req,rea)=> {
+const addTutoringHour = (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
     const tutorId = req.tokenData.id;
     db.addTutoringHour(res, tutorId);
 };
-const resetPassword = (req,rea)=>  {
+const resetPassword = (req, res) => {
     const email = req.body.email;
     const studentId = req.body.studentId;
     db.findStudent(email, studentId, (result) => {
         db.sendToken(res, result)
     });
 };
+
+
+// change password
+const changePassword = (req, res) => {
+    if (req.tokenData.userType != "P" && req.tokenData.userType != "T") {
+        return res.end("You are not allowed to do this action!");
+    } else {
+        const studentId = req.tokenData.id;
+        const newPass = req.body.newPass;
+        console.log(newPass);
+        db.changePassword(res, studentId, newPass);
+    }
+};
+
+
 const findTutors = (req, res) => {
     console.log("Starting teacher");
     if (!(req.tokenData.userType === 'P')) {
@@ -339,15 +354,32 @@ const findTutors = (req, res) => {
     db.searchTeacher(res, subjectNum, date, studentGender, tutorGender, grade1, grade2, rate, offset);
 }
 
-
+const uploadProfileImg = (req, res) => {
+    if (!(req.tokenData.userType === "P" || req.tokenData.userType === "T")) {
+        res.writeHead(200, {
+            "Access-Control-Allow-Origin": "http://localhost:3000",
+        });
+        res.end("You are not allowed to do this action!");
+    }
+    console.log(req.body);
+    if (!req.body || Object.keys(req.body).length === 0) {
+        console.log("no file");
+        res.status(200).send("No files were uploaded.");
+    } else {
+        console.log("Starting file upload!");
+        let profileImg = req.body.profileImg;
+        let studentId = req.tokenData.id;
+        db.uploadProfileImage(res, studentId, profileImg);
+    }
+};
 
 module.exports = {
     getJitsiDetails,
     isTeahcer,
-    students, 
+    students,
     signIn,
     addStudent,
-    signInAdmin, 
+    signInAdmin,
     registerAuth,
     testProperty,
     register,
@@ -365,5 +397,7 @@ module.exports = {
     updateTeachingSubjects,
     getTutoringHours,
     addTutoringHour,
-    resetPassword
+    resetPassword,
+    changePassword,
+    uploadProfileImg
 }

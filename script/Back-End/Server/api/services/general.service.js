@@ -129,7 +129,15 @@ function checkAuth(result, err, res) {
 }
 
 // send to user sing in json-web-token access if authenticated 
-function signJwt(result, err, res) {
+const signJwt = (result, resultObj, err, res) => {
+    if (!result) {
+        res.writeHead(200, {
+            'Access-Control-Allow-Origin': 'http://localhost:3000'
+        });
+        // invalid password
+        res.end("1");
+        return;
+    }
     if (err) {
         console.log(err);
         res.writeHead(200, {
@@ -139,21 +147,21 @@ function signJwt(result, err, res) {
         throw err;
     } else {
         console.log("Query was successfully executed!");
-        if (Object.keys(result).length != 0) // if result accepted 
+        if (Object.keys(resultObj).length != 0) // if result accepted 
         {
 
             let uType;
-            if (!result[0].userType) {
+            if (!resultObj[0].userType) {
                 uType = 'A' // admin
             } else {
-                uType = result[0].userType // 'P' or 'T'
+                uType = resultObj[0].userType // 'P' or 'T'
             }
 
             if (uType === 'T')
-                result[0].isTeacher = true;
+                resultObj[0].isTeacher = true;
             else
-                result[0].isTeacher = false;
-            user = Object.values(JSON.parse(JSON.stringify(result)))[0];
+                resultObj[0].isTeacher = false;
+            user = Object.values(JSON.parse(JSON.stringify(resultObj)))[0];
             const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
             console.log(accessToken);
             res.writeHead(200, {
@@ -170,7 +178,7 @@ function signJwt(result, err, res) {
             res.end("1")
         }
     }
-    return result;
+    return resultObj;
 }
 
 

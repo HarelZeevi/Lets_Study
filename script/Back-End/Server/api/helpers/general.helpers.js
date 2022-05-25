@@ -35,7 +35,7 @@ function compareTimes(tokentime) {
 }
 
 // check content image
-async function moderator(img_path, callback) {
+ function moderator(img_path, callback) {
     return callback( /*response.body*/ {
         Result: false
     });
