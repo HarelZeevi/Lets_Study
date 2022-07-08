@@ -265,11 +265,29 @@ function searchTeacher(
     });
 }
 
+
+// get all 5 teachers without filtering 
+const getAllTeachers = (res, offset) =>{
+    var sqlQuery = `SELECT distinct tutors.studentid, tutors.subject1, tutors.subject2, tutors.subject3, tutors.subject4, students.fullname, tutors.bio, students.imgFileExt, students.grade, students.gender, tutors.rate, tutors.pupilGender
+                    FROM tutors 
+                    INNER JOIN students ON tutors.studentid = students.id
+                    INNER JOIN calendar ON tutors.studentid = calendar.studentid
+                    
+                    WHERE tutors.isapproved = 1
+                    AND calendar.availabledate >= ${mysql.escape(new Date())}`; // date is today and later
+    
+    console.log("sql query: " + sqlQuery);
+    con.query(sqlQuery, function (err, result) {
+        service.getResultObject(result, err, res);
+    });
+}
+
 // show available hours of tutor
 function showAvailableHours(res, tutorId) {
     console.log(tutorId);
     var sqlQuery = `SELECT id, studentid, availabledate, starttime, endtime FROM calendar
-                      WHERE calendar.studentId = ${mysql.escape(tutorId)};`;
+                      WHERE calendar.studentId = ${mysql.escape(tutorId)}
+                      AND availabledate >=  ${mysql.escape(new Date())};`;
     con.query(sqlQuery, function (err, result) {
         service.getResultObject(result, err, res);
     });
@@ -652,14 +670,14 @@ function changeProperty(req, res, propNum, val, id) {
     }
 
     console.log(sqlQuery);
-    con.query(sqlQuery, function (err, result) {
-        //service.checkActionDone(result, err, res);
-    });
+    con.query(sqlQuery);
     console.log(req.tokenData);
     console.log(val);
     if (propNum == 1) signIn(res, id, undefined, req.tokenData.pswd);
     else signIn(res, id, undefined, req.tokenData.pswd);
 }
+
+
 
 function checkToken(token, callback) {
     sqlQuery = `SELECT * FROM students WHERE token = ${mysql.escape(token)};`;
@@ -753,7 +771,7 @@ function get_profile_img(id, callback) {
 // image profile upload
 function uploadProfileImage(res, studentId, profileImg) {
     let uploadPath =
-        "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/profileImages/" + studentId;
+        "./../../../profileImages/" + studentId;
     var imgType;
     console.log("is png: " + profileImg.match("png"));
     if (profileImg.match("jpg")) {
@@ -866,6 +884,7 @@ module.exports = {
     AddAvailableTime,
     removeAvailableTime,
     getTeachingSubjects,
+    getAllTeachers,
     updateTeachingSubjects,
     getTutoringHours,
     addTutoringHour,

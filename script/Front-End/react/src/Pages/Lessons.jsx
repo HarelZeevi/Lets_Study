@@ -116,8 +116,14 @@ async function scheduleLesson(params, callback){
     let tf_gradeYudBeit = true;
     let isOpen1 = false;
     let tc_reveal = useRef();
+
+    
+
+
+
     useEffect(() => {
         let mount = true;
+
         if(mount){
             const notFoundAlert = document.getElementById('NotFoundAlert')
             notFoundAlert.style.display = 'none';
@@ -313,7 +319,6 @@ async function scheduleLesson(params, callback){
         fetchTeachers(dataObj,
             (res) =>
             {
-                console.log(dataObj);
                 console.log(res);
                 setOffset(offset + 5); // setting s new offset
                 if(res === "unauthorized" || res === "Not found"){
@@ -326,7 +331,7 @@ async function scheduleLesson(params, callback){
                     notFoundAlert.style.display = 'none';
                     setTeachersData(JSON.parse(res));
                 }
-            })
+        })
         // tf_gradeYud, tf_gradeYudAleph and tf_gradeYudBeit are boolean variables that represent the grades the user WANTED to be his/her teachers.
     }
         
@@ -350,7 +355,7 @@ async function scheduleLesson(params, callback){
 
     return (
     <div dir="rtl">
-        <div id="tc_reveal" ref={tc_reveal}><TeacherCard teacher={teacherCard}/></div>
+        <div id="tc_reveal" ref={tc_reveal}><TeacherCard teacher={teachersData}/></div>
         
         <div id="teacherfilters_bgdiv2" onClick={onFilter2Click}></div>
         <div className="sort-filter-container">

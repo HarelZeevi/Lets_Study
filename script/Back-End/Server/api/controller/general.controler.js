@@ -61,7 +61,7 @@ const isSignedIn = (req, res) => {
 }
 
 
-const isTeahcer = (req, res) => {
+const isTeacher = (req, res) => {
     let isTeacher = false;
     if (req.tokenData.userType == 'T')
         isTeacher = true;
@@ -175,6 +175,8 @@ const addAdmin = (req, res) => {
     db.createAdmin(res, id, firstname, lastname, pswd, school, phone, email);
 }
 
+
+
 const deletelesson = (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
@@ -182,12 +184,18 @@ const deletelesson = (req, res) => {
     const pupilId = req.tokenData.id;
     db.cancelLesson(res, lessonId, pupilId);
 };
+
+
+
 const approveTutor = (req, res) => {
     if (req.tokenData.userType === 'P' || req.tokenData.userType === 'T') return res.status(401).send("You are Not allowed to do this action.")
 
     const tutorId = req.params.tutorId;
     db.approveTutor(res, tutorId);
 };
+
+
+
 const addLesson = (req, res) => {
     if (!(req.tokenData.userType === 'P')) return res.status(401).send("You are Not allowed to do this action.")
 
@@ -199,6 +207,9 @@ const addLesson = (req, res) => {
     const grade = req.tokenData.grade;
     db.scheduleLesson(res, pupilId, tutorId, calendarId, subject, points, grade);
 };
+
+
+
 const showLesson = (req, res) => {
     if (!(req.tokenData.userType === 'P' || req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
@@ -206,15 +217,23 @@ const showLesson = (req, res) => {
     const utype = req.tokenData.userType;
     db.showLessons(res, studentId, utype);
 };
+
+
+
 const getAvailability = (req, res) => {
     let tutorId;
-    if (req.tokenData.userType == 'P')
+    if (req.tokenData.userType == 'P'){
         tutorId = req.body.tutorId;
+        console.log("id: " + req.body.tutorId);
+    }
     else
         tutorId = req.tokenData.id;
     console.log(tutorId);
     db.showAvailableHours(res, tutorId);
 };
+
+
+
 const addAvailability = (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
@@ -224,6 +243,9 @@ const addAvailability = (req, res) => {
     console.log(JSON.parse(listTimes));
     db.AddAvailableTime(res, JSON.parse(listTimes), tutorId);
 };
+
+
+
 const deleteAvailability = (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
@@ -232,12 +254,18 @@ const deleteAvailability = (req, res) => {
     console.log(calIdlist);
     db.removeAvailableTime(res, tutorId, calIdlist);
 };
+
+
+
 const getTeachingSubjects = (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
     console.log("Get Subject called");
     const tutorId = req.tokenData.id;
     db.getTeachingSubjects(res, tutorId);
 };
+
+
+
 const updateTeachingSubjects = (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
@@ -250,18 +278,27 @@ const updateTeachingSubjects = (req, res) => {
     const subject4 = subjects[3] == "" ? null : subjects[3];
     db.updateTeachingSubjects(res, tutorId, subject1, subject2, subject3, subject4)
 };
+
+
+
 const getTutoringHours = (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
     const tutorId = req.tokenData.id;
     db.getTutoringHours(res, tutorId);
 };
+
+
+
 const addTutoringHour = (req, res) => {
     if (!(req.tokenData.userType === 'T')) return res.status(401).send("You are Not allowed to do this action.")
 
     const tutorId = req.tokenData.id;
     db.addTutoringHour(res, tutorId);
 };
+
+
+
 const resetPassword = (req, res) => {
     const email = req.body.email;
     const studentId = req.body.studentId;
@@ -269,6 +306,28 @@ const resetPassword = (req, res) => {
         db.sendToken(res, result)
     });
 };
+
+
+
+// check if token is the same as sent
+const checkToken = (req, res) => {
+    const token = req.body.token;
+    db.checkToken(token, (result) => {
+      if (
+        result[0] != null &&
+        token === result[0].token &&
+        helpers.compareTimes(result[0].expiration)
+      ) {
+        db.signIn(res, result[0].id, result[0].username, result[0].pswd);
+      } else {
+        res.writeHead(200, {
+          "Access-Control-Allow-Origin": "http://localhost:3000",
+        });
+        res.end("1");
+      }
+    });
+};
+
 
 
 // change password
@@ -284,6 +343,24 @@ const changePassword = (req, res) => {
 };
 
 
+
+const rates = (req, res) => {
+    if (!(req.tokenData.userType === "P")) {
+      res.writeHead(200, {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+      });
+      res.end("You are not allowed to do this action!");
+    }
+  
+    const tutorId = req.body.tutorId;
+    const lessonId = req.body.lessonId;
+    const rate = req.body.rate;
+  
+    db.rateLesson(res, tutorId, lessonId, rate);
+}
+
+
+
 const findTutors = (req, res) => {
     console.log("Starting teacher");
     if (!(req.tokenData.userType === 'P')) {
@@ -292,8 +369,17 @@ const findTutors = (req, res) => {
         });
         res.end("You are not allowed to do this action!");
     }
-
+    
     const subjectNum = req.body.subjectNum; // The lesson's requested subject (must pass)
+    const offset = req.body.offset;
+    
+    console.log(subjectNum == null)
+    if (subjectNum == null) // get all teacher 
+    {
+        db.getAllTeachers(res, offset);
+        return
+    }
+
     const date = req.body.date; // The requested date of the lesson (must pass)
     console.log("res" + validator.testData(date, 10));
     if (validator.testData(date, 10) !== 0) {
@@ -349,10 +435,13 @@ const findTutors = (req, res) => {
         return;
     }
     console.log(subjectNum, date, studentGender, tutorGender, grade1, grade2, rate);
-
-    const offset = req.body.offset;
+    					   
     db.searchTeacher(res, subjectNum, date, studentGender, tutorGender, grade1, grade2, rate, offset);
 }
+
+
+
+
 
 const uploadProfileImg = (req, res) => {
     if (!(req.tokenData.userType === "P" || req.tokenData.userType === "T")) {
@@ -373,9 +462,92 @@ const uploadProfileImg = (req, res) => {
     }
 };
 
+
+
+// change username 
+const changeUsername = (req, res) => {
+    if (!(req.tokenData.userType === "P" || req.tokenData.userType === "T")) {
+      res.writeHead(200, {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+      });
+      res.end("You are not allowed to do this action!");
+    }
+  
+    const newUsername = req.body.newUsername;
+    const id = req.tokenData.id;
+  
+    db.changeProperty(req, res, 1, newUsername, id);
+};  
+
+
+
+// change Email
+const changeEmail = (req, res) => {
+  if (!(req.tokenData.userType === "P" || req.tokenData.userType === "T")) {
+    res.writeHead(200, {
+      "Access-Control-Allow-Origin": "http://localhost:3000",
+    });
+    res.end("You are not allowed to do this action!");
+  }
+
+  const newEmail = req.body.newEmail;
+  const id = req.tokenData.id;
+
+  db.changeProperty(req, res, 2, newEmail, id);
+};
+
+
+
+// change phone number
+const changePhone = (req, res) => {
+  if (!(req.tokenData.userType === "P" || req.tokenData.userType === "T")) {
+    res.writeHead(200, {
+      "Access-Control-Allow-Origin": "http://localhost:3000",
+    });
+    res.end("You are not allowed to do this action!");
+  }
+
+  const newPhone = req.body.newPhone;
+  const id = req.tokenData.id;
+
+  db.changeProperty(req, res, 3, newPhone, id);
+};
+
+
+
+// change tutor's bio info
+const changeBio = (req, res) => {
+  if (!(req.tokenData.userType === "T")) {
+    res.writeHead(200, {
+      "Access-Control-Allow-Origin": "http://localhost:3000",
+    });
+    res.end("You are not allowed to do this action!");
+  }
+
+  const newBio = req.body.newBio;
+  const id = req.tokenData.id;
+
+  db.changeProperty(req, res, 4, newBio, id);
+};
+
+
+
+const showStats = (req, res) => {
+    if (req.tokenData.userType === 'P' || req.tokenData.userType === 'T') {
+        res.writeHead(200, {
+            'Access-Control-Allow-Origin': 'http://localhost:3000'
+        });
+        res.end("You are not allowed to do this action!");
+    }
+
+    const cityid = req.params.cityid;
+    const subject = req.params.subject;
+    db.showStats(res, cityid, subject);
+}
+
 module.exports = {
     getJitsiDetails,
-    isTeahcer,
+    isTeacher,
     students,
     signIn,
     addStudent,
@@ -398,6 +570,13 @@ module.exports = {
     getTutoringHours,
     addTutoringHour,
     resetPassword,
+    checkToken,
     changePassword,
-    uploadProfileImg
+    rates,
+    uploadProfileImg, 
+    changeUsername,
+    changeEmail,
+    changePhone,
+    changeBio,
+    showStats
 }

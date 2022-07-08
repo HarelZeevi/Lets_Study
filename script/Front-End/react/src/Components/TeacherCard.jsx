@@ -1,16 +1,45 @@
 
 import React, {useState, useRef, useEffect } from 'react';
 import '../Styles/teachercard.css'
+import "@progress/kendo-theme-default/dist/all.css";
 import {IoMdMail, IoMdCall } from 'react-icons/io';
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
+import ScheduleTime from './ScheduleTime';
+import TimePicker from 'react-time-picker';
+
+const getAvailableTimes = (params, callback) => {
+    var xhr = new XMLHttpRequest();
+    const url = 'http://localhost:1234/api/getAvailability/';
+      
+    xhr.open("POST", url);
+    let token = localStorage.getItem("token");
+    
+    xhr.onreadystatechange = function() { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            callback(xhr.responseText)
+        }
+    }
+    
+    // CONVERTING OBJECT PARAMS TO ENCODED STRING
+    let urlEncodedData = "", urlEncodedDataPairs = [], name;
+    for(name in params) {
+    urlEncodedDataPairs.push(encodeURIComponent(name)+'='+encodeURIComponent(params[name]));
+    }
+    xhr.setRequestHeader("authorization", token);
+    xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
+    xhr.send(urlEncodedDataPairs.join("&"));
+  }
+
 export default function TeacherCard(props) {
+    const [times, setTimes] = useState([]);
+    const [value, onChange] = useState('10:00');
+    
     const OnClose = ()=>{
         document.getElementById('tc_reveal').style.display = 'none';
     }
         const [startDate, setStartDate] = useState(new Date());
         console.log(startDate);
-        if (props.teacher === undefined || props.props === null) {
+
+        if (props.teacher === undefined || props.props === null || props.teacher.length == 0) {
             console.error('NO TEACHER TO INSPECT')
             return (
                 <div></div>
@@ -57,26 +86,20 @@ export default function TeacherCard(props) {
                         <IoMdMail className="tc_icons tc_mdmail"></IoMdMail> <p className="tc_email"><h4>{props.teacher.email}</h4></p>
                     </div>
 
-                
+
+                    <div>
+                    </div>
+
+
 
 
 
                 <div>
-
-                    <div className="tc_DatePicker">
-                    {/* <DatePicker
-              wrapperClassName="datePicker"
-              selected={new Date().getTime()}
-              onChange={(date) => setStartDate(date)}
-              showTimeSelect
-              timeFormat="HH:mm"
-              timeIntervals={15}
-              timeCaption="time" 
-              dateFormat="MMMM d, yyyy h:mm aa"
-            /> */}
-                    </div>
                 
             </div>
+            <select>
+                        <option>1Choose Time slot</option>
+                    </select>
                 {/* <div>לאחר קביעת השיעור מספר הטלפון שלך יישלח למורה לקביעת נושא ופרטי השיעור</div> */}
                    <button className='fc_button' onClick={OnClose}><h1>קבע שיעור</h1></button>
                        </div>

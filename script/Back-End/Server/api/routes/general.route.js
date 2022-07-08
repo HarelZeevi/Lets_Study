@@ -31,7 +31,7 @@ module.exports = (app) => {
     app.post('/api/students/isSignedIn', middleware.authJwt, (req, res) => controller.isSignedIn(req, res));
 
     // check if user is teacher
-    app.get('/api/isTeacher', middleware.authJwt, (req, res) => controller.isTeacher(req, res));
+    app.get('/api/isTeacher', middleware.authJwt, (req, res) => controller.isTeacher(req, res)); 
 
     // show students
     app.get('/api/students', middleware.authJwt, (req, res) => controller.students(req, res));
@@ -124,29 +124,18 @@ module.exports = (app) => {
     app.post('/api/sendToken/', (req, res) =>controller.resetPassword(req, res));
 
     // check if token is the same as sent
-    app.post('/api/checkToken/', (req, res) => controller.checkToken(req, res));
+    app.post('/api/checkToken/', (req, res) => controller.checkToken(req, res)); 
 
 
     // change password 
     app.post("/api/changePassword/", middleware.authJwt, (req, res) => controller.changePassword(req, res));
 
     // rate lesson
-    app.post('/api/rates', middleware.authJwt, (req, res) => controller.rates(req, res));
+    app.post('/api/rates', middleware.authJwt, (req, res) => controller.rates(req, res)); 
 
 
 
-    app.get('/api/stats/:cityid/:subject', middleware.authJwt, (req, res) => {
-        if (req.tokenData.userType === 'P' || req.tokenData.userType === 'T') {
-            res.writeHead(200, {
-                'Access-Control-Allow-Origin': 'http://localhost:3000'
-            });
-            res.end("You are not allowed to do this action!");
-        }
-
-        const cityid = req.params.cityid;
-        const subject = req.params.subject;
-        db.showStats(res, cityid, subject);
-    });
+    app.get('/api/stats/:cityid/:subject', middleware.authJwt, (req, res) => controller.showStats(req, res));
 
     // userr account settings update below
 
@@ -154,13 +143,13 @@ module.exports = (app) => {
     app.post('/api/students/uploadProfileImg/', middleware.authJwt, (req, res) => controller.uploadProfileImg(req, res));
 
     // change username
-    app.post('/api/students/changeUsername', middleware.authJwt, (req, res) => controller.changeUsername(req, res));
+    app.post('/api/students/changeUsername', middleware.authJwt, (req, res) => controller.changeUsername(req, res)); 
 
     // change Email
-    app.post('/api/students/changeEmail', middleware.authJwt, (req, res) =>controller.changeEmail(req, res));
+    app.post('/api/students/changeEmail', middleware.authJwt, (req, res) =>controller.changeEmail(req, res)); 
 
     // change phone number
-    app.post('/api/students/changePhone', middleware.authJwt, (req, res) => controller.changePhone(req, res));
+    app.post('/api/students/changePhone', middleware.authJwt, (req, res) => controller.changePhone(req, res)); 
 
     // change tutor's bio info
     app.post('/api/tutors/changeBio', middleware.authJwt, (req, res) => controller.changeBio(req, res));

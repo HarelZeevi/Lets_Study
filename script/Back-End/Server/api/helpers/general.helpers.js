@@ -12,9 +12,10 @@ function generateStudentCode(length) {
 
 // read file and return it's base 64
 function base64Img(id, ext) {
-    let file = 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/profileImages/' + id + ext;
+    let file = './../../../profileImages/' + id + ext;
     // read binary data
     try {
+        console.log(process.cwd())
         var bitmap = fs.readFileSync(file);
         // convert binary data to base64 encoded string
         return Buffer.from(bitmap).toString('base64');
