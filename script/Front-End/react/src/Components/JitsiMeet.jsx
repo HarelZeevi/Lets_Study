@@ -49,7 +49,7 @@ function JitsiMeet(){
     
     //console.log("Params inside of function:");
     useEffect(() => {
-            getJitsiDetails({ lessonId: 27}, (res) => {
+            getJitsiDetails({ lessonId: 4}, (res) => {
             if (res === "Not found") {
                 alert("No lesson was found for this user...")
         }

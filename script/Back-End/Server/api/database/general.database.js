@@ -137,7 +137,7 @@ function register(res, id, studentCode, fullname, username, gender, phone, email
         const resultObj = result;
         const registerErr = err;
 
-        setPassword(id, pswd, (result, err) => {
+        changePassword(id, pswd, (result, err) => {
             // callback 
             if (err) {
                 service.checkActionDone(result, err, res)
@@ -157,6 +157,8 @@ function signIn(res, id, username, password) {
                       FROM students 
                       WHERE (id = ${mysql.escape(id)}
                       OR username = ${mysql.escape(username)})`;
+
+
 
     con.query(sqlQuery1, (err, result) => {
 
@@ -267,7 +269,7 @@ function searchTeacher(
 
 
 // get all 5 teachers without filtering 
-const getAllTeachers = (res, offset) =>{
+const getAllTeachers = res =>{
     var sqlQuery = `SELECT distinct tutors.studentid, tutors.subject1, tutors.subject2, tutors.subject3, tutors.subject4, students.fullname, tutors.bio, students.imgFileExt, students.grade, students.gender, tutors.rate, tutors.pupilGender
                     FROM tutors 
                     INNER JOIN students ON tutors.studentid = students.id
@@ -321,7 +323,7 @@ function scheduleLesson(
     points,
     grade
 ) {
-    const room = "LetsStudy/" + subject + "/" + generateStudentCode(11);
+    const room = "LetsStudy/" + generateStudentCode();
     var sqlQuery = `INSERT INTO lessons(pupilId, tutorId, tutorcalid, points, grade, tookPlace, room, roomPswd, subjectNum) VALUES 
                       ( ${mysql.escape(pupilId)},  ${mysql.escape(
       tutorId
@@ -673,8 +675,8 @@ function changeProperty(req, res, propNum, val, id) {
     con.query(sqlQuery);
     console.log(req.tokenData);
     console.log(val);
-    if (propNum == 1) signIn(res, id, undefined, req.tokenData.pswd);
-    else signIn(res, id, undefined, req.tokenData.pswd);
+
+    signIn(res, id, undefined, req.tokenData.pswd);
 }
 
 

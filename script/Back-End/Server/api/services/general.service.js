@@ -1,6 +1,6 @@
 /* Here goes eveything related to returning data to the user by sending response to him */
 const jwt = require("jsonwebtoken")
-
+const db = require('./../database/general.database')
 
 // returning result of get data request
 function getResultObject(result, err, res) {
@@ -35,7 +35,7 @@ function checkSignUp(result, err, res, id, username, password) {
         console.log("Query was successfully executed!");
         console.log(result);
         if (result.affectedRows === 1) {
-            signIn(res, id, username, password)
+            db.signIn(res, id, username, password)
         } else {
             res.writeHead(200, {
                 'Access-Control-Allow-Origin': 'http://localhost:3000'

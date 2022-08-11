@@ -13,7 +13,7 @@ export function LessonsList(props) {
                 setFoundTeacher(true);
             }
         }
-        // console.log(props.teacher);
+        //console.log(props.teacher);
         // console.log(props.teachersData);
         
         return ()=>{

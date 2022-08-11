@@ -368,6 +368,7 @@ const findTutors = (req, res) => {
             'Access-Control-Allow-Origin': 'http://localhost:3000'
         });
         res.end("You are not allowed to do this action!");
+        return 
     }
     
     const subjectNum = req.body.subjectNum; // The lesson's requested subject (must pass)
@@ -376,8 +377,7 @@ const findTutors = (req, res) => {
     console.log(subjectNum == null)
     if (subjectNum == null) // get all teacher 
     {
-        db.getAllTeachers(res, offset);
-        return
+        return db.getAllTeachers(res);
     }
 
     const date = req.body.date; // The requested date of the lesson (must pass)

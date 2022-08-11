@@ -175,7 +175,7 @@ function TeacherSettings(props) {
     // Here we ADD available times to tutor's calendar.
     function btnAddAvailability() {
         let timesToAdd = [{
-            "availableDate": "2022-01-30",
+            "availableDate": "2022-08-01",
             "startTime": "12:00",
             "endTime": "13:00"
         }];

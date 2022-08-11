@@ -130,6 +130,23 @@ async function scheduleLesson(params, callback){
             notFoundAlert.style.position = 'absolute'; 
             notFoundAlert.style.left = '1000px'
             document.getElementById('tc_reveal').style.display = 'none';    
+            
+            fetchTeachers({},
+                (res) =>
+                {
+                    console.log(res);
+                    setOffset(offset + 5); // setting s new offset
+                    if(res === "unauthorized" || res === "Not found"){
+                        setTeachersData([]);
+                        document.getElementById('NotFoundAlert').style.display = 'block';
+                    } 
+                    else {
+                        console.log('jsonparse',JSON.parse(res));
+                        const notFoundAlert = document.getElementById('NotFoundAlert')
+                        notFoundAlert.style.display = 'none';
+                        setTeachersData(JSON.parse(res));
+                    }
+            })
         }
         return ()=>{
             mount = false;
