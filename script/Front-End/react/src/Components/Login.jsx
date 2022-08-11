@@ -58,7 +58,7 @@ export default function Login() {
                 localStorage.setItem("token", "Bearer " + token);
                 localStorage.setItem("isAuthenticated", "true");
                 alert(token);
-                window.location.reload();
+                window.location.replace("/#/my-lessons");
             }
             });
    }
