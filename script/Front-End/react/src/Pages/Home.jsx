@@ -5,6 +5,10 @@ import Aos from 'aos';
 import 'aos/dist/aos.css';
 import '../Styles/home.css';
 import Footer from '../Components/Footer.jsx';
+import calendarImage from '../Images/calendar_icon.png';
+import greenCheckmark from '../Images/greencheckmark_icon.png';
+import envelopeImage from '../Images/envelope_icon.png';
+
 export default function Home() {
     useEffect(() => {
         Aos.init({ duration: 1000 });
@@ -23,7 +27,7 @@ export default function Home() {
                     </h3>
                 </div>
                 <div className='homepage_header_1' >
-                    <img className='homepage_header_illustrations' alt="checkmark icon" src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Eo_circle_green_white_checkmark.svg/2048px-Eo_circle_green_white_checkmark.svg.png'></img>
+                    <img className='homepage_header_illustrations' alt="checkmark icon" src={greenCheckmark}></img>
                     <h1>מצליחים</h1>
                     <hr className='header_box_hr'></hr>
                     <p>
@@ -31,7 +35,7 @@ export default function Home() {
                     </p>
                 </div>
                 <div className='homepage_header_2'>
-                    <img className='homepage_header_illustrations' alt="calendar icon" src='https://image.flaticon.com/icons/png/512/470/470326.png'></img>
+                    <img className='homepage_header_illustrations' alt="calendar icon" src={calendarImage}></img>
                     <h1>קובעים שיעור</h1>
                     <hr className='header_box_hr'></hr>
                     <p>
@@ -39,7 +43,7 @@ export default function Home() {
                     </p>
                 </div>
                 <div className='homepage_header_3'>
-                    <img className='homepage_header_illustrations' alt="envelope icon" src='https://www.freeiconspng.com/images/calendar-image-png'></img>
+                    <img className='homepage_header_illustrations' alt="envelope icon" src={envelopeImage}></img>
                     <h1>נרשמים</h1>
                     <hr className='header_box_hr'></hr>
                     <p>
