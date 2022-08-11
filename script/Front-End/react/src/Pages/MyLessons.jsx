@@ -144,7 +144,7 @@ function MyLessons() {
           </div>
           <button className="mylessons_deeplinker" onClick={() => { }}>
             {" "}
-            עריכת שיעור{" "}
+            ביטול שיעור{" "}
           </button>
         </div>
       ))}
