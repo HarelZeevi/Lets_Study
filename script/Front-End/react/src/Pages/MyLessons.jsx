@@ -68,7 +68,6 @@ function MyLessons() {
       },
     ],
   };
-
   const sortingLessons = () => {
     if (localStorage.getItem("isAuthenticated") === "true") {
       //true is untill the local storage will work

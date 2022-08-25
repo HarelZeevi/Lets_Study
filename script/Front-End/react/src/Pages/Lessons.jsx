@@ -418,7 +418,6 @@ async function scheduleLesson(params, callback){
         </div>
         {teachersData.map(
             teacher=>(
-                console.log('Ori',teacher, teachersData),
                 <LessonsList teacher={teacher} teachersData={teachersData} />
             )
             
