@@ -125,10 +125,7 @@ async function scheduleLesson(params, callback){
         let mount = true;
 
         if(mount){
-            const notFoundAlert = document.getElementById('NotFoundAlert')
-            notFoundAlert.style.display = 'none';
-            notFoundAlert.style.position = 'absolute'; 
-            notFoundAlert.style.left = '1000px'
+
             document.getElementById('tc_reveal').style.display = 'none';    
             
             fetchTeachers({},
@@ -138,12 +135,9 @@ async function scheduleLesson(params, callback){
                     setOffset(offset + 5); // setting s new offset
                     if(res === "unauthorized" || res === "Not found"){
                         setTeachersData([]);
-                        document.getElementById('NotFoundAlert').style.display = 'block';
                     } 
                     else {
                         console.log('jsonparse',JSON.parse(res));
-                        const notFoundAlert = document.getElementById('NotFoundAlert')
-                        notFoundAlert.style.display = 'none';
                         setTeachersData(JSON.parse(res));
                     }
             })
@@ -340,12 +334,9 @@ async function scheduleLesson(params, callback){
                 setOffset(offset + 5); // setting s new offset
                 if(res === "unauthorized" || res === "Not found"){
                     setTeachersData([]);
-                    document.getElementById('NotFoundAlert').style.display = 'block';
                 } 
                 else {
                     console.log('jsonparse',JSON.parse(res));
-                    const notFoundAlert = document.getElementById('NotFoundAlert')
-                    notFoundAlert.style.display = 'none';
                     setTeachersData(JSON.parse(res));
                 }
         })
@@ -438,17 +429,12 @@ async function scheduleLesson(params, callback){
                 </form>
             </div>
         </div>
-        {teachersData.map(
+        {teachersData.length === 0 ? <p><h1>לא נמצאו תוצאות. נסה/י לסנן שנית!</h1></p> : teachersData.map(
             teacher=>(
-                console.log('Ori',teacher, teachersData),
                 <LessonsList teacher={teacher} teachersData={teachersData} />
             )
             
         )}
-        <div id='NotFoundAlert'>
-            <br /> <br /> <br /> <br /><br /> <br /> <br /> <br /><br /> <br /> <br /> <br /><br /> <br /> <br /> <br /><br /> <br /> <br /> <br /> <br /> <br />
-            <h1>לא נמצאו תוצאות. נסה/י לסנן שנית!</h1>
-        </div>
         
       <Footer footertop='1350'/>
     </div>
