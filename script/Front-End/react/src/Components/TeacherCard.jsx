@@ -48,20 +48,10 @@ export default function TeacherCard(props) {
         else {
             const FormatPhoneNumber = (phoneNumber)=>{
                 if (phoneNumber === undefined || phoneNumber === null) {
-                    return 0;
+                    return 0; // no phone number available
                 }
-                let temp = '';
-                let count = 0;
-                let countScores = 0;
-                for(let i = 0; i  < phoneNumber.length; i++){
-                    count++;
-                    temp += phoneNumber[i];
-                    if (count % 3 === 0 && countScores < 2) {
-                        countScores++;
-                        temp += '-'
-                    }
-                }
-                return temp;
+                
+                return phoneNumber.slice(0, 3) + "-" + phoneNumber.slice(3, 10); // prefix + dash + rest of phone number
             }
             return (
                 <div dir="rtl"> 
