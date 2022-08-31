@@ -1,6 +1,6 @@
 import '../Styles/SignupAuth.css';
 import { useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import { IoMdLock } from 'react-icons/io';
 
@@ -25,7 +25,7 @@ function SignupAuth()
     const formSubmitBtn = useRef();
     const IdError = "תעודת הזהות שהכנסת לא תקינה.";
     const CodeError = "קוד ההרשמה שהכנסת לא תקין.";
-    let signupauth_history = useHistory();
+    let signupauth_history = useNavigate();
     const formSubmit = () => {
         alert(5);
         const id = form_id.current.value;
@@ -40,7 +40,7 @@ function SignupAuth()
                 localStorage.setItem("studentCode",studentCode);
             }
         }));
-        signupauth_history.push('/sign-up');
+        signupauth_history('/sign-up');
     }
     const formIdValidation = (event) => { // CHANGE THE LENGTH OF THE SIGNUP CODE IF NEEDED!
         if(form_id.current.value.length === 9) 
