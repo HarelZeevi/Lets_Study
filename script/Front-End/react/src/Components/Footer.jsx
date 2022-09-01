@@ -40,7 +40,7 @@ function Footer(props) {
                         <Link to='#'><button className='legalfields_btn'>מדיניות פרטיות</button></Link>
                     </li>
                     <li className='footer_legalfields'>
-                        <Link to='#'><button className='legalfields_btn'>2021 <BiCopyright></BiCopyright></button></Link>
+                        <Link to='#'><button className='legalfields_btn'>2022 <BiCopyright></BiCopyright></button></Link>
                     </li>
                     <li className='footer_legalfields'>
                         <Link to='#'><button className='legalfields_btn'>תנאי שירות</button></Link>
