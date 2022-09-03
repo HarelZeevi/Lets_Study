@@ -84,7 +84,17 @@
 .profile_title {
     font-weight: 700;
     font-size: 16px;
+    border-bottom: 1px solid #000;
+    position: absolute;
+    right: 0;
+    padding-left: 75px;
+    padding-bottom: 5px;
 }
+
+tbody {
+    padding-top: 35px;
+}
+
 @media screen and (max-width: 720px) {
     .nav_profile {
         top: -12.5px;
