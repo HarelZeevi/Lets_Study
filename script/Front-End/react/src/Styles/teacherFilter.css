@@ -97,9 +97,10 @@ display: none;
     border: solid 1px #000;
     color: white;
     font-size: 20px;
-    position: relative;
+    position: absolute;
     transition: 0.2s all;
     right: 50px;
+    bottom: 0;
 }
 .TF_FilterSubmitBtn:hover {
     background-color: rgb(32, 190, 211);
