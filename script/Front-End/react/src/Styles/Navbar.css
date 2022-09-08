@@ -22,6 +22,7 @@ code {
     display: flex;
     align-items: initial;
     justify-content: flex-end;
+    top: 0;
 }
 .nav_list {
   list-style-type: none;

@@ -429,7 +429,7 @@ async function scheduleLesson(params, callback){
                 </form>
             </div>
         </div>
-        {teachersData.length === 0 ? <h1><p>לא נמצאו תוצאות. נסה/י לסנן שנית!</p></h1> : teachersData.map(
+        {teachersData.length === 0 ? <h1 style={{marginTop: 110 + 'px'}}><p>לא נמצאו תוצאות. נסה/י לסנן שנית!</p></h1> : teachersData.map(
             teacher=>(
                 <LessonsList teacher={teacher} teachersData={teachersData} />
             )
