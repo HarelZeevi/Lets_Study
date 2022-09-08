@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Link, useHistory} from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import { IoMdMail } from 'react-icons/io';
 import '../Styles/forgotPass1.css';
 
@@ -34,13 +34,13 @@ function ForgotPassword1() {
             Do: small alert- תעודת הזהות שהכנסת לא תקינה.
 
             */
-   let forgotpassword1_history = useHistory();
+   let forgotpassword1_history = useNavigate();
     const forgotPswdSubmit1 = () => {
         const params = {
             email: inputVal.current.value
         };
         forgotPswd1(params, (res) => alert(res));
-        forgotpassword1_history.push('/forgot-password-verify');
+        forgotpassword1_history('/forgot-password-verify');
     }
 
     const submitFormButton = useRef();

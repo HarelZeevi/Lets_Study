@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import '../Styles/footer.css';
 import { BiCopyright } from 'react-icons/bi';
-import { FaYoutube, FaInstagram, FaFacebook } from 'react-icons/fa';
+// import { FaYoutube, FaInstagram, FaFacebook } from 'react-icons/fa';
 function Footer(props) {
     return (
         <div className='footer_box' style={{ top: props.footertop + "px" }}>
@@ -9,16 +9,16 @@ function Footer(props) {
             <div className='footer_pagelist_wrapper'>
                 <ul className='footer_pagelist' dir='rtl'>
                     <li>
-                        <Link><button className='pagelist_titles'>צור קשר</button></Link>
+                        <Link to='#'><button className='pagelist_titles'>צור קשר</button></Link>
                     </li>
                     <li>
-                        <Link><button className='pagelist_titles'>מי אנחנו</button></Link>
+                        <Link to='#'><button className='pagelist_titles'>מי אנחנו</button></Link>
                     </li>
                     <li>
-                        <Link><button className='pagelist_titles'>קניית מנוי</button></Link>
+                        <Link to='#'><button className='pagelist_titles'>קניית מנוי</button></Link>
                     </li>
                     <li>
-                        <Link><button className='pagelist_titles'>שאלות נפוצות</button></Link>
+                        <Link to='#'><button className='pagelist_titles'>שאלות נפוצות</button></Link>
                     </li>
                 </ul>
             </div>
@@ -37,13 +37,13 @@ function Footer(props) {
             <div className='footer_legalbox'>
                 <ul dir='rtl'>
                     <li className='footer_legalfields'>
-                        <Link><button className='legalfields_btn'>מדיניות פרטיות</button></Link>
+                        <Link to='#'><button className='legalfields_btn'>מדיניות פרטיות</button></Link>
                     </li>
                     <li className='footer_legalfields'>
-                        <Link><button className='legalfields_btn'>2021 <BiCopyright></BiCopyright></button></Link>
+                        <Link to='#'><button className='legalfields_btn'>2022 <BiCopyright></BiCopyright></button></Link>
                     </li>
                     <li className='footer_legalfields'>
-                        <Link><button className='legalfields_btn'>תנאי שירות</button></Link>
+                        <Link to='#'><button className='legalfields_btn'>תנאי שירות</button></Link>
                     </li>
                 </ul>
             </div>

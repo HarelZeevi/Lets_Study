@@ -13,6 +13,9 @@ export default function Home() {
     useEffect(() => {
         Aos.init({ duration: 1000 });
     }, []);
+
+    document.title = "LetsStudy";
+    
     return(
         <div className="homepage" dir="rtl">
             <div className="homepage_header">

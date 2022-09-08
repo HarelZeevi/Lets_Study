@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { IoMdLock } from 'react-icons/io';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../Styles/forgotPass2.css'; 
 
 function forgotPswd2(params, callback){
@@ -32,7 +32,7 @@ export default function ForgotPassword2() {
             Do: small alert - קוד האימות שהכנסת שגוי.
 
     */
-    let forgotpassword2_history = useHistory();
+    let forgotpassword2_history = useNavigate();
     const forgotPswdSubmit2 = () =>
     {
         alert('hi');
@@ -53,7 +53,7 @@ export default function ForgotPassword2() {
 
             }
         });
-        forgotpassword2_history.push('/forgot-password-new-password');
+        forgotpassword2_history('/forgot-password-new-password');
     }
     
     const form_signupCode = useRef();

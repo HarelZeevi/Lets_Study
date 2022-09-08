@@ -26,20 +26,10 @@ export default function TeacherCard(props) {
         else {
             const FormatPhoneNumber = (phoneNumber)=>{
                 if (phoneNumber === undefined || phoneNumber === null) {
-                    return 0;
+                    return 0; // no phone number available
                 }
-                let temp = '';
-                let count = 0;
-                let countScores = 0;
-                for(let i = 0; i  < phoneNumber.length; i++){
-                    count++;
-                    temp += phoneNumber[i];
-                    if (count % 3 === 0 && countScores < 2) {
-                        countScores++;
-                        temp += '-'
-                    }
-                }
-                return temp;
+                
+                return phoneNumber.slice(0, 3) + "-" + phoneNumber.slice(3, 10); // prefix + dash + rest of phone number
             }
             return (
                 <div dir="rtl"> 
@@ -52,7 +42,7 @@ export default function TeacherCard(props) {
 
                    <img className="tc_user-details_img tc_teacherimage" alt="the teacher's profile pic" src="https://reactrouter.com/react-square.png"/>
                     <h1 className="tc_user-details_name">{props.teacher.fullname}</h1>
-                   <p className="tc_user-details_bio"><h4>{props.teacher.bio}</h4></p> 
+                   <h4><p className="tc_user-details_bio">{props.teacher.bio}</p></h4> 
                    <div className="tc_user-details_grade">{props.teacher.grade}</div>
                  <div className="tc_user-details_subject">{props.teacher.subjectname}</div>
 
@@ -60,8 +50,8 @@ export default function TeacherCard(props) {
 
                    
                     <div className="tc_email-phonenumber">
-                    <IoMdCall  className="tc_icons tc_mdphone"></IoMdCall><p className="tc_phone"><h4>{FormatPhoneNumber(props.teacher.phoneNumber)}</h4></p>
-                        <IoMdMail className="tc_icons tc_mdmail"></IoMdMail> <p className="tc_email"><h4>{props.teacher.email}</h4></p>
+                    <IoMdCall  className="tc_icons tc_mdphone"></IoMdCall><h4><p className="tc_phone">{FormatPhoneNumber(props.teacher.phoneNumber)}</p></h4>
+                        <IoMdMail className="tc_icons tc_mdmail"></IoMdMail> <h4><p className="tc_email">{props.teacher.email}</p></h4>
                     </div>
 
 

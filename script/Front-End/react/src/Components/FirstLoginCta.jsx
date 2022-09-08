@@ -14,7 +14,7 @@ export default function FirstLoginCta() {
             <div className="dark-background-display" ref={modalDarkBG}></div>
             <div dir="rtl" className="Welcome-Container" ref={modal} onClick={OnClose}>
                 <div className="Container-Content">
-                    <span class="close" onClick={OnClose}>&times;</span>
+                    <span className="close" onClick={OnClose}>&times;</span>
                     <br/>
                     <h1 className='loginCTA_title'> שמחים שהצטרפת אלינו! </h1>
                     <img className='loginCTA_illu' src={loginillu} alt="illustration" width='550' height='450'/>

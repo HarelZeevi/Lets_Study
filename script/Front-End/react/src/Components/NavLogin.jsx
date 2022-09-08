@@ -177,26 +177,29 @@ function NavLogin() {
             <div ref={profile_popup} className='nav_profile_popup'>
                 <FiX onClick={profile_popup_reveal} className='profile_popup_close'></FiX>
                 <table className='profile_popup_menu'>
-                    <tr>
-                        <td className='profile_title'>פרופיל</td>
-                    </tr>
-                    <hr className='profile_hr'></hr>
-                    <tr className='navlogin_profile_popup'>
-                        <td><Link ref={popup_t1} onMouseOver={popup_highlight_1} onMouseOut={popup_unhighlight_1} className='profile_popup_titles' to='/404'>עזרה</Link></td>
-                        <td ref={popup_i1} onMouseOver={popup_highlight_1} onMouseOut={popup_unhighlight_1}><FiHelpCircle className='profile_popup_icons'></FiHelpCircle></td>
-                    </tr>
-                    <tr className='navlogin_profile_popup'>
-                        <td ref={popup_t2} onMouseOver={popup_highlight_2} onMouseOut={popup_unhighlight_2} className='profile_popup_titles' onClick={showPS} >הגדרות</td>
-                        <td ref={popup_i2} onMouseOver={popup_highlight_2} onMouseOut={popup_unhighlight_2} onClick={showPS}><FiSettings className='profile_popup_icons'></FiSettings></td>
-                    </tr>
-                    <tr className='navlogin_profile_popup'>
-                        <td><Link ref={popup_t3} onMouseOver={popup_highlight_3} onMouseOut={popup_unhighlight_3} className='profile_popup_titles' to='/404'>צור קשר</Link></td>
-                        <td ref={popup_i3} onMouseOver={popup_highlight_3} onMouseOut={popup_unhighlight_3}><FaRegEnvelope className='profile_popup_icons'></FaRegEnvelope></td>
-                    </tr>
-                    <tr >
-                        <td ref={popup_t4} onMouseOver={popup_highlight_4} onMouseOut={popup_unhighlight_4} className='profile_popup_titles' onClick={disconnect}>התנתקות</td>
-                        <td ref={popup_i4} onMouseOver={popup_highlight_4} onMouseOut={popup_unhighlight_4}><FiLogOut className='profile_popup_icons'></FiLogOut></td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <td className='profile_title'>פרופיל</td>
+                        </tr>
+                    </thead>
+                    <tbody>    
+                        <tr className='navlogin_profile_popup'>
+                            <td><Link ref={popup_t1} onMouseOver={popup_highlight_1} onMouseOut={popup_unhighlight_1} className='profile_popup_titles' to='/404'>עזרה</Link></td>
+                            <td ref={popup_i1} onMouseOver={popup_highlight_1} onMouseOut={popup_unhighlight_1}><FiHelpCircle className='profile_popup_icons'></FiHelpCircle></td>
+                        </tr>
+                        <tr className='navlogin_profile_popup'>
+                            <td ref={popup_t2} onMouseOver={popup_highlight_2} onMouseOut={popup_unhighlight_2} className='profile_popup_titles' onClick={showPS} >הגדרות</td>
+                            <td ref={popup_i2} onMouseOver={popup_highlight_2} onMouseOut={popup_unhighlight_2} onClick={showPS}><FiSettings className='profile_popup_icons'></FiSettings></td>
+                        </tr>
+                        <tr className='navlogin_profile_popup'>
+                            <td><Link ref={popup_t3} onMouseOver={popup_highlight_3} onMouseOut={popup_unhighlight_3} className='profile_popup_titles' to='/404'>צור קשר</Link></td>
+                            <td ref={popup_i3} onMouseOver={popup_highlight_3} onMouseOut={popup_unhighlight_3}><FaRegEnvelope className='profile_popup_icons'></FaRegEnvelope></td>
+                        </tr>
+                        <tr >
+                            <td ref={popup_t4} onMouseOver={popup_highlight_4} onMouseOut={popup_unhighlight_4} className='profile_popup_titles' onClick={disconnect}>התנתקות</td>
+                            <td ref={popup_i4} onMouseOver={popup_highlight_4} onMouseOut={popup_unhighlight_4}><FiLogOut className='profile_popup_icons'></FiLogOut></td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             <ul className="nav_list">
