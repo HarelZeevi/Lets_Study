@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../Styles/login.css';
 import { FaUserCircle } from 'react-icons/fa';
@@ -23,8 +23,6 @@ async function signIn(params, callback){
     }
     alert(urlEncodedDataPairs.join("&"));
     xhr.send(urlEncodedDataPairs.join("&"));
-
-
 }
 
 export default function Login() {
@@ -46,7 +44,7 @@ export default function Login() {
            id: login_userid_handler.current.value,
            password: login_password_handler.current.value
        };
-
+       
        signIn(params, (res) => {
             if (res === "1")
             {
@@ -60,7 +58,7 @@ export default function Login() {
                 alert(token);
                 window.location.replace("/#/my-lessons");
             }
-            });
+        });
    }
    const login_form_validation = () => {
        if(parseInt(login_userid_handler.current.value).toString().length==9 && login_password_handler.current.value.length>=6) {
