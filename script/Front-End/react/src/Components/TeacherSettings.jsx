@@ -154,7 +154,7 @@ function TeacherSettings(props) {
             })
         }
     }
-        , []);
+    , []);
 
 
     /// Ori, Here are the 3 functions which need a calendar integration on client side. 

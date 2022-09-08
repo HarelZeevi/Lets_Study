@@ -14,7 +14,7 @@ export function LessonsList(props) {
             }
         }
         //console.log(props.teacher);
-        // console.log(props.teachersData);
+        console.table(props.teachersData);
         
         return ()=>{
             mount = false;

@@ -6,28 +6,6 @@ import {IoMdMail, IoMdCall } from 'react-icons/io';
 import ScheduleTime from './ScheduleTime';
 import TimePicker from 'react-time-picker';
 
-const getAvailableTimes = (params, callback) => {
-    var xhr = new XMLHttpRequest();
-    const url = 'http://localhost:1234/api/getAvailability/';
-      
-    xhr.open("POST", url);
-    let token = localStorage.getItem("token");
-    
-    xhr.onreadystatechange = function() { // Call a function when the state changes.
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            callback(xhr.responseText)
-        }
-    }
-    
-    // CONVERTING OBJECT PARAMS TO ENCODED STRING
-    let urlEncodedData = "", urlEncodedDataPairs = [], name;
-    for(name in params) {
-    urlEncodedDataPairs.push(encodeURIComponent(name)+'='+encodeURIComponent(params[name]));
-    }
-    xhr.setRequestHeader("authorization", token);
-    xhr.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded');
-    xhr.send(urlEncodedDataPairs.join("&"));
-  }
 
 export default function TeacherCard(props) {
     const [times, setTimes] = useState([]);
