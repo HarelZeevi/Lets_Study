@@ -75,6 +75,14 @@
     position: absolute;
     right: 5px;
 }
+
+.tc_gradhat {
+    font-size: 30px;
+    position: absolute;
+    right: 5px;
+    top: 3px;
+}
+
 .tc_rate {
     right: 250px;
     background-color: #d9d2e9;
@@ -84,8 +92,17 @@
 .tc_grade {
     right: 400px;
     background-color: #ffe599;
+    font-size: 25px;
+    text-align: center;
 }
 .tc_subject {
     right: 550px;
     background-color: #ea9999;
+}
+
+.tc_subjectbook {
+    font-size: 25px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
 }

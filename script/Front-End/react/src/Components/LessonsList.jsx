@@ -1,5 +1,6 @@
 import React, { useState, useRef,useEffect } from 'react';
 import { AiFillStar } from 'react-icons/ai';
+import { FaGraduationCap, FaBook } from 'react-icons/fa';
 import "../Styles/lessons.css"
 export function LessonsList(props) {
     const [foundTeacher, setFoundTeacher] = useState(false);
@@ -48,8 +49,8 @@ export function LessonsList(props) {
         <p dir='rtl' className='tc_bio'>{props.teacher.bio}</p>
       <div>
         <div className='teacher_infofields tc_rate'><AiFillStar className='tc_ratestar'/>{props.teacher.rate}</div>
-        <div className='teacher_infofields tc_grade'>{props.teacher.grade}</div>
-       <div className='teacher_infofields tc_subject'>{props.teacher.subjectname}</div>
+        <div className='teacher_infofields tc_grade'><FaGraduationCap className='tc_gradhat'/>{props.teacher.grade}</div>
+       <div className='teacher_infofields tc_subject'><FaBook className='tc_subjectbook'/>{props.teacher.subjectname}</div>
           </div>
       </div>
       <button className='lessons_deeplinker' onClick={()=>getTeacherById(props.teacher.teacherid)}/*HAREL*/>קבע שיעור</button>

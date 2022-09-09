@@ -63,6 +63,7 @@ display: none;
     border: solid 1px #000;
     background-color: #fff;
     /* clip-path: polygon(0 100%, 100% 100%, 100% 21%, 86% 21%, 76% 0, 63% 21%, 0 21%); */
+    border-radius: 10px;
 }
 .filter2-paragraph-container-inputs{
     top: 32%;
