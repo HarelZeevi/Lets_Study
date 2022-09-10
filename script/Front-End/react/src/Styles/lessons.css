@@ -98,11 +98,26 @@
 .tc_subject {
     right: 550px;
     background-color: #ea9999;
+    width: 300px;
+    height: 90px;
 }
 
 .tc_subjectbook {
     font-size: 25px;
     position: absolute;
     right: 5px;
-    top: 5px;
+    top: 32px;
+}
+
+#teacher-subject-list {
+    position: absolute;
+    right: 0;
+    top: -10px;
+    display: inline-flex;
+    justify-content: space-between;
+    list-style: none;
+}
+
+#teacher-subject-list li {
+    padding: 10px;
 }
