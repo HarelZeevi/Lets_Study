@@ -121,7 +121,7 @@ function MyLessons() {
     <div dir="rtl">
       <FirstLoginCta />
       {upcoming.map((lesson) => (
-        <div className="myteacher-container">
+        <div className="myteacher-container" key={lesson.id}>
           <img
             className="tc_teacherimage"
             alt="the teacher's profile picture"
@@ -155,7 +155,7 @@ function MyLessons() {
       <br />
 
       {tookPlace.map((lesson) => (
-        <div className="myteacher-container">
+        <div className="myteacher-container" key={lesson.id}>
           <img
             className="tc_teacherimage"
             alt="the teacher's profile picture"

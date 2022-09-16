@@ -126,7 +126,7 @@ async function scheduleLesson(params, callback){
 
         if(mount){
 
-            document.getElementById('tc_reveal').style.display = 'none';    
+            // document.getElementById('tc_reveal').style.display = 'none';    
             
             fetchTeachers({},
                 (res) =>
@@ -363,7 +363,7 @@ async function scheduleLesson(params, callback){
 
     return (
     <div dir="rtl">
-        <div id="tc_reveal" ref={tc_reveal}><TeacherCard teacher={teachersData}/></div>
+        {/* <div id="tc_reveal" ref={tc_reveal}><TeacherCard teacher={teachersData}/></div> */}
         
         <div id="teacherfilters_bgdiv2" onClick={onFilter2Click}></div>
         <div className="sort-filter-container">
@@ -429,14 +429,17 @@ async function scheduleLesson(params, callback){
                 </form>
             </div>
         </div>
-        {teachersData.length === 0 ? <h1 style={{marginTop: 110 + 'px'}}><p>לא נמצאו תוצאות. נסה/י לסנן שנית!</p></h1> : teachersData.map(
-            teacher=>(
-                <LessonsList teacher={teacher} teachersData={teachersData} />
-            )
-            
-        )}
-        
-      <Footer footertop='1350'/>
+
+        <div id='all-teachers'>
+            {teachersData.length === 0 ? <h1 style={{marginTop: 110 + 'px'}}><p>לא נמצאו תוצאות. נסה/י לסנן שנית!</p></h1> : teachersData.map(
+                teacher=>(
+                    <LessonsList key={teacher.studentid} teacher={teacher} teachersData={teachersData} />
+                )
+                
+            )}
+        </div>
+
+      <Footer footertop='1550'/>
     </div>
 
     )

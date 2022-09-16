@@ -94,7 +94,7 @@ export function LessonsList(props) {
                   <FaBook className="tc_subjectbook" />
                   {/* {subjectNames[parseInt(props.teacher.subject1)]} */}
                   <ul id="teacher-subject-list">
-                    {createSubjectList(props.teacher).map(subject => <li>{subjectNames[parseInt(subject)]}</li>)}
+                    {createSubjectList(props.teacher).map(subject => <li key={parseInt(subject)}>{subjectNames[parseInt(subject)]}</li>)}
                   </ul>
                 </div>
               </div>

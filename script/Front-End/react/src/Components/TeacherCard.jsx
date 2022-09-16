@@ -40,7 +40,7 @@ export default function TeacherCard(props) {
 
                     <div className="tc_user-details">
 
-                   <img className="tc_user-details_img tc_teacherimage" alt="the teacher's profile pic" src="https://reactrouter.com/react-square.png"/>
+                   <img className="tc_user-details_img tc_teacherimage" alt="the teacher's profile pic" src="https://www.uidownload.com/files/634/21/261/student-illustration.jpg"/>
                     <h1 className="tc_user-details_name">{props.teacher.fullname}</h1>
                    <h4><p className="tc_user-details_bio">{props.teacher.bio}</p></h4> 
                    <div className="tc_user-details_grade">{props.teacher.grade}</div>
