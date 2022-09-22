@@ -32,8 +32,13 @@ export function LessonsList(props) {
   ];
 
   function createSubjectList(teacher) {
-    let subjects = [teacher.subject1, teacher.subject2, teacher.subject3, teacher.subject4];
-    subjects = subjects.filter(subject => subject != null);
+    let subjects = [
+      teacher.subject1,
+      teacher.subject2,
+      teacher.subject3,
+      teacher.subject4,
+    ];
+    subjects = subjects.filter((subject) => subject != null);
     return subjects;
   }
 
@@ -92,10 +97,16 @@ export function LessonsList(props) {
                 </div>
                 <div className="teacher_infofields tc_subject">
                   <FaBook className="tc_subjectbook" />
-                  {/* {subjectNames[parseInt(props.teacher.subject1)]} */}
-                  <ul id="teacher-subject-list">
-                    {createSubjectList(props.teacher).map(subject => <li key={parseInt(subject)}>{subjectNames[parseInt(subject)]}</li>)}
-                  </ul>
+                  <select className="dropdown-subject-list">
+                    <option value="subjects" id="subjects-dropdown-list-title">
+                      מקצועות
+                    </option>
+                    {createSubjectList(props.teacher).map((subject) => (
+                      <option value={subject} key={parseInt(subject)} disabled>
+                        {subjectNames[parseInt(subject)]}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>

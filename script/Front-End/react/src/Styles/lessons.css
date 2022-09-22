@@ -1,123 +1,124 @@
-.teachersTable{
-    display: flex;
-    margin: 0 auto;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    top: 75px;
+.teachersTable {
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 75px;
 }
-.tc_name, .tc_bio {
-    right: 75px;
-    position: relative;
-    text-align: right;
+.tc_name,
+.tc_bio {
+  right: 75px;
+  position: relative;
+  text-align: right;
 }
 
 .tc_name {
-    font-size: 25px;
+  font-size: 25px;
 }
 .tc_bio {
-    margin-top: -10px;
-    font-size: 20px;
-    width: 500px;
-    height: 85px;
-    color: rgb(54, 54, 54);
+  margin-top: -10px;
+  font-size: 20px;
+  width: 500px;
+  height: 85px;
+  color: rgb(54, 54, 54);
 }
 .tc_teacherimage {
-    border-radius: 50%;
-    width: 175px;
-    height: 175px;
-    position: relative;
-    top: 12.5px;
-    right: 25px;
-    object-fit:unset;
+  border-radius: 50%;
+  width: 175px;
+  height: 175px;
+  position: relative;
+  top: 12.5px;
+  right: 25px;
+  object-fit: unset;
 }
-.teacher-container{
-    display:flex;
-    width: 75%;
-    top: 150px;
-    position: relative;
-    border: 2px solid #000;
-    z-index: 10;
-    height: 200px;
-    margin-top: -2px;
-    background-color: #dddddd;
+.teacher-container {
+  display: flex;
+  width: 75%;
+  top: 150px;
+  position: relative;
+  border: 2px solid #000;
+  z-index: 10;
+  height: 200px;
+  margin-top: -2px;
+  background-color: #dddddd;
 }
 .lessons_deeplinker {
-    width: 200px;
-    position: absolute;
-    left: 5px;
-    height: 45px;
-    bottom: 20px;
-    left: 25px;
-    border-radius: 25px;
-    font-size: 25px;
-    /* vertical align the button to the middle*/
-    background-color:rgb(127, 247, 177);
-    transition: 0.3s;
-    cursor: pointer;
+  width: 200px;
+  position: absolute;
+  left: 5px;
+  height: 45px;
+  bottom: 20px;
+  left: 25px;
+  border-radius: 25px;
+  font-size: 25px;
+  /* vertical align the button to the middle*/
+  background-color: rgb(127, 247, 177);
+  transition: 0.3s;
+  cursor: pointer;
 }
 .lessons_deeplinker:hover {
-    background-color: rgb(79, 250, 79);
-    transition: 0.3s;
+  background-color: rgb(79, 250, 79);
+  transition: 0.3s;
 }
 .teacher_infofields {
-    width: 125px;
-    height: 35px;
-    position: absolute;
-    bottom: 20px;
-    border-radius: 10px;
-    border: solid 2px #000
+  width: 125px;
+  height: 35px;
+  position: absolute;
+  bottom: 20px;
+  border-radius: 10px;
+  border: solid 2px #000;
 }
 .tc_ratestar {
-    color: #f1c40f;
-    font-size: 35px;
-    position: absolute;
-    right: 5px;
+  color: #f1c40f;
+  font-size: 35px;
+  position: absolute;
+  right: 5px;
 }
 
 .tc_gradhat {
-    font-size: 30px;
-    position: absolute;
-    right: 5px;
-    top: 3px;
+  font-size: 30px;
+  position: absolute;
+  right: 5px;
+  top: 3px;
 }
 
 .tc_rate {
-    right: 250px;
-    background-color: #d9d2e9;
-    font-size: 25px;
-    text-align: center;
+  right: 250px;
+  background-color: #d9d2e9;
+  font-size: 25px;
+  text-align: center;
 }
 .tc_grade {
-    right: 400px;
-    background-color: #ffe599;
-    font-size: 25px;
-    text-align: center;
+  right: 400px;
+  background-color: #ffe599;
+  font-size: 25px;
+  text-align: center;
 }
+
 .tc_subject {
-    right: 550px;
-    background-color: #ea9999;
-    width: 300px;
-    height: 90px;
+  right: 550px;
+  background-color: #ea9999;
+}
+
+.dropdown-subject-list {
+  height: 35px;
+  width: 125px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: #ea9999;
+  border: 0ch;
+}
+
+#subjects-dropdown-list-title {
+  font-weight: bold;
+  font-size: medium;
 }
 
 .tc_subjectbook {
-    font-size: 25px;
-    position: absolute;
-    right: 5px;
-    top: 32px;
-}
-
-#teacher-subject-list {
-    position: absolute;
-    right: 0;
-    top: -10px;
-    display: inline-flex;
-    justify-content: space-between;
-    list-style: none;
-}
-
-#teacher-subject-list li {
-    padding: 10px;
+  font-size: 20px;
+  position: absolute;
+  right: 2px;
+  top: 8px;
 }
