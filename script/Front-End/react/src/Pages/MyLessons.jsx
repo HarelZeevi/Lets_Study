@@ -13,7 +13,9 @@ import moment from "moment";
 import { Doughnut } from "react-chartjs-2";
 import { chartColors } from "../localdb/color";
 import { Chart, ArcElement } from "chart.js";
+
 Chart.register(ArcElement);
+
 // this function doesn't get ny parameters. it will change the two arrays:
 // upcoming - contain the upcoming lessons of the user
 // tookPlace - contain the lessons of the user which have already took place in the past.
@@ -30,10 +32,10 @@ async function fetchLessons(callback) {
       callback(xhr.responseText);
     }
   };
-  //harel
+
   xhr.setRequestHeader("authorization", token);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  xhr.send(null);
+  xhr.send();
 }
 
 function MyLessons() {
@@ -49,6 +51,7 @@ function MyLessons() {
       mount = false;
     };
   }, []);
+
   const options = {
     responsive: true,
     maintainAspectRatio: true,
@@ -58,6 +61,7 @@ function MyLessons() {
       },
     },
   };
+
   const data = {
     labels: ["subjectA", "subjectB", "subjectC", "subjectD"],
     datasets: [
@@ -101,6 +105,7 @@ function MyLessons() {
         console.table(upcoming);
         console.table(tookPlace);
       });
+
       /*
       const date = new Date();
       allLessons.map((lesson) => {
@@ -120,22 +125,6 @@ function MyLessons() {
   return (
     <div dir="rtl">
       <FirstLoginCta />
-
-      <div className="lessons-slots-container">
-        <div className="slot1">Lesson 1</div>
-        <div className="slot2">Lesson 2</div>
-        <div className="slot3">Lesson 3</div>
-        <div className="slot4">Lesson 4</div>
-        <div className="slot5">Lesson 5</div>
-      </div>
-
-      <div className="next-prev-btns">
-        <button className="prev-btn" onClick={() => alert("Previous")}>Previous</button>
-        <button className="next-btn" onClick={() => alert("Next")}>Next</button>
-      </div>
-
-      <br/><br/><br/><br/><br/><br/>
-
       <div className="upcoming-lessons-container">
         {upcoming.map((lesson) => (
           <div className="myteacher-container" key={lesson.id}>
@@ -159,13 +148,12 @@ function MyLessons() {
                 .replace(",", "")
                 .replaceAll(".", "/")}
             </div>
-            <button className="mylessons_deeplinker" onClick={() => { }}>
+            <button className="mylessons_deeplinker" onClick={() => {}}>
               {" "}
               ביטול שיעור{" "}
             </button>
           </div>
         ))}
-
       </div>
 
       <br />
@@ -196,13 +184,12 @@ function MyLessons() {
                 .replace(",", "")
                 .replaceAll(".", "/")}
             </div>
-            <button className="mylessons_deeplinker2" onClick={() => { }}>
+            <button className="mylessons_deeplinker2" onClick={() => {}}>
               {" "}
               קבע שיעור נוסף{" "}
             </button>
           </div>
         ))}
-
       </div>
 
       <div className="mylessons-left-side">

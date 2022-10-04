@@ -73,6 +73,7 @@ module.exports = (app) => {
 
     // show upcoming lessons of a student / tutor by its id
     app.post('/api/lessons/', middleware.authJwt, (req, res) =>controller.showLesson(req, res));
+
     // show available hours
     app.post('/api/getAvailability/', middleware.authJwt, (req, res) => controller.getAvailability(req, res));
 

@@ -218,7 +218,7 @@ function createAdmin(res, id, firstname, lastname, pswd, school, phone, email) {
     });
 }
 
-// look for a teacher function.
+// filter tutors  function.
 function searchTeacher(
     res,
     subjectNum,
@@ -228,7 +228,7 @@ function searchTeacher(
     grade1,
     grade2 = undefined,
     rate,
-    offset
+    offset, // in order to get 20 tutors per request we must get the offset
 ) {
     var sqlQuery = `SELECT distinct tutors.studentid, tutors.subject1, tutors.subject2, tutors.subject3, tutors.subject4, students.fullname, tutors.bio, students.imgFileExt, students.grade, students.gender, tutors.rate, tutors.pupilGender
                       FROM tutors 
@@ -261,6 +261,10 @@ function searchTeacher(
         sqlQuery += gradesPrefs;
     }
 
+
+    // adding limit of 20 tutors 
+    sqlQuery += `LIMIT 20 OFFSET ${mysql.escape(parseInt(offset))}`;
+    
     console.log("sql query: " + sqlQuery);
     con.query(sqlQuery, function (err, result) {
         service.getResultObject(result, err, res);
@@ -269,14 +273,15 @@ function searchTeacher(
 
 
 // get all 5 teachers without filtering 
-const getAllTeachers = res =>{
+const getAllTeachers = (res, offset) =>{
     var sqlQuery = `SELECT distinct tutors.studentid, tutors.subject1, tutors.subject2, tutors.subject3, tutors.subject4, students.fullname, tutors.bio, students.imgFileExt, students.grade, students.gender, tutors.rate, tutors.pupilGender
                     FROM tutors 
                     INNER JOIN students ON tutors.studentid = students.id
                     INNER JOIN calendar ON tutors.studentid = calendar.studentid
                     
                     WHERE tutors.isapproved = 1
-                    AND calendar.availabledate >= ${mysql.escape(new Date())}`; // date is today and later
+                    AND calendar.availabledate >= ${mysql.escape(new Date())} 
+                    LIMIT 20 OFFSET ${mysql.escape(parseInt(offset))}`; 
     
     console.log("sql query: " + sqlQuery);
     con.query(sqlQuery, function (err, result) {
