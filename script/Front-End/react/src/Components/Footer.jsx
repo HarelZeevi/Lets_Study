@@ -9,7 +9,7 @@ function Footer(props) {
             <div className='footer_pagelist_wrapper'>
                 <ul className='footer_pagelist' dir='rtl'>
                     <li>
-                        <Link to='#'><button className='pagelist_titles'>צור קשר</button></Link>
+                        <Link to='/contact'><button className='pagelist_titles'>צור קשר</button></Link>
                     </li>
                     <li>
                         <Link to='#'><button className='pagelist_titles'>מי אנחנו</button></Link>

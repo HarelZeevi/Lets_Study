@@ -107,6 +107,16 @@ body {
     background-color:#fff;
     color:rgb(86, 89, 235);
 }
+
+.form_genderbox:hover {
+    background-color: rgb(86, 89, 235);
+    color: #fff;
+}
+
+.form_input_eyes:hover {
+    color: gray;
+}
+
 #genderbutton_male {
     right: 150px;
 }

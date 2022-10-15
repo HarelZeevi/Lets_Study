@@ -16,7 +16,10 @@ import "../src/Styles/app.css";
 import NavLogin from "./Components/NavLogin.jsx";
 // import ProtectedRoute from "./Components/ProtectedRoutes.jsx";
 import NotFound from "./Pages/NotFound.jsx";
+import Help from "./Pages/Help";
+import ContactUs from "./Pages/ContactUs.jsx";
 import JitsiMeet from "./Components/JitsiMeet.jsx";
+
 export function App() {
   return (
     <div className="app">
@@ -43,7 +46,10 @@ export function App() {
         <Route element={<Home />} exact path="/" />
         {/*TEST SECTION*/}
         <Route element={<JitsiMeet />} path="/meeting" />
-        <Route element={<NotFound />} path="/*" /> 
+        <Route element={<Help />} path="/help" />
+        <Route element={<ContactUs />} path="/contact" />
+        
+        <Route element={<NotFound pathname={window.location.pathname} />} path="/*" /> 
       </Routes>
     </div>
   );

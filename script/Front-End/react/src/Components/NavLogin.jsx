@@ -204,7 +204,7 @@ function NavLogin() {
             </div>
             <ul className="nav_list">
                 <li><Link to="/my-lessons" className="nav_list_pc">השיעורים שלי</Link></li>
-                <li className='navlogin_secondfield'><Link to="/404" className="nav_list_pc">עזרה</Link></li>
+                <li className='navlogin_secondfield'><Link to="/help" className="nav_list_pc">עזרה</Link></li>
             </ul>
             <Link to='/'><img width={200} height={75} className="nav_logo" alt="logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img></Link>
             <ProfileSettings placeholder_username={ud_username} placeholder_phone={ud_phone} placeholder_email={ud_email} user_image={ud_picture} isTeacher={ud_isTeacher}/>
@@ -217,7 +217,7 @@ function NavLogin() {
                 <Link to="/login"><button className="nav_login">התחברות</button></Link>
                 <Link to="/sign-up-authentication"><button className="nav_signup"> הרשמה</button></Link>
                 <ul className="nav_list">
-                    <li><Link to='/404' className="nav_list_pc">עזרה</Link></li>
+                    <li><Link to='/help' className="nav_list_pc">עזרה</Link></li>
                 </ul>
                 <Link to='/'><img width={200} height={75} className="nav_logo" alt="logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img></Link>
             </div>

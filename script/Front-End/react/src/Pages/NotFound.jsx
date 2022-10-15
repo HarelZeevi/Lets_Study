@@ -1,6 +1,6 @@
 import '../Styles/NotFound.css';
 
-function NotFound() {
+function NotFound(props) {
     return (
         <div>
             <br></br>
@@ -9,8 +9,8 @@ function NotFound() {
             <br></br>
             <br></br>
             <br></br>
-            <h1 className='NFh1'>Page not found</h1>
-            <p className='NFp'>Contact our support team if you need help</p>
+            <h1 className='NFh1'>Page "{props.pathname}" Not Found</h1>
+            <p className='NFp'>Please contact our support team if you need help</p>
         </div>
     )
 }
