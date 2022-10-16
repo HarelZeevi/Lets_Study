@@ -19,6 +19,7 @@ import NotFound from "./Pages/NotFound.jsx";
 import Help from "./Pages/Help";
 import ContactUs from "./Pages/ContactUs.jsx";
 import JitsiMeet from "./Components/JitsiMeet.jsx";
+import AboutUs from "./Pages/AboutUs.jsx";
 
 export function App() {
   return (
@@ -48,6 +49,7 @@ export function App() {
         <Route element={<JitsiMeet />} path="/meeting" />
         <Route element={<Help />} path="/help" />
         <Route element={<ContactUs />} path="/contact" />
+        <Route element={<AboutUs />} path="/about" />
         
         <Route element={<NotFound pathname={window.location.pathname} />} path="/*" /> 
       </Routes>

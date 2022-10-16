@@ -67,7 +67,7 @@ export default function Home() {
                     <br></br>
                       שעות מחויבות אישית במקום הכי מתאים להם!
                     </p>
-                    <Link className='home_midbanner_readmore' to='/404'>קרא עוד...</Link> {/*add link to about us page */ }
+                    <Link className='home_midbanner_readmore' to='/about'>קרא עוד...</Link> {/*add link to about us page */ }
                 </div>
                 <div>
                 <Link className='home_midbanner_ctalink' to='/sign-up-authentication'><button className='home_midbanner_cta'>להרשמה</button></Link>

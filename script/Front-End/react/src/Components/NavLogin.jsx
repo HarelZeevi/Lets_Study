@@ -184,7 +184,7 @@ function NavLogin() {
                     </thead>
                     <tbody>    
                         <tr className='navlogin_profile_popup'>
-                            <td><Link ref={popup_t1} onMouseOver={popup_highlight_1} onMouseOut={popup_unhighlight_1} className='profile_popup_titles' to='/404'>עזרה</Link></td>
+                            <td><Link ref={popup_t1} onMouseOver={popup_highlight_1} onMouseOut={popup_unhighlight_1} className='profile_popup_titles' to='/help'>עזרה</Link></td>
                             <td ref={popup_i1} onMouseOver={popup_highlight_1} onMouseOut={popup_unhighlight_1}><FiHelpCircle className='profile_popup_icons'></FiHelpCircle></td>
                         </tr>
                         <tr className='navlogin_profile_popup'>
@@ -192,7 +192,7 @@ function NavLogin() {
                             <td ref={popup_i2} onMouseOver={popup_highlight_2} onMouseOut={popup_unhighlight_2} onClick={showPS}><FiSettings className='profile_popup_icons'></FiSettings></td>
                         </tr>
                         <tr className='navlogin_profile_popup'>
-                            <td><Link ref={popup_t3} onMouseOver={popup_highlight_3} onMouseOut={popup_unhighlight_3} className='profile_popup_titles' to='/404'>צור קשר</Link></td>
+                            <td><Link ref={popup_t3} onMouseOver={popup_highlight_3} onMouseOut={popup_unhighlight_3} className='profile_popup_titles' to='/contact'>צור קשר</Link></td>
                             <td ref={popup_i3} onMouseOver={popup_highlight_3} onMouseOut={popup_unhighlight_3}><FaRegEnvelope className='profile_popup_icons'></FaRegEnvelope></td>
                         </tr>
                         <tr >

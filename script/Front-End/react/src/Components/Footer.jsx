@@ -12,7 +12,7 @@ function Footer(props) {
                         <Link to='/contact'><button className='pagelist_titles'>צור קשר</button></Link>
                     </li>
                     <li>
-                        <Link to='#'><button className='pagelist_titles'>מי אנחנו</button></Link>
+                        <Link to='about'><button className='pagelist_titles'>מי אנחנו</button></Link>
                     </li>
                     <li>
                         <Link to='#'><button className='pagelist_titles'>קניית מנוי</button></Link>
