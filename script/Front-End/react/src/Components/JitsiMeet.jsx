@@ -29,7 +29,9 @@ function getJitsiDetails(params, callback){
     xhr.send(urlEncodedDataPairs.join("&"));
 }
 
-
+function onTime(details){
+  
+}
   
 function JitsiMeet(){
     const [room, setRoom] = useState('[ROOM ID]') // "LetsStudy_biology_194z72d83D72DF"
@@ -49,6 +51,8 @@ function JitsiMeet(){
     
     //console.log("Params inside of function:");
     useEffect(() => {
+
+
         getJitsiDetails({ lessonId: 4}, (res) => {
         if (res === "Not found") {
               alert("No lesson was found for this user...")

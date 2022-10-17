@@ -14,7 +14,7 @@ import MyLessons from "./Pages/MyLessons";
 // import ProfileSettings from './Components/ProfileSettings.jsx';
 import "../src/Styles/app.css";
 import NavLogin from "./Components/NavLogin.jsx";
-// import ProtectedRoute from "./Components/ProtectedRoutes.jsx";
+import ProtectedRoute from "./Components/ProtectedRoutes.jsx";
 import NotFound from "./Pages/NotFound.jsx";
 import Help from "./Pages/Help";
 import ContactUs from "./Pages/ContactUs.jsx";
@@ -30,30 +30,44 @@ export function App() {
         <Route element={<Login />} path="/login" />
         <Route element={<SignupAuth />} path="/sign-up-authentication" />
         <Route element={<Signup />} path="/sign-up" />
-        <Route
-          element={<ForgotPassword1 />}
-          path="/forgot-password-email"
-        />{" "}
-        {/*1*/}
+        <Route element={<ForgotPassword1 />} path="/forgot-password-email" />
         <Route element={<ForgotPassword2 />} path="/forgot-password-verify" />
-        {/*2*/}
-        <Route
-          element={<ForgotPassword3 />}
-          path="/forgot-password-new-password"
-        />{" "}
-        {/*3*/}
-        {/* <ProtectedRoute element={Lessons} path="/lessons" /> */}
-        <Route element={<Lessons />} path="/lessons" />
-        <Route element={<MyLessons />} path="/my-lessons" />
-        <Route element={<Home />} exact path="/" />
-        {/*TEST SECTION*/}
-        <Route element={<JitsiMeet />} path="/meeting" />
+        <Route element={<ForgotPassword3 />} path="/forgot-password-new-password"/>
         <Route element={<Help />} path="/help" />
         <Route element={<ContactUs />} path="/contact" />
         <Route element={<AboutUs />} path="/about" />
         <Route element={<FAQ />} path="/faq" />
 
-        <Route element={<NotFound pathname={window.location.pathname} />} path="/*" /> 
+
+        {/* PROTECTED ROUTES */}
+        <Route
+          path="/lessons"
+          element={
+            <ProtectedRoute element={<Lessons/>} path="/lessons">
+              <Lessons />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-lessons"
+          element={
+            <ProtectedRoute element={<MyLessons/>} path="/my-lessons">
+              <MyLessons/>
+            </ProtectedRoute>
+          }
+        />
+        <Route element={<Home />} exact path="/" />
+        <Route
+          path="/meeting"
+          element={
+            <ProtectedRoute element={<JitsiMeet/>} path="/meeting">
+              <JitsiMeet/>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* DEFAULT */}
+        <Route element={<NotFound pathname={window.location.pathname} />} path="/*"/>
       </Routes>
     </div>
   );

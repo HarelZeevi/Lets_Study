@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import "../Styles/FAQ.css";
 import "../Components/SingleFAQ";
 import SingleFAQ from "../Components/SingleFAQ";
+import axios from 'axios';
 
-const faqs = {
-  faq1: { id: 1, question: "What is Let's Study For?", answer: "Its for..." },
-  faq2: {
-    id: 2,
-    question: "Who Created Let's Study?",
-    answer: "The Creators Are: ...",
-  },
-}; // TODO: put this data in the backend, and send it over to this component.
+
+
 
 function FAQ() {
+  const [faqs, setFaqs] = useState({});
+
+  useEffect(() => { 
+    const data = axios.get('<url>'); //TODO: fetch an api call from the server (Harel)
+    setFaqs(data);
+  }, [faqs])
   return (
     <div className="faq-page">
       <br></br>

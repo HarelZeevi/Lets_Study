@@ -147,6 +147,7 @@ function ProfileSettings(props) {
             edit_username = false;
             if(document.getElementById('inputField_username').value!=oldUsername && document.getElementById('inputField_username').value.length>3 && document.getElementById('inputField_username').value.length<13)
                 sbmtChangeUsername(document.getElementById('inputField_username').value);
+            window.location.reload();
         }
         else {
             document.getElementById('pencilUsername').style.display = 'none';
@@ -154,6 +155,7 @@ function ProfileSettings(props) {
             document.getElementById('inputField_username').disabled= false;
             edit_username = true;
         }
+       
     }
     const editPhone = () => {
         if(edit_phone) {
@@ -163,6 +165,7 @@ function ProfileSettings(props) {
             edit_phone = false;
             if(document.getElementById('inputField_phone').value!=oldPhone && document.getElementById('inputField_phone').value.length>8 && document.getElementById('inputField_phone').value.length<11)
                 sbmtChangePhone(document.getElementById('inputField_phone').value);
+            window.location.reload();
         }
         else {
             document.getElementById('pencilPhone').style.display = 'none';
@@ -170,6 +173,7 @@ function ProfileSettings(props) {
             document.getElementById('inputField_phone').disabled= false;
             edit_phone = true;
         }
+        
     }
     const editEmail = () => {
         if(edit_email) {
@@ -179,6 +183,7 @@ function ProfileSettings(props) {
             edit_email = false;
             if(document.getElementById('inputField_email').value!=oldEmail && document.getElementById('inputField_email').value.length > 7 && document.getElementById('inputField_email').value.length < 35)
                 sbmtChangeEmail(document.getElementById('inputField_email').value);
+                window.location.reload();
         }
         else {
             document.getElementById('pencilEmail').style.display = 'none';
@@ -186,6 +191,7 @@ function ProfileSettings(props) {
             document.getElementById('inputField_email').disabled= false;
             edit_email = true;
         }
+        
     }
     return (
         <div className='ProfileSettings' id='ProfileSettings_Wrapper'>
