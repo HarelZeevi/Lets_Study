@@ -20,6 +20,7 @@ import Help from "./Pages/Help";
 import ContactUs from "./Pages/ContactUs.jsx";
 import JitsiMeet from "./Components/JitsiMeet.jsx";
 import AboutUs from "./Pages/AboutUs.jsx";
+import FAQ from "./Pages/FAQ.jsx";
 
 export function App() {
   return (
@@ -50,7 +51,8 @@ export function App() {
         <Route element={<Help />} path="/help" />
         <Route element={<ContactUs />} path="/contact" />
         <Route element={<AboutUs />} path="/about" />
-        
+        <Route element={<FAQ />} path="/faq" />
+
         <Route element={<NotFound pathname={window.location.pathname} />} path="/*" /> 
       </Routes>
     </div>

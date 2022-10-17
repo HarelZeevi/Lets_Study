@@ -1,0 +1,28 @@
+.page-title {
+  text-align: center;
+}
+
+.faq-list {
+  list-style: none;
+  width: 70%;
+  margin: auto;
+}
+
+.faq-list li {
+  margin-top: 15px;
+}
+
+.faq {
+  border-radius: 15px;
+  border: 2px solid black;
+  box-shadow: 0 0 2px black;
+}
+
+.faq:hover {
+  background-color: rgb(248, 241, 241);
+}
+
+.answer {
+  color: gray;
+  font-size: large;
+}
