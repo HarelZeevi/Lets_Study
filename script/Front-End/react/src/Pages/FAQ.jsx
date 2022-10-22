@@ -2,17 +2,21 @@ import React from "react";
 import "../Styles/FAQ.css";
 import "../Components/SingleFAQ";
 import SingleFAQ from "../Components/SingleFAQ";
+import data from "../localdb/faqData.json";
 
-const faqs = {
-  faq1: { id: 1, question: "What is Let's Study For?", answer: "Its for..." },
-  faq2: {
-    id: 2,
-    question: "Who Created Let's Study?",
-    answer: "The Creators Are: ...",
-  },
-}; // TODO: put this data in the backend, and send it over to this component.
+const faqs = JSON.parse(JSON.stringify(data));
 
 function FAQ() {
+  function renderJsonItems() {
+    let faqList = [];
+
+    faqs.forEach(function (obj) {
+      faqList.push(obj);
+    });
+
+    return faqList;
+  }
+
   return (
     <div className="faq-page">
       <br></br>
@@ -25,13 +29,9 @@ function FAQ() {
       <h1 className="page-title">FAQ's:</h1>
 
       <ul className="faq-list">
-        <li key={faqs.faq1.id}>
-          <SingleFAQ faq={faqs.faq1} />
-        </li>
-
-        <li key={faqs.faq2.id}>
-          <SingleFAQ faq={faqs.faq2} />
-        </li>
+        {renderJsonItems().map((item) => (
+          <li key={item.id}>{<SingleFAQ faq={item} />} </li>
+        ))}
       </ul>
     </div>
   );
