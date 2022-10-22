@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import "../Styles/FAQ.css";
 import "../Components/SingleFAQ";
 import SingleFAQ from "../Components/SingleFAQ";
-import axios from 'axios';
+import data from "../localdb/faqData.json";
 
-
-
+const faqs = JSON.parse(JSON.stringify(data));
 
 function FAQ() {
-  const [faqs, setFaqs] = useState({});
+  function renderJsonItems() {
+    let faqList = [];
 
-  useEffect(() => { 
-    const data = axios.get('<url>'); //TODO: fetch an api call from the server (Harel)
-    setFaqs(data);
-  }, [faqs])
+    faqs.forEach(function (obj) {
+      faqList.push(obj);
+    });
+
+    return faqList;
+  }
+
   return (
     <div className="faq-page">
       <br></br>
@@ -26,13 +29,9 @@ function FAQ() {
       <h1 className="page-title">FAQ's:</h1>
 
       <ul className="faq-list">
-        <li key={faqs.faq1.id}>
-          <SingleFAQ faq={faqs.faq1} />
-        </li>
-
-        <li key={faqs.faq2.id}>
-          <SingleFAQ faq={faqs.faq2} />
-        </li>
+        {renderJsonItems().map((item) => (
+          <li key={item.id}>{<SingleFAQ faq={item} />} </li>
+        ))}
       </ul>
     </div>
   );
