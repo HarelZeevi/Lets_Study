@@ -39,13 +39,14 @@ export default function Login() {
    const login_userid_handler = useRef();
    const login_password_handler = useRef();
 
-   const signInForm = () => {
+   const signInForm = async(e) => {
+    e.preventDefault();
        const params = {
            id: login_userid_handler.current.value,
            password: login_password_handler.current.value
        };
-       
-       signIn(params, (res) => {
+      signIn(params, (res) => {
+            console.log(res)
             if (res === "1")
             {
                 alert("Invalid user credentials")
@@ -53,10 +54,10 @@ export default function Login() {
             else
             {
                 let token = JSON.parse(res).accessToken;
+                console.log(token)
                 localStorage.setItem("token", "Bearer " + token);
                 localStorage.setItem("isAuthenticated", "true");
-                alert(token);
-                window.location.replace("/#/my-lessons");
+                window.location.replace("/my-lessons");
             }
         });
    }

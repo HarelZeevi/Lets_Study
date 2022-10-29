@@ -30,45 +30,19 @@ export function App() {
         <Route element={<Login />} path="/login" />
         <Route element={<SignupAuth />} path="/sign-up-authentication" />
         <Route element={<Signup />} path="/sign-up" />
-        <Route element={<ForgotPassword1 />} path="/forgot-password-email" />
-        <Route element={<ForgotPassword2 />} path="/forgot-password-verify" />
-        <Route element={<ForgotPassword3 />} path="/forgot-password-new-password"/>
+        <Route element={<ForgotPassword1 />} path="/forgot-password-email" />{" "}
+        <Route element={<ForgotPassword2 />} path="/forgot-password-verify" />{" "}
+        <Route element={<ForgotPassword3 />} path="/forgot-password-new-password"/>{" "}
         <Route element={<Help />} path="/help" />
         <Route element={<ContactUs />} path="/contact" />
         <Route element={<AboutUs />} path="/about" />
         <Route element={<FAQ />} path="/faq" />
-
-
-        {/* PROTECTED ROUTES */}
-        <Route
-          path="/lessons"
-          element={
-            <ProtectedRoute element={<Lessons/>} path="/lessons">
-              <Lessons />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/my-lessons"
-          element={
-            <ProtectedRoute element={<MyLessons/>} path="/my-lessons">
-              <MyLessons/>
-            </ProtectedRoute>
-          }
-        />
-        <Route element={<Home />} exact path="/" />
-        <Route
-          path="/meeting"
-          element={
-            <ProtectedRoute element={<JitsiMeet/>} path="/meeting">
-              <JitsiMeet/>
-            </ProtectedRoute>
-          }
-        />
-
-        {/* DEFAULT */}
-        <Route element={<NotFound pathname={window.location.pathname} />} path="/*"/>
-      </Routes>
+        <Route element={<Lessons />} path="/lessons" />
+        <Route element={<MyLessons />} path="/my-lessons" />
+        <Route element={<JitsiMeet />} path="/meeting" />
+        <Route element={<NotFound pathname={window.location.pathname} />} path="/*" />
+    
+    </Routes>
     </div>
   );
 }

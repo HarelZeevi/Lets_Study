@@ -610,7 +610,7 @@ function sendToken(res, result) {
     console.log("email:" + email);
     var studentId = result[0].id;
     console.log("id:" + studentId);
-    var token = generateStudentCode(6);
+    var token = helpers.generateStudentCode(6);
     const smtpTransport = nodemailer.createTransport({
         service: 'gmail',
         auth: {
