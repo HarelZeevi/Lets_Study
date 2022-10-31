@@ -22,11 +22,9 @@ export default function Home() {
                 <div data-aos='zoom-in' className='homepage_header_textfield' dir='rtl'>
                     <h1 className='header_title'>נמאס לכם לשלם על שיעורים פרטיים?</h1>
                     <h3 className='header_text'>
-                        ב-LetsStudy תוכלו להירשם ולהיכנס לשיעורים
+                        ב- "Let's Study" תוכלו להירשם ולהיכנס לשיעורים
                         <br></br>
-                        פרטיים בקלות ובמהירות, דרך בית הספר,
-                        <br></br>
-                        מכל מקום ולגמרי בחינם!
+                        פרטיים בקלות, במהירות, מכל מקום ולגמרי בחינם!
                     </h3>
                 </div>
                 <div className='homepage_header_1' >

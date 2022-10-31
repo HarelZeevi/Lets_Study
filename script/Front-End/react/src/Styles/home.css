@@ -8,13 +8,19 @@
     position: absolute;
     top: 90px;
 }
+
 .homepage_header_textfield {
     position: absolute;
     text-align: right;
     right: 75px;
-    margin-top: 50px;
+    margin-top: 60px;
     color: white;
 }
+
+.homepage_header_textfield:hover {
+    text-shadow: 0 0 2px #f5f971;
+}
+
 .homepage_header h3 {
     font-size: 32px;
     font-weight: 400;

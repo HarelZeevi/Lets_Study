@@ -1,3 +1,18 @@
+@keyframes enlarge {
+  from {
+    font-size: 100%;
+  }
+  to {
+    font-size: 120%;
+  }
+}
+
 .gray-bcg {
-    background-color: gainsboro;
+  background-color: gainsboro;
+}
+
+.step:hover {
+  animation-name: enlarge;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
 }

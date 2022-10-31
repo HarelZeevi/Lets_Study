@@ -27,6 +27,9 @@ export function App() {
     <div className="app">
       <NavLogin />
       <Routes>
+
+        {/* PAGES: */}
+        <Route element={<Home />} exact path="/" />
         <Route element={<Login />} path="/login" />
         <Route element={<SignupAuth />} path="/sign-up-authentication" />
         <Route element={<Signup />} path="/sign-up" />
@@ -40,6 +43,8 @@ export function App() {
         <Route element={<Lessons />} path="/lessons" />
         <Route element={<MyLessons />} path="/my-lessons" />
         <Route element={<JitsiMeet />} path="/meeting" />
+
+        {/* UNKNOWN PATHS: */}
         <Route element={<NotFound pathname={window.location.pathname} />} path="/*" />
     
     </Routes>

@@ -10,11 +10,11 @@ function AboutUs() {
       <br></br>
       <br></br>
       <br></br>
-
-      <div className="preview">
-        <h2>מי אנחנו</h2>
+      
+      <h2>מי אנחנו</h2>
+      <div className="step">
         <p>
-          .אנחנו תלמידים מבתי הספר "אהל שם" - רמת גן, אמי"ת בר אילן - גבעת שמואל ואור ברנקו וייס - צור הדסה
+          .אנחנו תלמידים מבתי הספר <b>אהל שם</b> - רמת גן, <b>אמי"ת בר אילן</b> - גבעת שמואל ו<b>אור ברנקו וייס</b> - צור הדסה
           <br />
           .פיתחנו את הפרויקט מרעיון למוצר שימושי ויעיל בעזרת ייעוץ מצוות מנטורים ,Let's Study הכרנו דרך פיתוח הפרויקט
           <br />
@@ -22,19 +22,19 @@ function AboutUs() {
         </p>
       </div>
 
-      <div className="step-2 gray-bcg">
+      <div className="step gray-bcg">
         <h2>2019</h2>
       </div>
 
-      <div className="step-3">
+      <div className="step">
         <h2>2020</h2>
       </div>
 
-      <div className="step-4 gray-bcg">
+      <div className="step gray-bcg">
         <h2>2021</h2>
       </div>
 
-      <div className="step-5">
+      <div className="step">
         <h2>היום</h2>
       </div>
     </div>
