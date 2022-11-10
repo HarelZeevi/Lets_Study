@@ -382,12 +382,34 @@ function Lessons() {
     <div dir="rtl">
       {/* <div id="tc_reveal" ref={tc_reveal}><TeacherCard teacher={teachersData}/></div> */}
       <div className="lessons-slots-container">
-        <div className="slot1">Lesson 1</div>
-        <div className="slot2">Lesson 2</div>
-        <div className="slot3">Lesson 3</div>
-        <div className="slot4">Lesson 4</div>
-        <div className="slot5">Lesson 5</div>
+        {teachersData.length === 0 ? (
+          <h1 style={{ marginTop: 110 + "px" }}>
+            <p>לא נמצאו תוצאות. נסה/י לסנן שנית!</p>
+          </h1>
+        ) : (
+          teachersData.map((teacher) => (
+            <div className="slot" key={teacher.studentid}>
+              <LessonsList
+                key={teacher.studentid}
+                teacher={teacher}
+                teachersData={teachersData}
+              />
+            </div>
+          ))
+        )}
       </div>
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
 
       <div className="next-prev-btns">
         <button
@@ -572,22 +594,6 @@ function Lessons() {
             </button>
           </form>
         </div>
-      </div>
-
-      <div id="all-teachers">
-        {teachersData.length === 0 ? (
-          <h1 style={{ marginTop: 110 + "px" }}>
-            <p>לא נמצאו תוצאות. נסה/י לסנן שנית!</p>
-          </h1>
-        ) : (
-          teachersData.map((teacher) => (
-            <LessonsList
-              key={teacher.studentid}
-              teacher={teacher}
-              teachersData={teachersData}
-            />
-          ))
-        )}
       </div>
 
       <Footer footertop="1550" />

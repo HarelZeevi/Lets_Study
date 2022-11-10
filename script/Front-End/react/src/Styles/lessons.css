@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  top: 75px;
+  top: 0;
 }
 .tc_name,
 .tc_bio {
@@ -35,8 +35,8 @@
 }
 .teacher-container {
   display: flex;
-  width: 75%;
-  top: 150px;
+  width: 100%;
+  top: 0;
   position: relative;
   border: 2px solid #000;
   z-index: 10;
@@ -142,6 +142,10 @@
 
 .slot5 {
   border-bottom: none;
+}
+
+.slot {
+  border-bottom: 2px solid black;
 }
 
 .next-prev-btns {
