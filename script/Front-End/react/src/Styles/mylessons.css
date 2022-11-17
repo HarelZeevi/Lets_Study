@@ -12,9 +12,18 @@
   transition: 0.3s;
   cursor: pointer;
 }
+
+.mylessons_enter_lesson {
+  background-color: rgb(58, 181, 5);
+}
+
 .mylessons_deeplinker:hover {
   background-color: rgb(251, 94, 89);
   transition: 0.3s;
+}
+
+.mylessons_enter_lesson:hover {
+  background-color: rgb(88, 255, 16);
 }
 
 .mylessons_deeplinker2 {

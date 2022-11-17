@@ -122,6 +122,25 @@ function MyLessons() {
     } else console.error("User not authenticated..");
   };
 
+  function showLessonButton(lessonTime) {
+    let currDate = new Date();
+    let lessonDate = new Date(lessonTime);
+
+    if (currDate >= lessonDate) {
+      return (
+        <button className="mylessons_deeplinker mylessons_enter_lesson" onClick={() => {}}>
+        הצטרף לשיעור
+        </button>
+      );
+    } else {
+      return (
+        <button className="mylessons_deeplinker" onClick={() => {}}>
+        ביטול שיעור
+        </button>
+      );
+    }
+  }
+
   return (
     <div dir="rtl">
       <FirstLoginCta />
@@ -148,10 +167,8 @@ function MyLessons() {
                 .replace(",", "")
                 .replaceAll(".", "/")}
             </div>
-            <button className="mylessons_deeplinker" onClick={() => {}}>
-              {" "}
-              ביטול שיעור{" "}
-            </button>
+          
+            {showLessonButton(lesson.availabledate)}
           </div>
         ))}
       </div>
