@@ -143,7 +143,7 @@ function MyLessons() {
 
   return (
     <div dir="rtl">
-      <FirstLoginCta />
+      {upcoming.length == 0 && tookPlace.length == 0 && <FirstLoginCta />}
       <div className="upcoming-lessons-container">
         {upcoming.map((lesson) => (
           <div className="myteacher-container" key={lesson.id}>
