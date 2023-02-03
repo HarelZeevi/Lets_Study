@@ -21,6 +21,7 @@ import ContactUs from "./Pages/ContactUs.jsx";
 import JitsiMeet from "./Components/JitsiMeet.jsx";
 import AboutUs from "./Pages/AboutUs.jsx";
 import FAQ from "./Pages/FAQ.jsx";
+import DatePicker from "./Components/DatePicker.jsx";
 
 export function App() {
   return (
@@ -30,9 +31,9 @@ export function App() {
 
         {/* PAGES: */}
         <Route element={<Home />} exact path="/" />
-        <Route element={<Login />} path="/login" />
         <Route element={<SignupAuth />} path="/sign-up-authentication" />
         <Route element={<Signup />} path="/sign-up" />
+        <Route element={<Login />} path="/login" />
         <Route element={<ForgotPassword1 />} path="/forgot-password-email" />{" "}
         <Route element={<ForgotPassword2 />} path="/forgot-password-verify" />{" "}
         <Route element={<ForgotPassword3 />} path="/forgot-password-new-password"/>{" "}
@@ -43,7 +44,7 @@ export function App() {
         <Route element={<Lessons />} path="/lessons" />
         <Route element={<MyLessons />} path="/my-lessons" />
         <Route element={<JitsiMeet />} path="/meeting" />
-
+        <Route element={<DatePicker />} path="/calendar" />
         {/* UNKNOWN PATHS: */}
         <Route element={<NotFound pathname={window.location.pathname} />} path="/*" />
     

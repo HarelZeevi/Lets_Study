@@ -1,5 +1,3 @@
-CREATE DATABASE lets_study_users;
-USE lets_study_users;
 
 CREATE TABLE cities
   (
@@ -15,26 +13,22 @@ CREATE TABLE schools
      FOREIGN KEY (cityid) REFERENCES cities(id),
      subsleft 		  INT NOT NULL
   );
-  
+
+
+
 CREATE TABLE students
   (
      StudentCode   VARCHAR(255) NOT NULL UNIQUE,
      id            VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
-<<<<<<< HEAD
      userType		   CHAR(1), /* P - pupil or T - tutor */
-	 profile_img  MEDIUMBLOB, 
-=======
+	 profile_img  VARCHAR(255), 
+     imgFileExt 	VARCHAR(255),
      bio		   VARCHAR(255),
->>>>>>> deb8acd5f816875114b04b24e6dcee5cc36eb24f
      fullname     VARCHAR(255),
      username      VARCHAR(255),
      school        VARCHAR(255) NOT NULL,
      FOREIGN KEY (school) REFERENCES schools(schoolid),
-<<<<<<< HEAD
      gender        CHAR(1), /* M - male or F - female */
-=======
-     gender        CHAR(1),
->>>>>>> deb8acd5f816875114b04b24e6dcee5cc36eb24f
      grade         TINYINT NOT NULL,
      phone         VARCHAR(15),
      email         VARCHAR(255),
@@ -48,33 +42,28 @@ CREATE TABLE tutors
   (
      studentid VARCHAR(255) NOT NULL,
      FOREIGN KEY (studentid) REFERENCES students(id),
-<<<<<<< HEAD
      bio varchar(255) NOT NULL,
-=======
      photo         MEDIUMBLOB, 
->>>>>>> deb8acd5f816875114b04b24e6dcee5cc36eb24f
      isapproved   BOOL NOT NULL,
      rate         FLOAT NOT NULL,
      tutoringHours INT NOT NULL,
-     pupilGender  CHAR(1)
+     pupilGender  CHAR(1),
+     subject1     TINYINT,
+     subject2     TINYINT,
+     subject3     TINYINT,
+     subject4     TINYINT
+           
   );
  
 CREATE TABLE admins
   (
      id         VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
-<<<<<<< HEAD
      firstname     VARCHAR(255) NOT NULL,
      lastname      VARCHAR(255) NOT NULL,
      pswd 		VARCHAR(255) NOT NULL,	
      school     VARCHAR(255) NOT NULL,
      phone  	VARCHAR(15) NOT NULL,
      email 		VARCHAR(255) NOT NULL,
-=======
-     firstname     VARCHAR(255),
-     lastname      VARCHAR(255),
-     pswd 		VARCHAR(255) NOT NULL,	
-     school     VARCHAR(255) NOT NULL,
->>>>>>> deb8acd5f816875114b04b24e6dcee5cc36eb24f
      FOREIGN KEY (school) REFERENCES schools(schoolid)
   );
 

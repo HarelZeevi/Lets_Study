@@ -66,8 +66,8 @@ function addStudent(res, id, school, grade, classnum, pupilGender) {
                           (
                                       ${mysql.escape(id)},
                                       'Hi Im ${parseInt(
-                                        mysql.escape(grade)
-                                      )}th grader',
+            mysql.escape(grade)
+        )}th grader',
                                       0,
                                       5,
                                       0,
@@ -85,7 +85,7 @@ function addStudent(res, id, school, grade, classnum, pupilGender) {
 // register pre-authentication using studentCode and id check
 function registerAuth(res, id, studentCode) {
     let sqlQuery = `SELECT * FROM students WHERE id = ${mysql.escape(
-      id
+        id
     )} AND StudentCode = ${mysql.escape(studentCode)};`;
     con.query(sqlQuery, function (err, result) {
         service.checkAuth(result, err, res);
@@ -98,8 +98,8 @@ function testProperty(res, prop, name) {
     let checkQuery;
     if (prop === "1")
         checkQuery = `SELECT * FROM students WHERE username = ${mysql.escape(
-        name
-      )};`;
+            name
+        )};`;
     else if (prop === "2")
         checkQuery = `SELECT * FROM students WHERE email = ${mysql.escape(name)};`;
     else if (prop === "3")
@@ -183,7 +183,7 @@ function signIn(res, id, username, password) {
 // Admin sign in function
 function signInAdmin(res, id, password) {
     var sqlQuery = `SELECT * FROM admins WHERE id = ${mysql.escape(
-      id
+        id
     )} AND pswd = ${mysql.escape(password)};`;
     con.query(sqlQuery, function (err, result) {
         service.signJwt(result, err, res);
@@ -264,7 +264,7 @@ function searchTeacher(
 
     // adding limit of 20 tutors 
     sqlQuery += `LIMIT 20 OFFSET ${mysql.escape(parseInt(offset))}`;
-    
+
     console.log("sql query: " + sqlQuery);
     con.query(sqlQuery, function (err, result) {
         service.getResultObject(result, err, res);
@@ -273,7 +273,7 @@ function searchTeacher(
 
 
 // get all 5 teachers without filtering 
-const getAllTeachers = (res, offset) =>{
+const getAllTeachers = (res, offset) => {
     var sqlQuery = `SELECT distinct tutors.studentid, tutors.subject1, tutors.subject2, tutors.subject3, tutors.subject4, students.fullname, tutors.bio, students.imgFileExt, students.grade, students.gender, tutors.rate, tutors.pupilGender
                     FROM tutors 
                     INNER JOIN students ON tutors.studentid = students.id
@@ -281,8 +281,8 @@ const getAllTeachers = (res, offset) =>{
                     
                     WHERE tutors.isapproved = 1
                     AND calendar.availabledate >= ${mysql.escape(new Date())} 
-                    LIMIT 20 OFFSET ${mysql.escape(parseInt(offset))}`; 
-    
+                    LIMIT 20 OFFSET ${mysql.escape(parseInt(offset))}`;
+
     console.log("sql query: " + sqlQuery);
     con.query(sqlQuery, function (err, result) {
         service.getResultObject(result, err, res);
@@ -303,7 +303,7 @@ function showAvailableHours(res, tutorId) {
 // delete a lesson from db by its id
 function cancelLesson(res, lessonId, pupilId) {
     var sqlQuery = `DELETE FROM lessons WHERE id = ${mysql.escape(
-      lessonId
+        lessonId
     )} AND pupilid = ${mysql.escape(pupilId)};`; // delete the lesson itself
     con.query(sqlQuery, function (err, result) {
         service.getResultObject(result, err, res);
@@ -328,15 +328,18 @@ function scheduleLesson(
     points,
     grade
 ) {
-    const room = "LetsStudy/" + generateStudentCode();
+    const room = "LetsStudy/" + helpers.generateStudentCode(6);
     var sqlQuery = `INSERT INTO lessons(pupilId, tutorId, tutorcalid, points, grade, tookPlace, room, roomPswd, subjectNum) VALUES 
-                      ( ${mysql.escape(pupilId)},  ${mysql.escape(
-      tutorId
-    )},  ${mysql.escape(calendarId)}, ${mysql.escape(points)}, ${mysql.escape(
-      grade
-    )}, 0, ${mysql.escape(room)}, ${generateStudentCode(5)}, ${mysql.escape(
-      subject
-    )})`;
+                      ( ${mysql.escape(pupilId)},  
+                        ${mysql.escape(tutorId)},
+                        ${mysql.escape(calendarId)},
+                        ${mysql.escape(points)},
+                        ${mysql.escape(grade)},
+                        0,
+                        ${mysql.escape(room)},
+                        ${helpers.generateStudentCode(6)},
+                        ${mysql.escape(subject)})`;
+
     con.query(sqlQuery, function (err, result) {
         service.checkActionDone(result, err, res);
     });
@@ -363,7 +366,7 @@ function showLessons(res, studentid, utype) {
     else sqlQuery += `\n INNER JOIN students ON lessons.pupilid = students.id`;
 
     sqlQuery += `\n WHERE (pupilid = ${mysql.escape(
-      studentid
+        studentid
     )} OR tutorid = ${mysql.escape(studentid)});`;
     con.query(sqlQuery, function (err, result) {
         service.getResultObject(result, err, res);
@@ -393,8 +396,8 @@ function showStats(res, cityid, subject) {
 function approveTutor(res, studentId) {
     con.query(
         `UPDATE tutors SET  tutors.isapproved = 1 WHERE studentid = ${mysql.escape(
-        studentId
-      )};`,
+            studentId
+        )};`,
         function (err, result) {
             service.getResultObject(result, err, res);
         }
@@ -459,8 +462,8 @@ async function removeAvailableTime(res, tutorId, calIdlist) {
     for (let i = 0; i < calIdlist.length; i++) {
         calId = calIdlist[i];
         var sqlQuery = `DELETE FROM calendar WHERE studentId = ${mysql.escape(
-        tutorId
-      )} AND id =  ${mysql.escape(calId)}`;
+            tutorId
+        )} AND id =  ${mysql.escape(calId)}`;
         const query = new Promise((resolve, reject) => {
             con.query(sqlQuery, async (err, result) => {
                 service.checkError(result, err, res, resolve, reject);
@@ -562,7 +565,7 @@ function removeTeachingSubjects(res, tutorId, subject, points, grade)
 // get the amount ogf tutoring hours of a specific tutor
 function getTutoringHours(res, tutorId) {
     sqlQuery = `SELECT tutoringHours FROM tutors WHERE studentid = ${mysql.escape(
-      tutorId
+        tutorId
     )};`;
     con.query(sqlQuery, function (err, result) {
         service.getResultObject(result, err, res);
@@ -572,7 +575,7 @@ function getTutoringHours(res, tutorId) {
 // add a tutoring hour to a tutor after the lesson have been made
 function addTutoringHour(res, tutorId) {
     sqlQuery = `UPDATE tutors SET tutoringHours = (tutoringHours + 1) WHERE studentId = ${mysql.escape(
-      tutorId
+        tutorId
     )};`;
     con.query(sqlQuery, function (err, result) {
         service.getResultObject(result, err, res);
@@ -586,7 +589,7 @@ var fs = require('fs');
 // function for finding student by its id / email in order to send him token
 function findStudent(email, studentId, callback) {
     sqlQuery = `SELECT * FROM students WHERE email = ${mysql.escape(
-      email
+        email
     )} OR id = ${mysql.escape(studentId)};`;
     con.query(sqlQuery, function (err, result) {
         if (err) throw err;
@@ -655,25 +658,25 @@ function sendToken(res, result) {
 // the function will run an sql query that changes the property's old value to the new value.
 function changeProperty(req, res, propNum, val, id) {
     let sqlQuery = `UPDATE students SET username = ${mysql.escape(
-      val
+        val
     )} WHERE id = ${mysql.escape(id)};`;
     switch (propNum) {
         case 1: // change username
             break;
         case 2: // change Email
             sqlQuery = `UPDATE students SET email = ${mysql.escape(
-          val
-        )} WHERE id = ${mysql.escape(id)};`;
+                val
+            )} WHERE id = ${mysql.escape(id)};`;
             break;
         case 3: // change phone number
             sqlQuery = `UPDATE students SET phone = ${mysql.escape(
-          val
-        )} WHERE id = ${mysql.escape(id)};`;
+                val
+            )} WHERE id = ${mysql.escape(id)};`;
             break;
         case 4: // change tutor's bio information
             sqlQuery = `UPDATE tutors SET bio = ${mysql.escape(
-          val
-        )} WHERE studentid = ${mysql.escape(id)};`;
+                val
+            )} WHERE studentid = ${mysql.escape(id)};`;
     }
 
     console.log(sqlQuery);
@@ -708,7 +711,7 @@ function changePassword(studentId, newPass, callback) {
     bcrypt.hash(newPass, saltRounds, (err, hash) => {
         sqlQuery = `UPDATE students set pswd = ${mysql.escape(hash)} 
                     WHERE id = ${mysql.escape(studentId)};`;
-        
+
         console.log(sqlQuery);
         con.query(sqlQuery, function (err, result) {
             callback(err, result)
@@ -719,7 +722,7 @@ function changePassword(studentId, newPass, callback) {
 // no callback - only for changing password
 function setPassword(res, studentId, newPass) {
     sqlQuery = `UPDATE students set pswd = ${mysql.escape(
-      newPass
+        newPass
     )} WHERE id = ${mysql.escape(studentId)};`;
     console.log(sqlQuery);
     con.query(sqlQuery, function (err, result) {
@@ -745,15 +748,15 @@ function rateLesson(res, tutorId, lessonId, rate) {
       );`;
     // define avg var
     sqlQuery2 = `SELECT @avg_rate := AVG(rates.rate) FROM rates WHERE rates.tutorid = ${mysql.escape(
-      tutorId
+        tutorId
     )}`;
 
     //insert avg into general rate of tutor
     sqlQuery3 = `UPDATE tutors
       SET tutors.rate = @avg_rate
       WHERE tutors.studentid = ${mysql.escape(tutorId)};`;
-    con.query(sqlQuery1, function (err, result) {});
-    con.query(sqlQuery2, function (err, result) {});
+    con.query(sqlQuery1, function (err, result) { });
+    con.query(sqlQuery2, function (err, result) { });
     con.query(sqlQuery3, function (err, result) {
         service.getResultObject(result, err, res);
     });
@@ -841,8 +844,8 @@ function uploadProfileImage(res, studentId, profileImg) {
             console.log(uploadPath);
             console.log("Image approved!");
             let sqlQuery = `UPDATE students SET imgFileExt = ${mysql.escape(
-          imgType
-        )} WHERE id = ${mysql.escape(studentId)};`;
+                imgType
+            )} WHERE id = ${mysql.escape(studentId)};`;
             console.log(sqlQuery);
             con.query(sqlQuery, function (err, result) {
                 service.getResultObject(result, err, res);

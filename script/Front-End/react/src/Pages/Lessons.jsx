@@ -314,9 +314,9 @@ function Lessons() {
     let clickType = event.target.id;
 
     if (clickType === "Prev") {
-      offset.current -= 1;
+      offset.current -= 20;
     } else if (clickType === "Next") {
-      offset.current += 1;
+      offset.current += 20;
     }
     // normal filter request without 'Next' or 'Prev'. Therefore, the offset is 0.
     else {
@@ -338,13 +338,13 @@ function Lessons() {
     // otherwise, the requst has no filters, and we need to fetch the next unfiltered teahcers from the db
     if (!filterAll) {
       fetchTeachers(dataObj, (res) => {
-        console.log(res);
-
-        if (res === "unauthorized" || res === "Not found") {
-          setTeachersData([]);
-        } else {
-          console.log("jsonparse", JSON.parse(res));
-          setTeachersData(JSON.parse(res));
+        console.log("length", JSON.parse(res).length);
+        if (!JSON.parse(res).length == 0) {
+          if (res === "unauthorized" || res === "Not found") {
+            setTeachersData([]);
+          } else {
+            setTeachersData(JSON.parse(res));
+          }
         }
       });
     } else {
