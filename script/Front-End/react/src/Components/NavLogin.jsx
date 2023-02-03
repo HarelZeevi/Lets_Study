@@ -2,7 +2,7 @@ import '../Styles/NavLogin.css';
 import '../Styles/Navbar.css';
 import { Link } from 'react-router-dom';
 import { FaAngleDown, FaAngleUp, FaRegEnvelope } from 'react-icons/fa';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { FiLogOut, FiSettings, FiHelpCircle, FiX } from 'react-icons/fi';
 import ProfileSettings from './ProfileSettings.jsx';
 
@@ -54,6 +54,12 @@ function NavLogin() {
     const [ud_isTeacher, setTeacher] = useState(false);
     const [ud_phone,setPhone]=useState('0544972955');
     const [ud_email,setEmail]=useState('blah@gmail.com');
+
+    useEffect(() => {
+        if (localStorage.getItem("token"))
+            navbarSubmit()
+    }, []);
+
     // IDO here you add the integration details. Here we call the function and know weather the user is loggedIn or not.
     function navbarSubmit() {
         navGetDetails((res) => {
@@ -160,9 +166,10 @@ function NavLogin() {
         ps_wrapper.current.style.display = 'none';
         popup_revealed = false;
     }
-    navbarSubmit()
+
+
     //setisloggedin = navbarSubmit(); 
-    if(isloggedin) {
+    if(localStorage.getItem("token") && isloggedin) {
         return (
             <div className="navbar">
             <ul className='nav_profile' onMouseOver={profile_hover} onMouseOut={profile_outhover}>

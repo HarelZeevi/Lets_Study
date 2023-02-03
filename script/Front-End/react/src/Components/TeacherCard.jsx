@@ -3,8 +3,8 @@ import React, {useState, useRef, useEffect } from 'react';
 import '../Styles/teachercard.css'
 import "@progress/kendo-theme-default/dist/all.css";
 import {IoMdMail, IoMdCall } from 'react-icons/io';
-import ScheduleTime from './ScheduleTime';
-import TimePicker from 'react-time-picker';
+//import ScheduleTime from './ScheduleTime';
+//import TimePicker from 'react-time-picker';
 
 
 export default function TeacherCard(props) {

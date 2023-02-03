@@ -239,9 +239,7 @@ const addAvailability = (req, res) => {
 
     const tutorId = req.tokenData.id;
     const listTimes = req.body.listTimes;
-    console.log("List times: ");
-    console.log(JSON.parse(listTimes));
-    db.AddAvailableTime(res, JSON.parse(listTimes), tutorId);
+    db.AddAvailableTime(res, listTimes, tutorId);
 };
 
 
