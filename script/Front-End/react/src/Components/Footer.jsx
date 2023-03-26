@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
 import '../Styles/footer.css';
 import { BiCopyright } from 'react-icons/bi';
+import mainlogo from '../Images/LetsStudyLogo.png';
+
 // import { FaYoutube, FaInstagram, FaFacebook } from 'react-icons/fa';
 function Footer(props) {
     return (
         <div className='footer_box' style={{ top: props.footertop + "px" }}>
-            <img width={350} height={130} className="footer_logo" alt="logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img>
+            <img height={290} className="footer_logo" alt="logo" src={mainlogo}></img>
             <div className='footer_pagelist_wrapper'>
                 <ul className='footer_pagelist' dir='rtl'>
                     <li>
@@ -40,7 +42,7 @@ function Footer(props) {
                         <Link to='#'><button className='legalfields_btn'>מדיניות פרטיות</button></Link>
                     </li>
                     <li className='footer_legalfields'>
-                        <Link to='#'><button className='legalfields_btn'>2022 <BiCopyright></BiCopyright></button></Link>
+                        <Link to='#'><button className='legalfields_btn'>2023 <BiCopyright></BiCopyright></button></Link>
                     </li>
                     <li className='footer_legalfields'>
                         <Link to='#'><button className='legalfields_btn'>תנאי שירות</button></Link>

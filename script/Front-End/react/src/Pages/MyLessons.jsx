@@ -13,6 +13,7 @@ import moment from "moment";
 import { Doughnut } from "react-chartjs-2";
 import { chartColors } from "../localdb/color";
 import { Chart, ArcElement } from "chart.js";
+import { useNavigate } from "react-router";
 
 Chart.register(ArcElement);
 
@@ -42,6 +43,8 @@ function MyLessons() {
   //const [teachersData, setTeachersData] = useState([]);
   const [upcoming, setUpcoming] = useState([]);
   const [tookPlace, setTookPlace] = useState([]);
+  
+  let navigate = useNavigate();
 
   useEffect(() => {
     let mount = true;
@@ -122,6 +125,10 @@ function MyLessons() {
     } else console.error("User not authenticated..");
   };
 
+  function redirectToLessons() {
+    navigate('/lessons');
+  }
+
   function showLessonButton(lessonTime) {
     let currDate = new Date();
     let lessonDate = new Date(lessonTime);
@@ -144,6 +151,9 @@ function MyLessons() {
   return (
     <div dir="rtl">
       {upcoming.length == 0 && tookPlace.length == 0 && <FirstLoginCta />}
+      
+      <button className="new-lessons-button2" onClick={redirectToLessons}>קבע שיעור חדש</button>
+           
       <div className="upcoming-lessons-container">
         {upcoming.map((lesson) => (
           <div className="myteacher-container" key={lesson.id}>
@@ -209,14 +219,14 @@ function MyLessons() {
         ))}
       </div>
 
-      <div className="mylessons-left-side">
+      {/* <div className="mylessons-left-side">
         <div className="mylessons-button">
-          <button className="new-lessons-button">קבע שיעור חדש</button>
+          <button className="new-lessons-button" onClick={redirectToLessons}>קבע שיעור חדש</button>
         </div>
         <div className="mylessons-chart-container"></div>
         <Doughnut data={data} options={options} className="mylessons-chart" />
         <div id="legend" />
-      </div>
+      </div> */}
     </div>
   );
 }

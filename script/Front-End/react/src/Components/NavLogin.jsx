@@ -5,7 +5,7 @@ import { FaAngleDown, FaAngleUp, FaRegEnvelope } from 'react-icons/fa';
 import { useRef, useState, useEffect } from 'react';
 import { FiLogOut, FiSettings, FiHelpCircle, FiX } from 'react-icons/fi';
 import ProfileSettings from './ProfileSettings.jsx';
-
+import mainlogo from '../Images/LetsStudyLogo.png';
 let result;
 
 
@@ -213,7 +213,7 @@ function NavLogin() {
                 <li><Link to="/my-lessons" className="nav_list_pc">השיעורים שלי</Link></li>
                 <li className='navlogin_secondfield'><Link to="/help" className="nav_list_pc">עזרה</Link></li>
             </ul>
-            <Link to='/'><img width={200} height={75} className="nav_logo" alt="logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img></Link>
+            <Link to='/'><img height={125} className="nav_logo" alt="logo" src={mainlogo}></img></Link>
             <ProfileSettings placeholder_username={ud_username} placeholder_phone={ud_phone} placeholder_email={ud_email} user_image={ud_picture} isTeacher={ud_isTeacher}/>
         </div>
         )
@@ -226,7 +226,7 @@ function NavLogin() {
                 <ul className="nav_list">
                     <li><Link to='/help' className="nav_list_pc">עזרה</Link></li>
                 </ul>
-                <Link to='/'><img width={200} height={75} className="nav_logo" alt="logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img></Link>
+                <Link to='/'><img height={125} className="nav_logo" alt="logo" src={mainlogo}></img></Link>
             </div>
         )
     }

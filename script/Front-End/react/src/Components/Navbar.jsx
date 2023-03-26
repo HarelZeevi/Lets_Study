@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import '../Styles/Navbar.css';
+import mainlogo from '../Images/LetsStudyLogo.png';
 //import { GiHamburgerMenu } from 'react-icons/gi';
 
 function Navbar() {
@@ -12,7 +13,7 @@ function Navbar() {
                 <li><Link to='/help' className="nav_list_pc">עזרה</Link></li>
             </ul>
             
-            <img width={200} height={75} className="nav_logo" src="https://cdn.logojoy.com/wp-content/uploads/2017/08/freelogodesign2@2x.png"></img>
+            <img height={125} className="nav_logo" src={mainlogo}></img>
         </div>
     )
 }
